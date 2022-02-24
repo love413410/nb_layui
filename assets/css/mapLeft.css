@@ -1,0 +1,57 @@
+.home_left_box {
+  height: 100vh;
+  padding-top: 110px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+.home_left {
+  width: 200px;
+  height: 100%;
+  position: relative;
+}
+
+.home_left .layui-form {
+  padding: 15px 0;
+  box-sizing: border-box;
+}
+.home_left .layui-form-item {
+  margin-bottom: 24px;
+}
+.home_left .layui-form-item .layui-inline {
+  height: 40px;
+  margin: 0px;
+}
+
+.home_left .layui-form-item .layui-input-inline {
+  width: 120px;
+  margin-right: 0;
+}
+
+.home_left .layui-form-item .layui-form-checkbox[lay-skin="primary"] {
+  width: 100%;
+  margin-top: 0;
+  padding-left: 30px;
+}
+
+.home_left .layui-form-item .layui-form-checkbox[lay-skin="primary"] span {
+  width: 90px;
+  line-height: 40px;
+  color: #d7f2ff;
+  font-size: 18px;
+  padding-right: 0;
+}
+.home_left .layui-form-item .layui-form-checkbox[lay-skin="primary"] i {
+  left: 7px;
+  top: 11px;
+}
+.home_left .layui-form-item .layui-form-checked[lay-skin="primary"] i {
+  color: #151c36;
+  background: #4ad6fd;
+  border-color: #4ad6fd !important;
+  left: 6px;
+}

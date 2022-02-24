@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>在用设备>>校验</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/instReuseCheck.css" />
+</head>
+
+<body>
+    <div class="layui-form" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">校验日期</label>
+            <div class="layui-input-block">
+                <input type="text" name="time" id="time" readonly class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">下次校准</label>
+            <div class="layui-input-block">
+                <input type="text" name="nextTime" id="nextTime" readonly class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item lay_unit">
+            <label class="layui-form-label">有效期</label>
+            <div class="layui-input-block">
+                <input type="text" name="validTime" lay-verify="validTime" autocomplete="off" placeholder="请输入有效期"
+                    class="layui-input">
+                <p>天</p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">送检人</label>
+            <div class="layui-input-block">
+                <input type="text" name="user" lay-verify="testpeople" autocomplete="off" placeholder="请输入送检人"
+                    class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item upload">
+            <label class="layui-form-label">附件</label>
+            <div class="layui-input-inline">
+                <p type="button" class="layui-btn layui-btn-normal" id="upload">选择附件</p>
+                <p class="layui-hide" id="uploadBtn"></p>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-file-list">
+            <div class="layui-file-head">
+                <p>文件名</p>
+                <p>大小</p>
+                <p>状态</p>
+                <p>操作</p>
+            </div>
+            <div class="layui-file-tbody">
+                <div id="fileTbody">
+                    <!-- <div class="layui-file-item">
+                        <p>文件名</p>
+                        <p>大小</p>
+                        <p>状态</p>
+                        <p>操作</p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item btn">
+            <div class="layui-input-block">
+                <button lay-submit lay-filter="addBtn" class="layui-btn layui-btn-normal">提交</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        allReg: "js/common/allReg",
+        instReuseCheck: "js/components/instReuseCheck"
+    }).use(["allReg", "instReuseCheck"]);
+</script>
+
+</html>

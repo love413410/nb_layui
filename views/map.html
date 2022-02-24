@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>观测系统运行监控软件平台</title>
+    <link rel="stylesheet" href="../assets/lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../assets/css/map.css" />
+    <link rel="stylesheet" href="../assets/css/mapHead.css" />
+    <link rel="stylesheet" href="../assets/css/mapLeft.css" />
+    <link rel="stylesheet" href="../assets/css/mapRight.css" />
+</head>
+
+<body>
+    <audio src="../images/0.mp3" id="audio" hidden controls="controls" loop></audio>
+    <img src="../images/false.png" is="false" id="play">
+    <div class="head">
+        <div class="layui-float-left logo">
+            <!-- 国家海洋局宁波海洋环境监测中心站观测系统运行监控软件平台建设 -->
+            观测系统运行监控软件平台
+        </div>
+       
+        <div class="layui-float-right data">
+            <div id="headDate"></div>
+            <div onclick="routerTo('pages/home', '个人中心管理','400px','410px')">欢迎登陆 <span id="users"></span>!</div>
+            <!-- <div onclick="alrHtmlFn('./user.html', '个人中心管理','400px','410px')">欢迎登陆 <span id="users"></span>!</div> -->
+            <div class="menuBtn">
+                <button class="layui-btn layui-btn-xs" id="menuBtn">签到</button>
+                <div class="layui-layer-tips singTips" id="singTips">
+                    <div class="layui-layer-content">
+                        请立即签到
+                        <i class="layui-layer-TipsG layui-layer-TipsL"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-btn layui-btn-xs danger" id="outBtn">退出</div>
+        </div>
+    </div>
+
+    <p class="isSign" id="isSign">请立即签到</p>
+
+    <div class="home_left_box">
+        <div class="home_left">
+            <div class="menu_head">站点类型</div>
+            <div class="layui-form" id="siteCheck" lay-filter="siteCheck"></div>
+        </div>
+    </div>
+
+    <div class="main" id="main"></div>
+
+    <div class="home_right_box">
+        <div class="home_right">
+            <div class="menu_head">
+                今日传输量
+                <div class="layui-form layui_input_box" lay-filter="layInputBox">
+                    <select id="siteType" lay-filter="siteType"></select>
+                </div>
+            </div>
+            <div class="menu_charts">
+                <div>
+                    <div class="menu_ring" id="file">0</div>
+                    <p class="menu_ring_text">文件接收量(<span id="fileUnit"></span>)</p>
+                </div>
+
+                <div>
+                    <div class="menu_ring" id="data">0</div>
+                    <p class="menu_ring_text">数据接收量(<span id="dataUnit"></span>)</p>
+                </div>
+            </div>
+            <div class="menu_head">
+                站点故障信息
+            </div>
+            <div class="menu_list" id="menuList">
+                <div id="menuRoll"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu_icon">
+        <div class="menu_head">图标</div>
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <img src="../images/icon1.svg" alt="icon1.svg">
+                    <span>正常</span>
+                </div>
+                <div class="layui-inline">
+                    <img src="../images/icon2.svg" alt="icon2.svg">
+                    <span>维护</span>
+                </div>
+                <div class="layui-inline">
+                    <img src="../images/icon3.svg" alt="icon3.svg">
+                    <span>报警</span>
+                </div>
+
+
+                <div class="layui-inline">
+                    <img src="../images/icon4.svg" alt="icon1.svg">
+                    <span>台站</span>
+                </div>
+                <div class="layui-inline">
+                    <img src="../images/icon5.svg" alt="icon2.svg">
+                    <span>雷达</span>
+                </div>
+                <div class="layui-inline">
+                    <img src="../images/icon6.svg" alt="icon3.svg">
+                    <span>浮标</span>
+                </div>
+                <div class="layui-inline">
+                    <img src="../images/icon7.svg" alt="icon3.svg">
+                    <span>志愿船</span>
+                </div>
+                <div class="layui-inline">
+                    <img src="../images/icon8.svg" alt="icon3.svg">
+                    <span>GNSS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 观测月报 -->
+    <div class="layui-form lay-time" id="month">
+        <div class="layui-form-item">
+            <div class="xmSelect" id="siteList"></div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block" id="checkbox">
+                <input type="checkbox" lay-skin="primary" value="水文" title="水文" checked class="monthCheck">
+                <input type="checkbox" lay-skin="primary" value="气象" title="气象" checked class="monthCheck">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <input type="text" name="time" id="date" readonly class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <button lay-submit lay-filter="monthBtn" class="layui-btn">下载</button>
+        </div>
+    </div>
+</body>
+
+<script src="../assets/lib/layui/layui.js"></script>
+<script src="../assets/lib/xmselect.js"></script>
+<script src="../assets/lib/echarts.js"></script>
+<script>
+    layui.config({
+        base: "../assets/"
+    }).extend({
+        http: "api/http",
+        utils: "../../store/utils",
+        mapInit: "js/mapInit",
+        map: "js/map"
+    }).use(["mapInit", "map"]);
+</script>
+
+</html>

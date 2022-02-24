@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>系统设置>>视频监控>>添加监控</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/systemVideoAdd.css" />
+</head>
+
+<body>
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属站点:</label>
+            <div class="layui-input-inline layui_select">
+                <select id="sitetype" lay-filter="siteType">
+                    <!-- <option value="1">观测站</option>
+                    <option value="2">雷达</option>
+                    <option value="3">浮标</option>
+                    <option value="4">志愿船</option>
+                    <option value="5">GPS</option> -->
+                </select>
+            </div>
+            <div class="layui-input-inline layui_select site">
+                <select name="ofStation" id="site">
+                    <!-- <option value="1" selected>观测站</option>
+                    <option value="2">雷达</option>
+                    <option value="3">浮标</option>
+                    <option value="4">志愿船</option>
+                    <option value="5">GPS</option> -->
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">监控名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="videoName" required lay-verify="videoName" autocomplete="off"
+                    placeholder="请输入监控名" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">监控IP:</label>
+            <div class="layui-input-block">
+                <input type="text" name="ip" required lay-verify="videoIp" autocomplete="off" placeholder="请输入监控IP"
+                    class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">监控账号:</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" required lay-verify="account" autocomplete="off" placeholder="请输入监控账号"
+                    class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">监控密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="passWord" required lay-verify="videoPassWord" autocomplete="off"
+                    placeholder="请输入监控密码" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">经度:</label>
+            <div class="layui-input-block">
+                <input type="text" name="Lon" lay-verify="lon" autocomplete="off" placeholder="请输入经度"
+                    class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">纬度:</label>
+            <div class="layui-input-block">
+                <input type="text" name="Lat" lay-verify="lat" autocomplete="off" placeholder="请输入纬度"
+                    class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="description" autocomplete="off" placeholder="请输入备注" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button lay-submit lay-filter="subbtn" class="layui-btn  layui-btn-normal">
+                    提交
+                </button>
+            </div>
+        </div>
+    </form>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        allReg: "js/common/allReg",
+        systemVideoAdd: "js/components/systemVideoAdd",
+    }).use(["allReg", "systemVideoAdd"]);
+</script>
+
+</html>

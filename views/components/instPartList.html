@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>设备巡查>>观测仪器>>更换零部件记录</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/instPartList.css" />
+</head>
+
+<body>
+    <div class="layui-hide" id="table" lay-filter="table"></div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        getFn: "../../store/getFn",
+        tabList: "js/common/tabList",
+        instPartList: "js/components/instPartList"
+    }).use("instPartList");
+</script>
+
+</html>

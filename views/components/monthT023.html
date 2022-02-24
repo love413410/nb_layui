@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+    <title>观测系统运行监控软件平台</title>
+
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css" />
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .tab {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .tab table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab th,
+        .tab td {
+            height: 30px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <table border="1" bordercolor="#131a5f">
+            <thead>
+                <tr>
+                    <th rowspan="6">B</th>
+                    <th rowspan="6">X</th>
+                    <th colspan="2">观测时间</th>
+                    <th rowspan="6">S</th>
+                    <th colspan="24">1 min 潮高 cm</th>
+                </tr>
+                <tr>
+                    <th rowspan="5">日</th>
+                    <th rowspan="5">时</th>
+                    <th>00</th>
+                    <th>Q</th>
+                    <th>01</th>
+                    <th>Q</th>
+                    <th>02</th>
+                    <th>Q</th>
+                    <th>03</th>
+                    <th>Q</th>
+                    <th>04</th>
+                    <th>Q</th>
+                    <th>05</th>
+                    <th>Q</th>
+                    <th>06</th>
+                    <th>Q</th>
+                    <th>07</th>
+                    <th>Q</th>
+                    <th>08</th>
+                    <th>Q</th>
+                    <th>09</th>
+                    <th>Q</th>
+                    <th>10</th>
+                    <th>Q</th>
+                    <th>11</th>
+                    <th>Q</th>
+                </tr>
+
+                <tr>
+                    <th>12</th>
+                    <th>Q</th>
+                    <th>13</th>
+                    <th>Q</th>
+                    <th>14</th>
+                    <th>Q</th>
+                    <th>15</th>
+                    <th>Q</th>
+                    <th>16</th>
+                    <th>Q</th>
+                    <th>17</th>
+                    <th>Q</th>
+                    <th>18</th>
+                    <th>Q</th>
+                    <th>19</th>
+                    <th>Q</th>
+                    <th>20</th>
+                    <th>Q</th>
+                    <th>21</th>
+                    <th>Q</th>
+                    <th>22</th>
+                    <th>Q</th>
+                    <th>23</th>
+                    <th>Q</th>
+                </tr>
+
+                <tr>
+                    <th>24</th>
+                    <th>Q</th>
+                    <th>25</th>
+                    <th>Q</th>
+                    <th>26</th>
+                    <th>Q</th>
+                    <th>27</th>
+                    <th>Q</th>
+                    <th>28</th>
+                    <th>Q</th>
+                    <th>29</th>
+                    <th>Q</th>
+                    <th>30</th>
+                    <th>Q</th>
+                    <th>31</th>
+                    <th>Q</th>
+                    <th>32</th>
+                    <th>Q</th>
+                    <th>33</th>
+                    <th>Q</th>
+                    <th>34</th>
+                    <th>Q</th>
+                    <th>35</th>
+                    <th>Q</th>
+                </tr>
+                <tr>
+                    <th>36</th>
+                    <th>Q</th>
+                    <th>37</th>
+                    <th>Q</th>
+                    <th>38</th>
+                    <th>Q</th>
+                    <th>39</th>
+                    <th>Q</th>
+                    <th>40</th>
+                    <th>Q</th>
+                    <th>41</th>
+                    <th>Q</th>
+                    <th>42</th>
+                    <th>Q</th>
+                    <th>43</th>
+                    <th>Q</th>
+                    <th>44</th>
+                    <th>Q</th>
+                    <th>45</th>
+                    <th>Q</th>
+                    <th>46</th>
+                    <th>Q</th>
+                    <th>47</th>
+                    <th>Q</th>
+                </tr>
+                <tr>
+                    <th>48</th>
+                    <th>Q</th>
+                    <th>49</th>
+                    <th>Q</th>
+                    <th>50</th>
+                    <th>Q</th>
+                    <th>51</th>
+                    <th>Q</th>
+                    <th>52</th>
+                    <th>Q</th>
+                    <th>53</th>
+                    <th>Q</th>
+                    <th>54</th>
+                    <th>Q</th>
+                    <th>55</th>
+                    <th>Q</th>
+                    <th>56</th>
+                    <th>Q</th>
+                    <th>57</th>
+                    <th>Q</th>
+                    <th>58</th>
+                    <th>Q</th>
+                    <th>59</th>
+                    <th>Q</th>
+                </tr>
+            </thead>
+            <tbody id="tbody" align="center"></tbody>
+        </table>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http"
+    }).use(["http"], function () {
+        var http = layui.http,
+            urls = layui.urls;
+
+        var $ = layui.jquery;
+
+        $("#tbody").empty();
+
+        window.getDataFn = function (id, date) {
+            http({
+                url: urls.shows,
+                type: "post",
+                data: {
+                    site: id,
+                    month: date,
+                    type: "T023",
+                },
+                success: function (res) {
+                    var data = res.data.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var str = "";
+                        var td = "";
+                        for (var j = 0; j < data[i].length; j++) {
+                            td += "<td>" + data[i][j] + "</td>";
+                        }
+                        str = "<tr>" + td + "</tr>";
+                        $("#tbody").append(str);
+                    }
+                },
+            });
+        }
+    });
+</script>
+
+</html>

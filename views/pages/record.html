@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>业务管理>>大事记or仪器对比表</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/record.css" />
+</head>
+
+<body>
+    <div class="layui-form layui_retr">
+        <div class="layui-item">
+            <div class="layui-inline layui_select">
+                <select name="time" id="time"></select>
+            </div>
+            <div class="layui-inline">
+                <button lay-submit lay-filter="query" class="layui-btn layui-btn-normal">查询</button>
+                <button lay-submit lay-filter="subbtn" class="layui-btn">保存</button>
+            </div>
+        </div>
+    </div>
+    <div id="content"></div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script src="../../assets/lib/tinymce/tinymce.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        getFn: "../../store/getFn",
+        record: "js/record",
+    }).use("record");
+</script>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+    <title>观测系统运行监控软件平台</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css" />
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .tab {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .tab table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab th,
+        .tab td {
+            height: 30px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <table border="1" bordercolor="#131a5f">
+            <thead>
+                <tr>
+                    <th rowspan="2">B</th>
+                    <th rowspan="2">X</th>
+                    <th rowspan="2">日期</th>
+                    <th colspan="6">海面有效能见度</th>
+                    <th colspan="7">雾(夜间20~08,白天)</th>
+                    <th colspan="6">风速大于或等于17.0m/s</th>
+                </tr>
+                <tr>
+                    <th>08</th>
+                    <th>Q</th>
+                    <th>14</th>
+                    <th>Q</th>
+                    <th>20</th>
+                    <th>Q</th>
+                    <th>夜间20~08</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                    <th>起止时间</th>
+                </tr>
+            </thead>
+            <tbody id="tbody" align="center"></tbody>
+        </table>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http"
+    }).use(["http"], function () {
+        var http = layui.http,
+            urls = layui.urls;
+
+        var $ = layui.jquery;
+
+        $("#tbody").empty();
+
+        window.getDataFn = function (id, date) {
+            http({
+                url: urls.shows,
+                type: "post",
+                data: {
+                    site: id,
+                    month: date,
+                    type: "T051",
+                    el: "vb",
+                },
+                success: function (res) {
+                    var data = res.data.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var str = "";
+                        var td = "";
+                        for (var j = 0; j < data[i].length; j++) {
+                            td += "<td>" + data[i][j] + "</td>";
+                        }
+                        str = "<tr>" + td + "</tr>";
+                        $("#tbody").append(str);
+                    }
+                },
+            });
+        }
+    });
+</script>
+
+</html>

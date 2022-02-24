@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据查询>>月报表</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/common/layer.css" />
+    <link rel="stylesheet" href="../../assets/css/monthReport.css" />
+</head>
+
+<body>
+    <div class="layui-form layui_retr">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <select id="siteList" name="id"> </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" name="date" id="date" readonly class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-input-inline lay-btn">
+                    <button lay-submit lay-filter="subBtn" class="layui-btn layui-btn-normal">
+                        生成报表
+                    </button>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-input-inline lay-btn">
+                    <button lay-submit lay-filter="exportBtn" class="layui-btn">
+                        导出报表
+                    </button>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-input-inline lay-btn">
+                    <button lay-submit lay-filter="batch" class="layui-btn layui-btn-warm">
+                        批量导出
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="head-tab">
+        <ul>
+            <li class="tab-btn tab-add" code="T011">T011</li>
+            <li class="tab-btn" code="T012">T012</li>
+            <li class="tab-btn" code="T021">T021 </li>
+            <li class="tab-btn" code="T022">T022</li>
+            <li class="tab-btn" code="T023"> T023 </li>
+            <li class="tab-btn" code="T051">T051(表一) </li>
+            <li class="tab-btn" code="T051_2"> T051(表二)</li>
+            <li class="tab-btn" code="T051_3"> T051(表三) </li>
+            <li class="tab-btn" code="T052"> T052</li>
+            <li class="tab-btn" code="T053">T053</li>
+            <li class="tab-btn" code="T054">T054(表一)</li>
+            <li class="tab-btn" code="T054_2">T054(表二)</li>
+            <li class="tab-btn" code="T054_3">T054(表三)</li>
+        </ul>
+    </div>
+
+    <div class="iframe_tab">
+        <iframe id="iframe" name="iframe" class="iframe" src="" scrolling="no" frameborder="0"></iframe>
+    </div>
+
+
+    <div id="mask">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">日期:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="time" id="time" readonly class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T011" value="T011" lay-skin="primary" lay-filter="check"
+                            title="T011" checked />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T012" value="T012" lay-skin="primary" lay-filter="check"
+                            title="T012" checked />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T021" value="T021" lay-skin="primary" lay-filter="check"
+                            title="T021" checked />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T022" value="T022" lay-skin="primary" lay-filter="check"
+                            title="T022" checked />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T023" value="T023" lay-skin="primary" lay-filter="check"
+                            title="T023" checked />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T051" value="T051" lay-skin="primary" lay-filter="check"
+                            title="T051" checked />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T052" value="T052" lay-skin="primary" lay-filter="check"
+                            title="T052" checked />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T053" value="T053" lay-skin="primary" lay-filter="check"
+                            title="T053" checked />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="T054" value="T054" lay-skin="primary" lay-filter="check"
+                            title="T054" checked />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline btn">
+                    <button type="submit" class="layui-btn layui-btn-normal" lay-submit lay-filter="conBtn">
+                        导出
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        load: "api/load",
+        getFn: "../../store/getFn",
+        monthReport: "js/monthReport",
+    }).use("monthReport");
+</script>
+
+</html>

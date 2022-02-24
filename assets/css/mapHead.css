@@ -1,0 +1,133 @@
+.head {
+  width: 100%;
+  height: 95px;
+  padding: 15px 35px 0 35px;
+  box-sizing: border-box;
+  background: url(../../images/homeTitle.svg) no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99;
+}
+#play {
+  width: 30px;
+  height: 30px;
+  display: none;
+  position: fixed;
+  left: 10px;
+  top: 50px;
+  z-index: 101;
+}
+.logo {
+  width: 410px;
+  height: 100%;
+  line-height: 60px;
+  text-align: center;
+  color: #4ad6fd;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 0.055em;
+}
+/* head右侧 */
+.data {
+  height: 34px;
+  line-height: 30px;
+  color: #feef69;
+  font-size: 18px;
+  padding: 2px 0;
+  box-sizing: border-box;
+  display: flex;
+}
+.data > div {
+  margin-left: 10px;
+}
+.data #headDate {
+  margin-left: 0px;
+}
+.data .layui-btn {
+  margin-top: 4px;
+  border: none;
+}
+.data .danger {
+  background-color: #ff5722;
+}
+
+.data > .menuBtn {
+  position: relative;
+}
+.data > .menuBtn span {
+  font-size: 12px;
+}
+.singTips {
+  display: none;
+  position: absolute;
+  left: -90px;
+  top: 0;
+}
+.singTips .layui-layer-content {
+  padding: 4px 10px !important;
+  animation: aBlink 300ms infinite;
+}
+@keyframes aBlink {
+  from {
+    color: #fff;
+  }
+  50% {
+    color: #ff0;
+  }
+  to {
+    color: #fff;
+  }
+}
+
+.isSign {
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 24px;
+  border-radius: 24px;
+  animation: link 15s infinite;
+  -webkit-animation: link 15s infinite;
+  animation-timing-function: linear;
+  display: none;
+  position: fixed;
+  /* left: calc(calc(100%-200px)); */
+  top: 100px;
+  z-index: 999;
+}
+.isSign:hover {
+  animation-play-state: paused;
+}
+
+@keyframes link {
+  0% {
+    background: #fff;
+    left: 0px;
+  }
+  50% {
+    background: #ff0;
+    left: calc(100% - 200px);
+  }
+  100% {
+    background: #fff;
+    left: 0;
+  }
+}
+@-webkit-keyframes link {
+  0% {
+    background: #fff;
+    left: 0px;
+  }
+  50% {
+    background: #ff0;
+    left: calc(100% - 200px);
+  }
+  100% {
+    background: #fff;
+    left: 0;
+  }
+}

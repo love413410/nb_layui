@@ -1,0 +1,12 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  padding: 15px;
+  box-sizing: border-box;
+}
+.layui-table-view {
+  margin: 0;
+}

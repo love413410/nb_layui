@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+    <title>观测系统运行监控软件平台</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css" />
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .tab {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .tab table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab th,
+        .tab td {
+            height: 30px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <table border="1" bordercolor="#131a5f">
+            <thead>
+                <tr>
+                    <th rowspan="5">B</th>
+                    <th rowspan="5">X</th>
+                    <th rowspan="5">日期</th>
+                    <th rowspan="5">时间</th>
+                    <th colspan="48">逐时气压、气温、相对湿度</th>
+                </tr>
+                <tr>
+                    <th colspan="6">21</th>
+                    <th colspan="6">22</th>
+                    <th colspan="6">23</th>
+                    <th colspan="6">00</th>
+                    <th colspan="6">01</th>
+                    <th colspan="6">02</th>
+                    <th colspan="6">03</th>
+                    <th colspan="6">04</th>
+                </tr>
+                <tr>
+                    <th colspan="6">05</th>
+                    <th colspan="6">06</th>
+                    <th colspan="6">07</th>
+                    <th colspan="6">08</th>
+                    <th colspan="6">09</th>
+                    <th colspan="6">10</th>
+                    <th colspan="6">11</th>
+                    <th colspan="6">12</th>
+                </tr>
+                <tr>
+                    <th colspan="6">13</th>
+                    <th colspan="6">14</th>
+                    <th colspan="6">15</th>
+                    <th colspan="6">16</th>
+                    <th colspan="6">17</th>
+                    <th colspan="6">18</th>
+                    <th colspan="6">19</th>
+                    <th colspan="6">20</th>
+                </tr>
+
+                <tr>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                    <th>气压hPa</th>
+                    <th>Q</th>
+                    <th>气温°C</th>
+                    <th>Q</th>
+                    <th>相对湿度%</th>
+                    <th>Q</th>
+                </tr>
+            </thead>
+            <tbody id="tbody" align="center"></tbody>
+        </table>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http"
+    }).use(["http"], function () {
+        var http = layui.http,
+            urls = layui.urls;
+
+        var $ = layui.jquery;
+
+        $("#tbody").empty();
+
+        window.getDataFn = function (id, date) {
+            http({
+                url: urls.shows,
+                type: "post",
+                data: {
+                    site: id,
+                    month: date,
+                    type: "T052",
+                },
+                success: function (res) {
+                    var data = res.data.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var str = "";
+                        var td = "";
+                        for (var j = 0; j < data[i].length; j++) {
+                            td += "<td>" + data[i][j] + "</td>";
+                        }
+                        str = "<tr>" + td + "</tr>";
+                        $("#tbody").append(str);
+                    }
+                },
+            });
+        }
+    });
+</script>
+
+</html>

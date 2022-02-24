@@ -1,0 +1,117 @@
+html,
+body {
+	height: 100%;
+}
+
+.print {
+	padding: 5px 15px;
+	box-sizing: border-box;
+}
+
+.print .layui-item {
+	margin-bottom: 0px;
+}
+
+.print .readonly,
+#saveBtn {
+	display: none;
+}
+
+.print .layui-input {
+	width: 120px;
+	height: 30px;
+}
+
+.tableHead {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+
+.table {
+	border: #000;
+	width: 100%;
+	table-layout: fixed;
+}
+
+thead,
+tbody,
+tfoot {
+	text-align: center;
+}
+
+.table * {
+	outline: none;
+	word-break: keep-all;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+thead th {
+	height: 20px;
+	line-height: 20px;
+}
+
+tbody td {
+	height: 30px;
+	line-height: 30px;
+}
+
+tfoot td {
+	text-align: left;
+}
+
+.tabType {
+	height: 100%;
+	text-align: left;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+
+.tabType .layui-input {
+	text-align: left;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+
+.checkbox {
+	height: 30px;
+	line-height: 30px;
+	text-align: left;
+	display: flex;
+	border-right: none;
+}
+
+.checkbox p {
+	margin-left: 10px;
+}
+
+.checkbox input,
+.checkbox label {
+	vertical-align: middle;
+}
+
+.stateInput {
+	height: 30px;
+	line-height: 30px;
+	display: flex;
+}
+
+.stateInput .layui-input {
+	text-align: left;
+}
+
+.stateInput p {
+	width: 100%;
+	text-align: left;
+}
+
+tfoot td {
+	text-align: center;
+}
+
+tfoot .layui-textarea {
+	height: 120px;
+	resize: none;
+}

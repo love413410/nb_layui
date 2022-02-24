@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>观测系统运行监控软件平台</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/change.css" />
+</head>
+
+<body>
+    <form class="layui-form" lay-filter="changeForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="userName" readonly id="users" autocomplete="off" class="layui-input lay_ipt" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">旧密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="passWord" autocomplete="off" placeholder="不修改则无需输入" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码:</label>
+            <div class="layui-input-block">
+                <input type="password" id="pass" name="newPass" lay-verify="userNewPass" autocomplete="off"
+                    placeholder="不修改则无需输入" class="layui-input lay_ipt" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码:</label>
+            <div class="layui-input-block">
+                <input type="password" required lay-verify="userNewPass2" autocomplete="off" placeholder="不修改则无需输入"
+                    class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" required lay-verify="user" autocomplete="off" placeholder="请输入姓名"
+                    class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">电子签名:</label>
+            <div class="layui-input-block">
+                <p class="layui-btn layui-btn-sm" id="upload">点击修改</p>
+                <p class="layui-hide" id="uploadBtn"></p>
+                <p class="sign"><img id="sign" src=""></p>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <button lay-submit lay-filter="subbtn" class="layui-btn layui-btn-normal">
+                提交
+            </button>
+        </div>
+    </form>
+</body>
+<script src="../../assets//lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        allReg: "js/common/allReg",
+        change: "js/change",
+    }).use(["allReg", "change"]);
+</script>
+
+</html>

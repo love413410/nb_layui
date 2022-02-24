@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+    <title>观测系统运行监控软件平台</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css" />
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .tab {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .tab table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab th,
+        .tab td {
+            height: 30px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <table border="1" bordercolor="#131a5f">
+            <thead>
+                <tr>
+                    <th rowspan="6">B</th>
+                    <th rowspan="6">X</th>
+                    <th rowspan="3" colspan="2">观测时间</th>
+                    <th rowspan="6">S</th>
+                    <th colspan="45">1 min 风速、对应风向</th>
+                </tr>
+                <tr>
+                    <th colspan="3">00</th>
+                    <th colspan="3">01</th>
+                    <th colspan="3">02</th>
+                    <th colspan="3">03</th>
+                    <th colspan="3">04</th>
+                    <th colspan="3">05</th>
+                    <th colspan="3">06</th>
+                    <th colspan="3">07</th>
+                    <th colspan="3">08</th>
+                    <th colspan="3">09</th>
+                    <th colspan="3">10</th>
+                    <th colspan="3">11</th>
+                    <th colspan="3">12</th>
+                    <th colspan="3">13</th>
+                    <th colspan="3">14</th>
+                </tr>
+                <tr>
+                    <th colspan="3">15</th>
+                    <th colspan="3">16</th>
+                    <th colspan="3">17</th>
+                    <th colspan="3">18</th>
+                    <th colspan="3">19</th>
+                    <th colspan="3">20</th>
+                    <th colspan="3">21</th>
+                    <th colspan="3">22</th>
+                    <th colspan="3">23</th>
+                    <th colspan="3">24</th>
+                    <th colspan="3">25</th>
+                    <th colspan="3">26</th>
+                    <th colspan="3">27</th>
+                    <th colspan="3">28</th>
+                    <th colspan="3">29</th>
+                </tr>
+                <tr>
+                    <th rowspan="3">日</th>
+                    <th rowspan="3">时</th>
+                    <th colspan="3">30</th>
+                    <th colspan="3">31</th>
+                    <th colspan="3">32</th>
+                    <th colspan="3">33</th>
+                    <th colspan="3">34</th>
+                    <th colspan="3">35</th>
+                    <th colspan="3">36</th>
+                    <th colspan="3">37</th>
+                    <th colspan="3">38</th>
+                    <th colspan="3">39</th>
+                    <th colspan="3">40</th>
+                    <th colspan="3">41</th>
+                    <th colspan="3">42</th>
+                    <th colspan="3">43</th>
+                    <th colspan="3">44</th>
+                </tr>
+                <tr>
+                    <th colspan="3">45</th>
+                    <th colspan="3">46</th>
+                    <th colspan="3">47</th>
+                    <th colspan="3">48</th>
+                    <th colspan="3">49</th>
+                    <th colspan="3">50</th>
+                    <th colspan="3">51</th>
+                    <th colspan="3">52</th>
+                    <th colspan="3">53</th>
+                    <th colspan="3">54</th>
+                    <th colspan="3">55</th>
+                    <th colspan="3">56</th>
+                    <th colspan="3">57</th>
+                    <th colspan="3">58</th>
+                    <th colspan="3">59</th>
+                </tr>
+
+                <tr>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                    <th>风向°</th>
+                    <th>风速m/s</th>
+                    <th>Q</th>
+                </tr>
+            </thead>
+            <tbody id="tbody" align="center"></tbody>
+        </table>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http"
+    }).use(["http"], function () {
+        var http = layui.http,
+            urls = layui.urls;
+
+        var $ = layui.jquery;
+
+        $("#tbody").empty();
+
+        window.getDataFn = function (id, date) {
+            http({
+                url: urls.shows,
+                type: "post",
+                data: {
+                    site: id,
+                    month: date,
+                    type: "T054",
+                    el: "ws",
+                },
+                success: function (res) {
+                    var data = res.data.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var str = "";
+                        var td = "";
+                        for (var j = 0; j < data[i].length; j++) {
+                            td += "<td>" + data[i][j] + "</td>";
+                        }
+                        str = "<tr>" + td + "</tr>";
+                        $("#tbody").append(str);
+                    }
+                },
+            });
+        }
+    });
+</script>
+
+</html>

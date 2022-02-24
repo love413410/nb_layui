@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css" />
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .tab {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .tab table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab th,
+        .tab td {
+            height: 30px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <table border="1" bordercolor="#131a5f">
+            <thead>
+                <tr>
+                    <th rowspan="3">B</th>
+                    <th rowspan="3">X</th>
+                    <th rowspan="3">日期</th>
+                    <th colspan="12">表层水温(°C)</th>
+                    <th colspan="4">表层盐度</th>
+                    <th rowspan="3">海发光</th>
+                </tr>
+                <tr>
+                    <th colspan="4">08时</th>
+                    <th colspan="4">14时</th>
+                    <th colspan="4">20时</th>
+                    <th rowspan="2">观测值</th>
+                    <th rowspan="2">F</th>
+                    <th rowspan="2">仪器代码</th>
+                    <th rowspan="2">Q</th>
+                </tr>
+                <tr>
+                    <th>观测值</th>
+                    <th>F</th>
+                    <th>仪器代码</th>
+                    <th>Q</th>
+                    <th>观测值</th>
+                    <th>F</th>
+                    <th>仪器代码</th>
+                    <th>Q</th>
+                    <th>观测值</th>
+                    <th>F</th>
+                    <th>仪器代码</th>
+                    <th rowspan="2">Q</th>
+                </tr>
+            </thead>
+            <tbody id="tbody" align="center"></tbody>
+        </table>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http"
+    }).use(["http"], function () {
+        var http = layui.http,
+            urls = layui.urls;
+
+        var $ = layui.jquery;
+
+        $("#tbody").empty();
+
+        window.getDataFn = function (id, date) {
+            http({
+                url: urls.shows,
+                type: "post",
+                data: {
+                    site: id,
+                    month: date,
+                    type: "T011",
+                },
+                success: function (res) {
+                    var data = res.data.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var str = "";
+                        var td = "";
+                        for (var j = 0; j < data[i].length; j++) {
+                            td += "<td>" + data[i][j] + "</td>";
+                        }
+                        str = "<tr>" + td + "</tr>";
+                        $("#tbody").append(str);
+                    }
+                },
+            });
+        };
+    });
+</script>
+
+</html>

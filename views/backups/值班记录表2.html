@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="UTF-8" />
+    <title>值班记录>>值班记录>>表2</title>
+    <link rel="stylesheet" href="../assets/lib/layui/css/layui.css" />
+    <link rel="stylesheet" href="../assets/css/duty.css" />
+</head>
+
+<body>
+    <div class="layui-form print">
+        <div class="layui-item">
+            <div class="layui-inline readonly">
+                <select name="time" id="time"></select>
+            </div>
+            <div class="layui-inline readonly">
+                <button class="layui-btn layui-btn-sm layui-btn-normal readonly" lay-submit lay-filter="lookup" id="lookup">查询</button>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-sm" id="print">打印</button>
+            </div>
+            <div class="layui-inline" id="saveBtn">
+                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-fluid" id="table">
+        <!-- <div class="tableHead">值班记录表Ⅱ</div>
+        <table cellspacing="0" cellpadding="0" border="1" class="table">
+            <thead>
+                <tr>
+                    <th rowspan="2">时间</th>
+                    <th rowspan="2">视频</th>
+                    <th rowspan="2">地波雷达</th>
+                    <th rowspan="2">GNSS</th>
+                    <th colspan="2">志愿船</th>
+                    <th colspan="2">能见度</th>
+                    <th colspan="6">浮标</th>
+                    <th rowspan="2" colspan="2">机房环控</th>
+                    <th rowspan="2" colspan="3">其他说明</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div contenteditable=true>近岸</div>
+                    </td>
+                    <td>
+                        <div contenteditable=true>远洋</div>
+                    </td>
+
+                    <td>
+                        <div contenteditable=true>北仑</div>
+                    </td>
+                    <td>
+                        <div contenteditable=true>镇海</div>
+                    </td>
+
+                    <td>
+                        <div contenteditable=true>独山</div>
+                    </td>
+                    <td>
+                        <div contenteditable=true>万华</div>
+                    </td>
+                    <td>
+                        <div contenteditable=true>胡陈</div>
+                    </td>
+                    <td>
+                        <div contenteditable=true>高塘</div>
+                    </td>
+                    <td>
+                        <div contenteditable=true>松兰山</div>
+                    </td>
+                    <td>
+                        <div contenteditable=true>健跳</div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>17时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td rowspan="4" colspan="2">
+                        <div class="tabType">
+                            <p>温度:</p>
+                            <p contenteditable></p>
+                            <p>湿度:</p>
+                            <p contenteditable></p>
+                        </div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>18时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>19时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>20时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>21-07时</td>
+                    <td colspan="2">
+                        <div class="checkbox" id="checkbox">
+                            <p><input type="checkbox" id="normal" /><label>正常</label></p>
+                            <p><input type="checkbox" id="abnormal" /><label>不正常</label></p>
+                        </div>
+                    </td>
+                    <td colspan="13">
+                        <div class="stateInput">
+                            <label>:</label>
+                            <p contenteditable></p>
+                        </div>
+                    </td>
+                    <td colspan="3" contenteditable></td>
+                </tr>
+                <tr>
+                    <td>08时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="2">— —</td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>09时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td rowspan="4" colspan="2">
+                        <div class="tabType">
+                            <p>温度:</p>
+                            <p contenteditable></p>
+                            <p>湿度:</p>
+                            <p contenteditable></p>
+                        </div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>11时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>12时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>13时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td rowspan="4" colspan="2">
+                        <div class="tabType">
+                            <p>温度:</p>
+                            <p contenteditable></p>
+                            <p>湿度:</p>
+                            <p contenteditable></p>
+                        </div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>14时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>15时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>16时</td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td>
+                        <div contenteditable></div>
+                    </td>
+                    <td colspan="3">
+                        <div contenteditable></div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        值<br>
+                        班<br>
+                        概<br>
+                        述<br>
+                    </td>
+                    <td colspan="18" class="desc">
+                        <textarea class="layui-textarea" id="textarea"></textarea>
+                    </td>
+                </tr>
+            </tfoot>
+        </table> -->
+    </div>
+</body>
+<script src="../assets/lib/layui/layui.js"></script>
+<script src="../assets/lib/jquery.js"></script>
+<script src="../assets//lib/print/jQuery.print.js"></script>
+<script>
+    layui
+        .config({
+            base: "../assets/",
+        })
+        .extend({
+            http: "api/http",
+            duty: "js/duty",
+        })
+        .use("duty");
+</script>
+
+</html>

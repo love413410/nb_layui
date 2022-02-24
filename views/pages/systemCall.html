@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置>>站点信息</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/common/layer.css" />
+    <link rel="stylesheet" href="../../assets/css/systemCall.css" />
+</head>
+
+<body>
+    <div class="layui-hide" id="table" lay-filter="table"></div>
+</body>
+<script type="text/html" id="toolbar">
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+</script>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        tabList: "js/common/tabList",
+        systemCall: "js/systemCall",
+    }).use("systemCall");
+</script>
+
+</html>

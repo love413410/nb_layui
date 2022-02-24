@@ -1,0 +1,16 @@
+body .layui_layer .layui-layer-title {
+  height: 40px;
+  line-height: 40px;
+  box-sizing: border-box;
+  z-index: 999;
+}
+body .layui_layer .layui-layer-setwin {
+  top: 11px;
+  right: 20px;
+}
+body .layui_layer .layui-layer-close {
+  width: 20px;
+  height: 20px;
+  background: url(../../../images/gb.png) no-repeat;
+  background-size: 100% 100%;
+}

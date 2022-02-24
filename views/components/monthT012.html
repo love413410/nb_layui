@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1" />
+    <title>观测系统运行监控软件平台</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css" />
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .tab {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .tab table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab th,
+        .tab td {
+            height: 30px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <table border="1" bordercolor="#131a5f">
+            <thead>
+                <tr>
+                    <th rowspan="4">B</th>
+                    <th rowspan="4">X</th>
+                    <th rowspan="4">日期</th>
+                    <th rowspan="4">S</th>
+                    <th colspan="48">逐时表层水温(°C)、表层盐度及其Q</th>
+                </tr>
+                <tr>
+                    <th colspan="4">00</th>
+                    <th colspan="4">01</th>
+                    <th colspan="4">02</th>
+                    <th colspan="4">03</th>
+                    <th colspan="4">04</th>
+                    <th colspan="4">05</th>
+                    <th colspan="4">06</th>
+                    <th colspan="4">07</th>
+                    <th colspan="4">08</th>
+                    <th colspan="4">09</th>
+                    <th colspan="4">10</th>
+                    <th colspan="4">11</th>
+                </tr>
+                <tr>
+                    <th colspan="4">12</th>
+                    <th colspan="4">13</th>
+                    <th colspan="4">14</th>
+                    <th colspan="4">15</th>
+                    <th colspan="4">16</th>
+                    <th colspan="4">17</th>
+                    <th colspan="4">18</th>
+                    <th colspan="4">19</th>
+                    <th colspan="4">20</th>
+                    <th colspan="4">21</th>
+                    <th colspan="4">22</th>
+                    <th colspan="4">23</th>
+                </tr>
+                <tr>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                    <th>温度</th>
+                    <th>Q</th>
+                    <th>盐度</th>
+                    <th>Q</th>
+                </tr>
+            </thead>
+            <tbody id="tbody" align="center"></tbody>
+        </table>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http"
+    }).use(["http"], function () {
+        var http = layui.http,
+            urls = layui.urls;
+
+        var $ = layui.jquery;
+
+        $("#tbody").empty();
+
+        window.getDataFn = function (id, date) {
+            http({
+                url: urls.shows,
+                type: "post",
+                data: {
+                    site: id,
+                    month: date,
+                    type: "T012",
+                },
+                success: function (res) {
+                    var data = res.data.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var str = "";
+                        var td = "";
+                        for (var j = 0; j < data[i].length; j++) {
+                            td += "<td>" + data[i][j] + "</td>";
+                        }
+                        str = "<tr>" + td + "</tr>";
+                        $("#tbody").append(str);
+                    }
+                },
+            });
+        }
+    });
+</script>
+
+</html>

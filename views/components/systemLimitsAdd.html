@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>系统设置>>权限信息>>修改</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/systemLimitsAdd.css" />
+</head>
+
+<body>
+    <div class="layui-form" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="userName" required lay-verify="userName" autocomplete="off"
+                    placeholder="请输入用户名" class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="passWord" id="pass" required lay-verify="passWord" autocomplete="off"
+                    placeholder="请输入密码" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码:</label>
+            <div class="layui-input-block">
+                <input type="password" lay-verify="newPass" autocomplete="off" placeholder="请确认密码"
+                    class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" required lay-verify="user" autocomplete="off" placeholder="请输入姓名"
+                    class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">电子签名:</label>
+            <div class="layui-input-block">
+                <p class="layui-btn layui-btn-sm" id="upload">点击上传</p>
+                <p class="layui-hide" id="uploadBtn"></p>
+                <img id="sign" src="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户权限:</label>
+            <div class="layui-input-block layui_select" id="limit"></div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button lay-submit lay-filter="subbtn" class="layui-btn layui-btn-normal">
+                    提交
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    // layui
+    //     .config({
+    //         base: "../../assets/"
+    //     }).extend({
+    //         http: "api/http",
+    //         allReg: "js/common/allReg",
+    //         utils: "../../store/utils",
+    //         systemLimitsAdd: "js/components/systemLimitsAdd",
+    //     }).use(["allReg", "systemLimitsAdd"]);
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        allReg: "js/common/allReg",
+        systemLimitsAdd: "js/components/systemLimitsAdd",
+    }).use(["allReg", "systemLimitsAdd"]);
+</script>
+
+</html>
