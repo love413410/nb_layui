@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            cursor: default;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            padding: 15px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .layui-elem-field {
+            margin: 20px 0;
+        }
+
+        .layui-field-box {
+            font-size: 16px;
+            padding: 20px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <fieldset class="layui-elem-field">
+        <legend>
+            <strong>中心站管理员</strong>
+        </legend>
+        <div class="layui-field-box">
+            全部页面权限,增删改查等...
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field">
+        <legend>
+            <strong>管理员</strong>
+        </legend>
+        <div class="layui-field-box">
+            对设备巡查模块只可查询,不可操作;对值班管理>>值班记录只可查看和打印,不可修改;别的权限等同中心站管理员
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field">
+        <legend>
+            <strong>仪器管理员</strong>
+        </legend>
+        <div class="layui-field-box">
+            拥有对设备巡查>>所有子模块的全部权限,别的模块只可查询不可操作
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field">
+        <legend>
+            <strong>值班用户</strong>
+        </legend>
+        <div class="layui-field-box">
+            可以在首页值班签到,可以在值班管理>>值班记录进行修改、保存;别的模块只可查询不可操作
+        </div>
+    </fieldset>
+</body>
+<script src="../../assets//lib/layui/layui.js"></script>
+
+</html>

@@ -9,7 +9,11 @@ layui.define(["http", "utils"], function (e) {
 
     var grade = store.getSessionData("grade");
 
-    if (grade.indexOf(utils.grade) > -1) {
+    var grade = utils.grade,
+        action = utils.locaStr("action");
+    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+
+    if (result) {
         $("#saveBtn").css("display", "inline-block");
     } else {
         $(".readonly").css("display", "inline-block");

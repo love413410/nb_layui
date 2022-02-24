@@ -15,17 +15,13 @@
         <div class="layui-form-item">
             <div class="layui-inline">
                 <div class="layui-input-inline retr_select">
-                    <select name="type" id="type">
-                        <option>全部</option>
-                        <option>一般</option>
-                        <option>关键</option>
-                    </select>
+                    <div class="xmSelect" id="siteList"></div>
                 </div>
             </div>
             <div class="layui-inline">
                 <div class="layui-input-inline">
                     <button lay-submit lay-filter="subBtn" class="layui-btn layui-btn-normal">
-                        查询
+                        播放
                     </button>
                 </div>
                 <!-- <div class="layui-input-inline">
@@ -42,6 +38,7 @@
     </div>
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
+<script src="../../assets/lib/xmselect.js"></script>
 <script src="../../assets/lib/flv.min.js"></script>
 <script>
     layui.config({

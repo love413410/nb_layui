@@ -1,5 +1,6 @@
 layui.define(["http", "tabList"], function (e) {
-    var store = layui.store;
+    var store = layui.store,
+        utils = layui.utils;
 
     var http = layui.http,
         urls = layui.urls,
@@ -9,6 +10,30 @@ layui.define(["http", "tabList"], function (e) {
         form = layui.form,
         table = layui.table;
 
+    var grade = utils.grade,
+        action = utils.locaStr("action");
+    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+
+    var cols = [
+        { title: '名称', templet: function (item) { return item.fields.deviceName; } },
+        { title: '采购时间', templet: function (item) { return item.fields.stockTime; } },
+        { title: '类型', templet: function (item) { return item.fields.Type; } },
+        { title: '供应商', templet: function (item) { return item.fields.supplier; } },
+        { title: '型号', templet: function (item) { return item.fields.pattern; } },
+        { title: '数量', templet: function (item) { return item.fields.totalNum; } },
+        { title: '存放位置', templet: function (item) { return item.fields.savePath; } }
+    ];
+    if (result) {
+        cols.push({
+            fixed: 'right',
+            align: "center",
+            title: '操作',
+            minWidth: 150,
+            toolbar: '#toolbar'
+        });
+        $("[name=ctrBtn]").show();
+    }
+    
     var tableIns, type = $("#type").val(), retrName = '', page = 1;
     function getListFn() {
         tableIns = tabList.render({
@@ -17,50 +42,7 @@ layui.define(["http", "tabList"], function (e) {
                 type: type,
                 name: retrName
             },
-            cols: [
-                [{
-                    title: '名称',
-                    templet: function (item) {
-                        return item.fields.deviceName;
-                    }
-                }, {
-                    title: '采购时间',
-                    templet: function (item) {
-                        return item.fields.stockTime;
-                    }
-                }, {
-                    title: '类型',
-                    templet: function (item) {
-                        return item.fields.Type;
-                    }
-                }, {
-                    title: '供应商',
-                    templet: function (item) {
-                        return item.fields.supplier;
-                    }
-                }, {
-                    title: '型号',
-                    templet: function (item) {
-                        return item.fields.pattern;
-                    }
-                }, {
-                    title: '数量',
-                    templet: function (item) {
-                        return item.fields.totalNum;
-                    }
-                }, {
-                    title: '存放位置',
-                    templet: function (item) {
-                        return item.fields.savePath;
-                    }
-                }, {
-                    fixed: 'right',
-                    align: "center",
-                    title: '操作',
-                    minWidth: 150,
-                    toolbar: '#toolbar'
-                }]
-            ],
+            cols: [cols],
             page: 1,
             done: function (data, curr) { page = curr; }
         });

@@ -1,9 +1,9 @@
 layui.define(["http", "store", "utils"], function (e) {
-    var store = layui.store,
-        utils = layui.utils;
-
     var http = layui.http,
         urls = layui.urls;
+
+    var store = layui.store,
+        utils = layui.utils;
 
     var $ = layui.$;
 
@@ -19,11 +19,9 @@ layui.define(["http", "store", "utils"], function (e) {
     var userName = store.getSessionData('userName');
     $("#users").html(userName);
 
-
     window.routerTo = function (url) {
         store.toRouter(url);
     };
-
 
     var isIe = layui.device().ie;
     window.alrliveFn = function () {
@@ -78,8 +76,9 @@ layui.define(["http", "store", "utils"], function (e) {
     // 判断权限
     function isNoFn() {
         var grade = store.getSessionData("grade");
-        grade.indexOf(utils.grade) > -1 ? $("#menuBtn").show() : $("#menuBtn").hide();
-        var username = store.getSessionData("username");
+        grade.indexOf(utils.grade.duty) > -1 ? $("#menuBtn").show() : $("#menuBtn").hide();
+        // console.log(userName)
+        // grade.userList.indexOf(userName) > -1 ?
         // grade.userList.indexOf("username") > -1 ? $("#admin [name='uniHide']").show() : $("#admin [name='uniHide']").hide();
     };
     isNoFn();

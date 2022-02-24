@@ -3,9 +3,6 @@ layui.define(["http", "store"], function (e) {
         urls = layui.urls;
 
     var store = layui.store;
-    console.log(store)
-
-    console.log("111")
 
     var form = layui.form;
 
@@ -20,7 +17,7 @@ layui.define(["http", "store"], function (e) {
                 store.setSessionData("token", res.token);
                 store.setSessionData("userName", data.userName);
                 store.toRouter('map');
-                
+
             }
         });
         return false;

@@ -1,60 +1,56 @@
-layui.define(["http", "utils", "tabList"], function (e) {
-    var store = layui.store;
+layui.define(["http", "tabList"], function (e) {
+    var store = layui.store,
+        utils = layui.utils;
 
     var http = layui.http,
         urls = layui.urls,
         tabList = layui.tabList;
 
-    var form = layui.form,
+    var $ = layui.$,
+        form = layui.form,
         table = layui.table;
-        
+
     var dutyArr = layui.utils.staffXmList;
+
+    var grade = utils.grade,
+        action = utils.locaStr("action");
+    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+
+    var cols = [
+        { title: '姓名', templet: function (item) { return item.fields.personnel; } },
+        { title: '手机号', templet: function (item) { return item.fields.mobile; } },
+        { title: '归属账号', templet: function (item) { return item.fields.ofUser; } },
+        {
+            title: '值班规划',
+            minWidth: 350,
+            templet: function (item) {
+                var onDuty = item.fields.onDuty.split(",");
+                var day = [];
+                for (var d = 0; d < onDuty.length; d++) {
+                    day.push(dutyArr[onDuty[d] - 1].name);
+                };
+                var html = day.join("，");
+                return html;
+            }
+        },
+        { title: '值班场次', templet: function (item) { return item.fields.Type; } },
+    ];
+    if (result) {
+        cols.push({
+            fixed: 'right',
+            align: "center",
+            title: '操作',
+            toolbar: '#toolbar'
+        });
+        $("[name=ctrBtn]").show();
+    }
 
     var tableIns, retrName = '', page = 1;
     window.getListFn = function () {
         tableIns = tabList.render({
             url: urls.personnelList,
             where: { name: retrName },
-            cols: [
-                [{
-                    title: '姓名',
-                    templet: function (item) {
-                        return item.fields.personnel;
-                    }
-                }, {
-                    title: '手机号',
-                    templet: function (item) {
-                        return item.fields.mobile;
-                    }
-                }, {
-                    title: '归属账号',
-                    templet: function (item) {
-                        return item.fields.ofUser;
-                    }
-                }, {
-                    title: '值班规划',
-                    minWidth: 350,
-                    templet: function (item) {
-                        var onDuty = item.fields.onDuty.split(",");
-                        var day = [];
-                        for (var d = 0; d < onDuty.length; d++) {
-                            day.push(dutyArr[onDuty[d] - 1].name);
-                        };
-                        var html = day.join("，");
-                        return html;
-                    }
-                }, {
-                    title: '值班场次',
-                    templet: function (item) {
-                        return item.fields.Type;
-                    }
-                }, {
-                    fixed: 'right',
-                    align: "center",
-                    title: '操作',
-                    toolbar: '#toolbar'
-                }]
-            ],
+            cols: [cols],
             page: true,
             done: function (data, curr) { page = curr; }
         });

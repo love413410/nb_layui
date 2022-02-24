@@ -1,4 +1,4 @@
-layui.define(["http", "utils", "tabList"], function (e) {
+layui.define(["http", "tabList"], function (e) {
     var store = layui.store,
         utils = layui.utils;
 
@@ -12,6 +12,37 @@ layui.define(["http", "utils", "tabList"], function (e) {
         dropdown = layui.dropdown;
 
     var instObsState = utils.instObsState;
+
+    var grade = utils.grade,
+        action = utils.locaStr("action");
+    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+
+    var cols = [{
+        title: '仪器状态',
+        templet: function (item) {
+            var state = item.fields.state;
+            var html = '<span style="color:' + instObsState[state].color + '">' + instObsState[state].title + '</span>';
+            return html;
+        }
+    },
+    { title: '采购时间', templet: function (item) { return item.fields.stockTime; } },
+    { title: '供应商', templet: function (item) { return item.fields.supplier; } },
+    { title: '价格', templet: function (item) { return item.fields.price; } },
+    { title: '型号', templet: function (item) { return item.fields.instrumentModel; } },
+    { title: '序列号', templet: function (item) { return item.fields.instrumentNumber; } },
+    { title: '内部编号', templet: function (item) { return item.fields.internalNum; } },
+    { title: '存放位置', templet: function (item) { return item.fields.savePath; } },
+    { title: '备注', templet: function (item) { return item.fields.remark; } }
+    ];
+    if (result) {
+        cols.push({
+            fixed: 'right',
+            align: "center",
+            title: '操作',
+            minWidth: 200,
+            toolbar: '#toolbar'
+        });
+    }
 
     var tableIns, retrName = '0', page = 1;
 
@@ -35,62 +66,7 @@ layui.define(["http", "utils", "tabList"], function (e) {
         tableIns = tabList.render({
             url: urls.useList,
             where: { type: retrName },
-            cols: [
-                [{
-                    title: '仪器状态',
-                    templet: function (item) {
-                        var state = item.fields.state;
-                        var html = '<span style="color:' + instObsState[state].color + '">' + instObsState[state].title + '</span>';
-                        return html;
-                    }
-                }, {
-                    title: '采购时间',
-                    templet: function (item) {
-                        return item.fields.stockTime;
-                    }
-                }, {
-                    title: '供应商',
-                    templet: function (item) {
-                        return item.fields.supplier;
-                    }
-                }, {
-                    title: '价格',
-                    templet: function (item) {
-                        return item.fields.price;
-                    }
-                }, {
-                    title: '型号',
-                    templet: function (item) {
-                        return item.fields.instrumentModel;
-                    }
-                }, {
-                    title: '序列号',
-                    templet: function (item) {
-                        return item.fields.instrumentNumber;
-                    }
-                }, {
-                    title: '内部编号',
-                    templet: function (item) {
-                        return item.fields.internalNum;
-                    }
-                }, {
-                    title: '存放位置',
-                    templet: function (item) {
-                        return item.fields.savePath;
-                    }
-                }, {
-                    title: '备注',
-                    templet: function (item) {
-                        return item.fields.remark;
-                    }
-                }, {
-                    fixed: 'right',
-                    align: "center",
-                    title: '操作',
-                    toolbar: '#toolbar',
-                    minWidth: 200
-                }]
-            ],
+            cols: [cols],
             page: 1,
             done: function (data, curr) { page = curr; }
         });

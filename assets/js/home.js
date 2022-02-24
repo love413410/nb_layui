@@ -22,7 +22,7 @@ layui.define(["http"], function (e) {
         function parent(data, idx) {
             var icon = data.meta.icon;
             var str = '<li class="layui-nav-item">' +
-                '<a name="laynav" lay-idx="' + idx + '" id="' + data.id + '" lay-id="' + data.id + '" lay-url="' + data.name + '">' +
+                '<a name="laynav" lay-idx="' + idx + '" id="' + data.id + '" lay-id="' + data.id + '" lay-url="' + data.name + '" action="' + data.action + '">' +
                 '<i class="layui-icon ' + icon + ' layui_icon"></i>  ' +
                 '<cite>' + data.title + '</cite>' +
                 '</a>' +
@@ -34,7 +34,7 @@ layui.define(["http"], function (e) {
             for (var i = 0; i < children.length; i++) {
                 var childrenItem = children[i];
                 childrenStr += '<dd>' +
-                    '<a name="laynav" lay-idx="' + idx + '" id="' + childrenItem.id + '" lay-id="' + childrenItem.id + '" lay-url="' + childrenItem.name + '">' +
+                    '<a name="laynav" lay-idx="' + idx + '" id="' + childrenItem.id + '" lay-id="' + childrenItem.id + '" lay-url="' + childrenItem.name + '" action="' + childrenItem.action + '">' +
                     '<cite>' + childrenItem.title + '</cite>' +
                     '</a>' +
                     '</dd>';
@@ -52,12 +52,18 @@ layui.define(["http"], function (e) {
         $("#sideMenu").html(list);
         $("#sideMenu .layui-nav-item").eq(0).addClass("layui-this");
         var item = pagesList[0];
-        var title = item.title, id = item.id, url = item.name, index = 0;
+        var title = item.title, id = item.id, url = item.name, index = 0, action = item.action;
         tabsList.push(url);
 
         breadcrumbAdd(title, index);
-        elementAdd(title, id, url, index);
+        elementAdd(title, id, url, index, action);
         element.tabChange(tabFilter, id);
+
+        // setTimeout(function () {
+        //     breadcrumbAdd(title, index);
+        //     elementAdd(title, id, url, index, action);
+        //     element.tabChange(tabFilter, id);
+        // }, 5000)
 
         element.init();
     };
@@ -65,21 +71,22 @@ layui.define(["http"], function (e) {
 
     $("[name=laynav]").click(function () {
         var title = $(this).text();
+        var idx = $(this).attr("lay-idx");
         var id = $(this).attr("lay-id");
         var url = $(this).attr("lay-url");
-        var idx = $(this).attr("lay-idx");
+        var action = $(this).attr("action");
 
         var index = tabsList.indexOf(url);
         if (index < 0) {
             tabsList.push(url);
-            elementAdd(title, id, url, idx);
+            elementAdd(title, id, url, idx, action);
         };
         element.tabChange(tabFilter, id);
     });
 
     // 添加tabs
-    function elementAdd(title, id, url, idx) {
-        var src = store.filterUrl(url);
+    function elementAdd(title, id, url, idx, action) {
+        var src = store.filterUrl(url) + "?action=" + action;
         var content = '<iframe src="' + src + '" frameborder="0" class="iframe"></iframe>';
         element.tabAdd(tabFilter, {
             title: title,
@@ -122,7 +129,6 @@ layui.define(["http"], function (e) {
     $(".layui-nav-item").click(function () {
         $(this).siblings().removeClass("layui-nav-itemed");
     });
-
     var clickMethod = {
         change: function () {
             var title = "修改密码", url = store.filterUrl('userChange');

@@ -1,53 +1,42 @@
 layui.define(["http", "tabList"], function (e) {
-    var store = layui.store;
+    var store = layui.store,
+        utils = layui.utils;
 
     var http = layui.http,
         urls = layui.urls,
         tabList = layui.tabList;
 
-    var form = layui.form,
+    var $ = layui.$,
+        form = layui.form,
         table = layui.table;
+
+    var grade = utils.grade,
+        action = utils.locaStr("action");
+    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+
+    var cols = [
+        { title: '用户名', templet: function (item) { return item.fields.userName } },
+        { title: '级别', templet: function (item) { return item.fields.grade; } },
+        { title: '创建日期', templet: function (item) { return item.fields.createTime; } },
+        { title: '姓名', templet: function (item) { return item.fields.Name; } },
+        { title: '值班签名', minWidth: 100, templet: function (item) { return html = '<p class="sign"> <img src="' + item.fields.imgSrc + '"><p/>'; } }
+    ];
+    if (result) {
+        cols.push({
+            fixed: 'right',
+            align: "center",
+            title: '操作',
+            toolbar: '#toolbar'
+        });
+        $("[name=ctrBtn]").show();
+    }
 
     var tableIns, retrName = '', page = 1;
     function getListFn() {
         tableIns = tabList.render({
             url: urls.userList,
             where: { userName: retrName },
-            cols: [
-                [{
-                    title: '用户名',
-                    templet: function (item) {
-                        return item.fields.userName
-                    }
-                }, {
-                    title: '级别',
-                    templet: function (item) {
-                        return item.fields.grade;
-                    }
-                }, {
-                    title: '创建日期',
-                    templet: function (item) {
-                        return item.fields.createTime;
-                    }
-                }, {
-                    title: '姓名',
-                    templet: function (item) {
-                        return item.fields.Name;
-                    }
-                }, {
-                    title: '值班签名',
-                    minWidth: 100,
-                    templet: function (item) {
-                        var html = '<p class="sign"> <img src="' + item.fields.imgSrc + '"><p/>'
-                        return html;
-                    }
-                }, {
-                    fixed: 'right',
-                    align: "center",
-                    title: '操作',
-                    toolbar: '#toolbar'
-                }]
-            ],
+            cols: [cols],
             page: 1,
             done: function (data, curr) { page = curr; }
         })

@@ -1,16 +1,17 @@
 layui.define(function (exports) {
-    // var baseOrigin = window.location.origin || window.location.protocol + "//" + window.location.host;
-    // var pathName = window.document.location.pathname;
-    // var basePath = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-    // var isPath = basePath == "/dist" ? '' : "/dist";
-    // sessionStorage.baseFileUrl = baseFileUrl = baseOrigin + basePath + isPath;
+    var protocol = window.location.protocol;//协议
+    var hostname = window.location.hostname;//域名
+    var port = window.location.port;//端口号
 
- 
-    sessionStorage.baseFileUrl = baseFileUrl = window.location.origin || window.location.protocol + "//" + window.location.host;
-    var baseUrl = 'http://192.168.1.156:8006';
-    // var baseUrl = window.location.origin || window.location.protocol + "//" + window.location.host;
+    var base = 'http://192.168.1.156';
+    var baseUrl = base + ':8006';
+    var baseFileUrl = protocol + "//" + hostname + ":" + port;
+    
+    // var baseUrl=baseFileUrl=protocol + "//" + hostname + ":" + port;//实际项目中
+    // var base = protocol + "//" + hostname;
     exports('urls', {
         // 项目目录
+        base: base,
         baseFileUrl: baseFileUrl,
         mapUrl: baseFileUrl + "/assets/lib/zhejiang.json",
         fileUpload: baseUrl + "/file/upload/",//文件上传
@@ -68,7 +69,7 @@ layui.define(function (exports) {
         deviceDelete: baseUrl + '/device/delete/',//备品备件>>删除
         deviceDetail: baseUrl + '/device/detail/',//备品备件详情:出库、入库
         deviceChange: baseUrl + '/device/change/',//备品备件修改
-        
+
         deviceStock: baseUrl + '/device/stock/',//出入库接口  post:出库  get:入库
         deviceStockList: baseUrl + '/device/stock/list/',//备品备件记录表
 
