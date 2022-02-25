@@ -32,6 +32,8 @@ layui.define(function (exports) {
         signList: baseUrl + '/sign/list/',//值班查询列表
         personnelCount: baseUrl + '/personnel/count/',//值班统计
 
+        dutyCurve: baseUrl + '/duty/curve/',//值班统计
+
         // 业务管理
         word: baseUrl + '/work/event/',//大事记
         getWord: baseUrl + '/work/get/event/',//获取大事记历史模板列表

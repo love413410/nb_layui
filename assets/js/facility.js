@@ -1,29 +1,15 @@
 
-layui.define(["http", "getFn"], function (e) {
+layui.define(["http"], function (e) {
     var http = layui.http,
-        urls = layui.urls,
-        getFn = layui.getFn;
+        urls = layui.urls;
 
     var $ = layui.$,
         form = layui.form,
         layer = layui.layer;
 
-    var srcObj = {
-        1: urls.getWord,
-        2: urls.getCompared,
-        3: urls.getInspection
-    };
-    var urlObj = {
-        1: urls.word,
-        2: urls.compared,
-        3: urls.inspection
-    };
-
-    var is = getFn.locaStr("is"), src = srcObj[is], url = urlObj[is];
-
     function getTime() {
         http({
-            url: src,
+            url: urls.getInspection,
             success: function (res) {
                 var data = res.data, option = '<option value="">默认</option>';
                 for (var i = 0; i < data.length; i++) {
@@ -103,7 +89,7 @@ layui.define(["http", "getFn"], function (e) {
     var time = '';
     function getDataFn() {
         http({
-            url: url,
+            url: urls.inspection,
             data: {
                 time: time
             },
@@ -129,7 +115,7 @@ layui.define(["http", "getFn"], function (e) {
     form.on('submit(subbtn)', function () {
         var content = tinyMCE.editors['content'].getContent();
         content.length <= 0 ? layer.msg("内容不可为空") : http({
-            url: url,
+            url: urls.inspection,
             type: "post",
             data: {
                 content: content
@@ -139,6 +125,6 @@ layui.define(["http", "getFn"], function (e) {
             }
         });
     });
-    e("record", {});
+    e("facility", {});
 });
 

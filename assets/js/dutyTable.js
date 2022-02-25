@@ -94,6 +94,182 @@ layui.define(["http", "utils"], function (e) {
         });
     });
 
+
+
+
+
+
+
+    var siteId = '', type = 'minute';
+    function indexList() {
+        http({
+            url: urls.indexList,
+            success: function (res) {
+                var data = res.data, arr = [];
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    arr.push('<option value=' + dataItem.id + '>' + dataItem.name + '</option>');
+                };
+                $("#site").html(arr.join(','));
+                form.render();
+                siteId = data.length > 0 ? data[0].id : ""
+                getLineFn();
+            }
+        });
+    };
+    indexList();
+
+    form.on('submit(lineBtn)', function (data) {
+        siteId = data.field.id;
+        type = data.field.type
+        getLineFn();
+    });
+
+    var title = {
+        wl: "潮位",
+        at: "气温",
+        bp: "气压",
+        hu: "湿度",
+        ws: "风",
+        vb: "能见度",
+        sl: "盐度",
+        wt: "水温",
+        rn: "降水",
+    };
+    var charts = {}, list = ['wl', 'at', 'bp', 'hu', 'ws', 'vb', 'sl', 'wt', 'rn'];
+
+    function repeat() {
+        $("#charts .line").each(function () {
+            var id = $(this).attr("id");
+            charts[id] = echarts.init(document.getElementById(id));
+        });
+    };
+    repeat();
+
+    function getLineFn() {
+        http({
+            url: urls.dutyCurve,
+            data: {
+                id: siteId,
+                type: type
+            },
+            success: function (res) {
+                var data = res.data, time = res.time, unit = res.unit;
+                for (var i = 0; i < list.length; i++) {
+                    var el = list[i];
+                    var option = initLineFn(title[el], data[el], time, unit[el]);
+                    charts[el].setOption(option);
+                };
+            },
+            error: function () {
+                for (var item in charts) {
+                    charts[item].dispose();
+                }
+            }
+        });
+    };
+
+    function initLineFn(title, data, time, unit) {
+        var title = title + "(" + data[data.length - 1] + unit + ")"
+        var option = {
+            title: {
+                text: title
+            },
+            grid: {
+                top: 40,
+                bottom: 60,
+                left: 50,
+                right: 10
+            },
+            tooltip: {
+                trigger: "axis",
+                formatter: function (item) {
+                    var item = item[0];
+                    var html = item.marker + "<span>" + item.name + "</span>" + "<p>" + title + "</p>";
+                    return html;
+                }
+            },
+            xAxis: [{
+                type: 'category',
+                data: time,
+                axisLine: {
+                    onZero: false,
+                    lineStyle: {
+                        color: "#227BA6"
+                    }
+                },
+                axisLabel: {
+                    interval: "auto",
+                    showMinLabel: 1,
+                    showMaxLabel: 1,
+                    textStyle: {
+                        color: "#227BA6"
+                    },
+                    fontSize: 12,
+                    margin: 15,
+                    rotate: 45
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#227BA6'
+                    },
+                },
+                axisPointer: {
+                    label: {
+                        padding: [0, 0, 10, 0],
+                        margin: 15,
+                        fontSize: 12
+                    }
+                },
+                boundaryGap: false
+            }],
+            yAxis: [{
+                // name: unit,
+                nameTextStyle: {
+                    fontSize: 16
+                },
+                type: 'value',
+                // min: min,
+                // max: max,
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#227BA6"
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: "#227BA6"
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#227BA6'
+                    },
+                }
+            }],
+            series: [{
+                type: 'line',
+                data: data,
+                symbolSize: 1,
+                symbol: 'circle',
+                smooth: true,
+                yAxisIndex: 0,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        color: "#07a6ff"
+                    }
+                }
+            }]
+        };
+        return option;
+    };
+
     // 封装一个
     var oldHTML = $.fn.html;
     $.fn.formhtml = function () {

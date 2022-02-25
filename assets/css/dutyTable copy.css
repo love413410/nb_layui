@@ -1,29 +1,14 @@
-html {
-  height: 100%;
-}
+html,
 body {
   height: 100%;
-  padding-top: 40px;
-  box-sizing: border-box;
-  overflow: hidden;
 }
 .print {
-  width: 100%;
   padding: 5px 15px;
   box-sizing: border-box;
-  background-color: #fff;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 99;
 }
 .print .layui-item {
   margin-bottom: 0px;
 }
-.print .line {
-  width: 300px;
-}
-
 .print .readonly,
 #saveBtn {
   display: none;
@@ -38,30 +23,8 @@ body {
   line-height: 30px;
   text-align: center;
 }
-
-.charts {
-  width: 300px;
-  overflow: hidden;
-  position: fixed;
-  left: 0;
-  top: 40px;
-}
-.charts_box {
-  width: 320px;
-  height: calc(100vh - 40px);
-  overflow: auto;
-}
-.charts_box .line {
-  width: 300px;
-  height: 200px;
-  margin-top: 20px;
-}
-.print_contents {
-  width: 100%;
-  height: 100%;
-  padding-left: 300px;
-  box-sizing: border-box;
-  overflow: auto;
+.print_contents{
+    overflow: hidden;
 }
 /* 日期 */
 .table_box .tableDate {
@@ -261,7 +224,7 @@ body {
 
 /* 表二样式 */
 .duty_box {
-  margin: 20px 0;
+    margin: 20px 0;
 }
 .duty_box .tableHead {
   width: 100%;

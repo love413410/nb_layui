@@ -17,10 +17,10 @@ layui.define(["http", "store"], function (e) {
                 store.setSessionData("token", res.token);
                 store.setSessionData("userName", data.userName);
                 store.toRouter('map');
-
             }
         });
         return false;
     });
+
     e("index", {})
 });

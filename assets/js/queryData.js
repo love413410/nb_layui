@@ -192,6 +192,9 @@ layui.define(["http", "getFn", "tabList"], function (e) {
             },
             xAxis: {
                 type: "category",
+                axisLine: {
+                    onZero: false
+                },
                 // boundaryGap: false,
                 // data: [
                 // 	"00时",
@@ -220,6 +223,9 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                 // 	"23时",
                 // ],
                 axisLabel: {
+                    interval: "auto",
+                    showMinLabel: 1,
+                    showMaxLabel: 1,
                     rotate: 45,
                     textStyle: {
                         color: "#07a6ff",
@@ -252,22 +258,22 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                     },
                 },
             },
-            dataZoom: [
-                {
-                    type: "slider",
-                    height: 15,
-                    xAxisIndex: [0],
-                    bottom: 10,
-                    start: 0,
-                    end: 30,
-                    minSapn: 30,
-                    maxSpan: 30,
-                    fillerColor: '#5a98de',
-                    textStyle: {
-                        color: "transparent"
-                    }
-                },
-            ],
+            // dataZoom: [
+            //     {
+            //         type: "slider",
+            //         height: 15,
+            //         xAxisIndex: [0],
+            //         bottom: 10,
+            //         start: 0,
+            //         end: 30,
+            //         minSapn: 30,
+            //         maxSpan: 30,
+            //         fillerColor: '#5a98de',
+            //         textStyle: {
+            //             color: "transparent"
+            //         }
+            //     },
+            // ],
         };
         myChart.setOption(option);
     };

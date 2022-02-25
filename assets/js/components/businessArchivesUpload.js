@@ -1,7 +1,12 @@
 
 layui.define(["http"], function (e) {
+    var store = layui.store;
+
     var urls = layui.urls;
     var upload = layui.upload;
+
+    var token = store.getSessionData("token") || '';
+
     upload.render({
         elem: '#upload',
         url: urls.workUpload,
@@ -9,7 +14,7 @@ layui.define(["http"], function (e) {
         acceptMime: 'application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         exts: 'doc|docx',
         headers: {
-            token: sessionStorage.token
+            token: token
         },
         before: function () {
             layer.load();

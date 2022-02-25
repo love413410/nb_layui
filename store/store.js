@@ -33,9 +33,9 @@ layui.extend({
         "pages/dutyCensus": "/views/pages/dutyCensus.html",
         "pages/dutyTable": "/views/pages/dutyTable.html",
 
-        "record/memorabilia": "/views/pages/record.html?is=1",
-        "record/instComp": "/views/pages/record.html?is=2",
-        "record/facility": "/views/pages/record.html?is=3",
+        "record/memorabilia": "/views/pages/memorabilia.html",
+        "record/instComp": "/views/pages/instComp.html",
+        "record/facility": "/views/pages/facility.html",
         "pages/businessArchives": "/views/pages/businessArchives.html",
 
         "pages/live": "/views/pages/live.html"
