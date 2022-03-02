@@ -53,7 +53,6 @@ layui.define(["http", "utils"], function (e) {
                 var data = res.data.fields;
                 var stream = data.ip;
                 var url = playUrl + stream;
-                console.log(url)
                 flvPlay(url);
             }
         });

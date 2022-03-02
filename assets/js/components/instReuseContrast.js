@@ -52,6 +52,10 @@ layui.define(["http", "store", "getFn"], function (e) {
             obj.preview(preview);
         },
         done: function (res) {
+            if (res.code == 209) {
+                layer.msg(res.msg);
+                return false;
+            };
             var data = form.val('example');
             data.srcFile = res.srcFile;
             data.pdfFile = res.pdfFile;

@@ -23,7 +23,7 @@ layui.define(['http'], function (e) {
         });
     };
     getGradeFn();
-    
+
     //常规使用 - 普通图片上传
     var isUpload = false;
     var token = store.getSessionData("token") || '';

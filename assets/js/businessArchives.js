@@ -70,9 +70,7 @@ layui.define(["http", "getFn", "tabList"], function (e) {
     });
     // 上传按钮
     form.on('submit(addBtn)', function () {
-       
         var title = "上传文档", url = store.filterUrl("businessArchivesUpload");
-        console.log(url)
         layer.open({
             type: 2,
             title: title,

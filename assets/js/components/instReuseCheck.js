@@ -49,10 +49,13 @@ layui.define(["http", "store", "getFn"], function (e) {
         bindAction: '#uploadBtn',
         choose: function (obj) {
             files = this.files = obj.pushFile();
-            files.sp
             obj.preview(preview);
         },
         done: function (res) {
+            if (res.code == 209) {
+                layer.msg(res.msg);
+                return false;
+            };
             var data = form.val('example');
             data.srcFile = res.srcFile;
             data.pdfFile = res.pdfFile;

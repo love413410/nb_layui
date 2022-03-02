@@ -20,8 +20,11 @@ layui.define(["http"], function (e) {
             layer.load();
         },
         done: function (res) {
-            layer.msg(res.msg);
             layer.closeAll('loading');
+            if (res.code == 209) {
+                layer.msg(res.msg);
+                return false;
+            };
             parent.ReLoadFn();
         },
         error: function () {

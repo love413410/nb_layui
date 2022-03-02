@@ -21,7 +21,6 @@ layui.define(["http", "getFn"], function (e) {
             url: urls.deviceDetail,
             data: { id: id },
             success: function (res) {
-                console.log(res)
                 var data = res.data.fields;
                 form.val('example', {
                     "id": res.data.pk,
