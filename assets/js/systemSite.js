@@ -130,7 +130,7 @@ layui.define(["http", "tabList"], function (e) {
             resize: !1,
             skin: "layui_layer",
             id: "id",
-            area: ["650px", "700px"],
+            area: ["650px", "750px"],
             offset: "50px",
             content: url
         });

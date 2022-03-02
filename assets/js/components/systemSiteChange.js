@@ -90,6 +90,7 @@ layui.define(["http"], function (e) {
                     "delayTime": data.delayTime,
                     "Lon": data.Lon,
                     "Lat": data.Lat,
+                    "state": data.state,
                     "description": data.description
                 });
                 var element = data.element.split(',');
