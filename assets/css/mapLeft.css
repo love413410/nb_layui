@@ -14,7 +14,12 @@
   height: 100%;
   position: relative;
 }
-
+.home_left xm-select {
+  color: #fff;
+  background-color: rgb(17, 35, 80) !important;
+  border-color: rgb(17, 35, 80) !important;
+}
+/* 
 .home_left .layui-form {
   padding: 15px 0;
   box-sizing: border-box;
@@ -54,4 +59,4 @@
   background: #4ad6fd;
   border-color: #4ad6fd !important;
   left: 6px;
-}
+} */

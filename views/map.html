@@ -18,12 +18,12 @@
     <img src="../images/false.png" is="false" id="play">
 
     <div class="head">
-        <div class="layui-float-left logo">观测系统运行监控软件平台</div>
+        <div class="layui-float-left logo" onclick="routerTo('pages/home')">观测系统运行监控软件平台</div>
 
         <div class="layui-float-right layui-form">
             <div class="layui-form-item">
                 <div class="layui-inline" id="headDate"></div>
-                <div class="layui-inline" onclick="routerTo('pages/home', '个人中心管理','400px','410px')">
+                <div class="layui-inline">
                     欢迎登陆 <span id="users"></span>!
                 </div>
                 <div class="layui-inline">

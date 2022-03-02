@@ -16,12 +16,15 @@ layui.define(["http", "store", "utils"], function (e) {
     };
     setTimeFn();
 
-    var userName = store.getSessionData('userName');
-    $("#users").html(userName);
-
     window.routerTo = function (url) {
         store.toRouter(url);
     };
+
+    var userName = store.getSessionData('userName');
+    $("#users").html(userName);
+
+    var token = store.getSessionData('token');
+    token ? "" : routerTo('index');
 
     var isIe = layui.device().ie;
     window.alrliveFn = function () {

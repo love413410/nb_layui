@@ -18,7 +18,7 @@
   display: none;
   position: fixed;
   left: 10px;
-  top: 50px;
+  top: 45px;
   z-index: 101;
 }
 .logo {
@@ -30,6 +30,7 @@
   font-size: 24px;
   font-weight: bold;
   letter-spacing: 0.055em;
+  cursor: pointer;
 }
 /* head右侧 */
 .head .layui-form {

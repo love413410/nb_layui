@@ -22,68 +22,25 @@ layui.define(["http"], function (e) {
         play && isPlay == 'false' ? audio.play() : audio.pause();
     };
 
-    // 站点类型
-    var checkArr = [];
-    function getsiteTypeFn() {
-
-        http({
-            url: urls.index,
-            success: function (res) {
-                console.log(res)
-                xmSelect.render({
-                    el: '#siteList',
-                    prop: {
-                        name: 'title',
-                        value: 'id'
-                    },
-                    data: res.data,
-                    on: function (item) {
-                        console.log(item)
-                        var data = item.arr, list = [];
-                        for (var i = 0; i < data.length; i++) {
-                            list.push(data[i].id)
-                        };
-
-                        siteType = list.join(",");
-                        getMapDataFn();
-                        
-                    }
-                });
-            }
-        });
-
-        getListFn();
-
+    function getRightSelect() {
         http({
             url: urls.siteType,
             success: function (res) {
                 var data = res.data;
-                var option = '', checkbox = '';
+                var option = '';
                 for (var i = 0; i < data.length; i++) {
                     option += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
-                    // checkbox += '<div class="layui-form-item">' +
-                    //     '<div class="layui-inline">' +
-                    //     '<div class="layui-input-inline">' +
-                    //     '<input type="checkbox" value="' + data[i].pk + '" lay-skin="primary" lay-filter="check" title="' + data[i].fields.Type + '" checked/>' +
-                    //     '</div>' +
-                    //     '</div>' +
-                    //     '</div>';
-                    // checkArr.push(data[i].pk);
                 };
-
-                // siteType = checkArr.join(",");
-                // $("#siteCheck").html(checkbox);
                 $("#siteType").html(option);
-                // form.render("checkbox", "siteCheck");
                 form.render("select", "layInputBox");
                 if (data.length > 0) {
                     dayval = data[0].pk;
                     getToDayDataFn();
-
                 };
             }
         });
     };
+    getRightSelect();
 
     // 右侧今日传输量
     var dayTime, dayval;
@@ -156,6 +113,7 @@ layui.define(["http"], function (e) {
             }
         });
     };
+    getListFn();
 
     function setRollFn() {
         $("#menuRoll").animate({
@@ -182,14 +140,64 @@ layui.define(["http"], function (e) {
         });
     };
 
-
     // 获取地图数据
     var myChart = echarts.init(document.getElementById('main'));
     $.getJSON(urls.mapUrl, function (geoJson) {
         echarts.registerMap('zhejiang', geoJson);
         initMapFn();
     });
-    var siteType = '', mapTime, checkTime;
+    // 左侧站点类型
+    var siteType = '', checkTime, xm;
+    function getsiteTypeFn() {
+        http({
+            url: urls.index,
+            success: function (res) {
+                xm = xmSelect.render({
+                    el: '#siteList',
+                    prop: {
+                        name: 'title',
+                        value: 'id'
+                    },
+                    tree: {
+                        show: true,
+                        expandedKeys: true,
+                        strict: true,
+                        showLine: false,
+                    },
+                    model: {
+                        label: {
+                            type: 'xmselect',
+                            xmselect: {
+                                template: function (data, sels) {
+                                    return "选中 " + sels.length + "项"
+                                }
+                            }
+                        }
+                    },
+                    iconfont: {
+                        parent: "hidden"
+                    },
+                    height: 'auto',
+                    data: res.data,
+                    on: function (item) {
+                        var data = item.arr, list = [];
+                        for (var i = 0; i < data.length; i++) {
+                            list.push(data[i].id)
+                        };
+                        clearTimeout(checkTime);
+                        siteType = list.join(",");
+                        checkTime = setTimeout(function () {
+                            getMapDataFn();
+                        }, 1000);
+                    },
+                });
+                siteType = xm.getValue('valueStr');
+                getMapDataFn();
+            }
+        });
+    };
+
+    var mapTime = '';
     function getMapDataFn() {
         clearTimeout(mapTime);
         http({
@@ -222,23 +230,6 @@ layui.define(["http"], function (e) {
             }
         });
     };
-    // 左侧复选框
-    form.on('checkbox(check)', function (data) {
-        clearTimeout(checkTime);
-        var tempVal = Number(data.value);
-        var isChecked = data.elem.checked;
-        if (isChecked) {
-            checkArr.push(tempVal)
-        } else {
-            var idx = checkArr.indexOf(tempVal);
-            checkArr.splice(idx, 1);
-        };
-        siteType = checkArr.join(',');
-        checkTime = setTimeout(function () {
-            getMapDataFn();
-            getListFn();
-        }, 1000);
-    });
 
     myChart.on('click', function (e) {
         // return;

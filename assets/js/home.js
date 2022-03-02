@@ -160,5 +160,8 @@ layui.define(["http"], function (e) {
         }
     });
 
+    window.routerTo = function (url) {
+        store.toRouter(url);
+    };
     e("home", {})
 });
