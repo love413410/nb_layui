@@ -14,3 +14,29 @@ body .layui_layer .layui-layer-close {
   background: url(../../../images/gb.png) no-repeat;
   background-size: 100% 100%;
 }
+
+/* 首页弹窗单用 */
+body .home_layer {
+  background: #08132c;
+}
+body .home_layer .layui-layer-title {
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  border: none;
+  box-shadow: 0px 0px 15px 0px #005ca0 inset;
+  background: #08132c;
+  z-index: 999;
+}
+body .home_layer .layui-layer-setwin {
+  top: 11px;
+  right: 20px;
+}
+body .home_layer .layui-layer-close {
+  width: 20px;
+  height: 20px;
+  background: url(../../../images/g.png) no-repeat;
+}
+body .home_layer .layui-layer-content iframe {
+  background: #08132c;
+}

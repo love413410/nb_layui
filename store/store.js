@@ -42,6 +42,8 @@ layui.extend({
     };
 
     var pages = {
+        "layHome": "/views/components/layHome.html",
+
         "instReuseCheck": "/views/components/instReuseCheck.html",
         "instReuseContrast": "/views/components/instReuseContrast.html",
         "instReusePart": "/views/components/instReusePart.html",

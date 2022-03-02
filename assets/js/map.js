@@ -1,4 +1,6 @@
 layui.define(["http"], function (e) {
+    var store = layui.store;
+
     var http = layui.http,
         urls = layui.urls;
 
@@ -232,31 +234,23 @@ layui.define(["http"], function (e) {
     };
 
     myChart.on('click', function (e) {
-        // return;
         if (!e.data || !e.data.id) {
             // layer.msg("请使用最新版IE打开")
             return;
         };
-        // || !isIe
         var data = e.data;
         var siteId = data.id;
-        var url = './layHome.html?id=' + siteId;
+        var url = store.filterUrl('layHome') + "?id=" + siteId;
         layer.closeAll(function () {
             layer.open({
                 type: 2,
-                title: data.name,
+                title: data.site,
                 shade: 0.8,
                 resize: !1,
                 moveOut: 1,
-                skin: "layui_layer",
-                area: ['400px', '400px'],
-                content: url,
-                success: function () {
-
-                },
-                cancel: function () {
-
-                }
+                skin: "home_layer",
+                area: ['400px', '300px'],
+                content: url
             });
         });
     });
