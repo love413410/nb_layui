@@ -67,7 +67,7 @@ layui.define(["http"], function (e) {
             });
         },
         init_instance_callback: function () {
-            getDataFn();
+            getTime();
         }
     });
 
@@ -76,6 +76,7 @@ layui.define(["http"], function (e) {
         http({
             url: urls.getInspection,
             success: function (res) {
+                console.log(res)
                 var data = res.data, option = '<option value="1995-02-10">默认</option>';
                 for (var i = 0; i < data.length; i++) {
                     option += '<option value="' + data[i] + '">' + data[i] + '</option>';
