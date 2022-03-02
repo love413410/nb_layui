@@ -22,6 +22,7 @@ layui.define(["http"], function (e) {
         done: function (res) {
             layer.msg(res.msg);
             layer.closeAll('loading');
+            parent.ReLoadFn();
         },
         error: function () {
             layer.closeAll('loading');

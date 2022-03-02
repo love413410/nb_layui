@@ -167,7 +167,7 @@ layui.define(["http", "utils", "tabList"], function (e) {
                 show: true,
                 data: [
                     { title: '出库', id: 'out' },
-                    { title: '记录表', id: 'record' },
+                    // { title: '记录表', id: 'record' },
                     { title: '删除', id: 'del' }
                 ],
                 click: function (menudata) {

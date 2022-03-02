@@ -25,6 +25,35 @@ layui.define(["http"], function (e) {
     // 站点类型
     var checkArr = [];
     function getsiteTypeFn() {
+
+        http({
+            url: urls.index,
+            success: function (res) {
+                console.log(res)
+                xmSelect.render({
+                    el: '#siteList',
+                    prop: {
+                        name: 'title',
+                        value: 'id'
+                    },
+                    data: res.data,
+                    on: function (item) {
+                        console.log(item)
+                        var data = item.arr, list = [];
+                        for (var i = 0; i < data.length; i++) {
+                            list.push(data[i].id)
+                        };
+
+                        siteType = list.join(",");
+                        getMapDataFn();
+                        
+                    }
+                });
+            }
+        });
+
+        getListFn();
+
         http({
             url: urls.siteType,
             success: function (res) {
@@ -32,26 +61,25 @@ layui.define(["http"], function (e) {
                 var option = '', checkbox = '';
                 for (var i = 0; i < data.length; i++) {
                     option += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
-                    checkbox += '<div class="layui-form-item">' +
-                        '<div class="layui-inline">' +
-                        '<div class="layui-input-inline">' +
-                        '<input type="checkbox" value="' + data[i].pk + '" lay-skin="primary" lay-filter="check" title="' + data[i].fields.Type + '" checked/>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
-                    checkArr.push(data[i].pk);
+                    // checkbox += '<div class="layui-form-item">' +
+                    //     '<div class="layui-inline">' +
+                    //     '<div class="layui-input-inline">' +
+                    //     '<input type="checkbox" value="' + data[i].pk + '" lay-skin="primary" lay-filter="check" title="' + data[i].fields.Type + '" checked/>' +
+                    //     '</div>' +
+                    //     '</div>' +
+                    //     '</div>';
+                    // checkArr.push(data[i].pk);
                 };
 
-                siteType = checkArr.join(",");
-                $("#siteCheck").html(checkbox);
+                // siteType = checkArr.join(",");
+                // $("#siteCheck").html(checkbox);
                 $("#siteType").html(option);
-                form.render("checkbox", "siteCheck");
+                // form.render("checkbox", "siteCheck");
                 form.render("select", "layInputBox");
                 if (data.length > 0) {
                     dayval = data[0].pk;
                     getToDayDataFn();
-                    getMapDataFn();
-                    getListFn();
+
                 };
             }
         });
@@ -280,7 +308,7 @@ layui.define(["http"], function (e) {
                         borderColor: '#73CBE3'
                     },
                     emphasis: {
-                        areaColor: '#2AB8FF',
+                        areaColor: '#224560',
                         color: 'green'
                     }
                 }

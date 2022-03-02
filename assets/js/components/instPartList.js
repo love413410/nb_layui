@@ -13,7 +13,6 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                 [{
                     title: '更换日期',
                     templet: function (item) {
-                        console.log(item)
                         return item.fields.Time;
                     }
                 }, {

@@ -24,6 +24,9 @@ body {
 .layui_retr .layui-inline {
   margin: 0;
 }
+.layui_retr .retr_select {
+  width: 150px;
+}
 .layui_retr .retr_time {
   width: 200px;
 }

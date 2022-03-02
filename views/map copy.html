@@ -16,35 +16,26 @@
 <body>
     <audio src="../images/0.mp3" id="audio" hidden controls="controls" loop></audio>
     <img src="../images/false.png" is="false" id="play">
-
     <div class="head">
-        <div class="layui-float-left logo">观测系统运行监控软件平台</div>
-
-        <div class="layui-float-right layui-form">
-            <div class="layui-form-item">
-                <div class="layui-inline" id="headDate"></div>
-                <div class="layui-inline" onclick="routerTo('pages/home', '个人中心管理','400px','410px')">
-                    欢迎登陆 <span id="users"></span>!
-                </div>
-                <div class="layui-inline">
-                    <div class="layui-input-block menuBtn">
-                        <button class="layui-btn layui-btn-xs" id="menuBtn">
-                            签到
-                        </button>
-                        <div class="layui-layer-tips singTips" id="singTips">
-                            <div class="layui-layer-content">
-                                请立即签到
-                                <i class="layui-layer-TipsG layui-layer-TipsL"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <div class="layui-input-block">
-                        <button class="layui-btn layui-btn-xs danger" id="outBtn">退出</button>
+        <div class="layui-float-left logo">
+            <!-- 国家海洋局宁波海洋环境监测中心站观测系统运行监控软件平台建设 -->
+            观测系统运行监控软件平台
+        </div>
+       
+        <div class="layui-float-right data">
+            <div id="headDate"></div>
+            <div onclick="routerTo('pages/home', '个人中心管理','400px','410px')">欢迎登陆 <span id="users"></span>!</div>
+            <!-- <div onclick="alrHtmlFn('./user.html', '个人中心管理','400px','410px')">欢迎登陆 <span id="users"></span>!</div> -->
+            <div class="menuBtn">
+                <button class="layui-btn layui-btn-xs" id="menuBtn">签到</button>
+                <div class="layui-layer-tips singTips" id="singTips">
+                    <div class="layui-layer-content">
+                        请立即签到
+                        <i class="layui-layer-TipsG layui-layer-TipsL"></i>
                     </div>
                 </div>
             </div>
+            <div class="layui-btn layui-btn-xs danger" id="outBtn">退出</div>
         </div>
     </div>
 
@@ -53,8 +44,7 @@
     <div class="home_left_box">
         <div class="home_left">
             <div class="menu_head">站点类型</div>
-            <div class="xmSelect" id="siteList"></div>
-            <!-- <div class="layui-form" id="siteCheck" lay-filter="siteCheck"></div> -->
+            <div class="layui-form" id="siteCheck" lay-filter="siteCheck"></div>
         </div>
     </div>
 

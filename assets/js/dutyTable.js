@@ -25,7 +25,8 @@ layui.define(["http", "utils"], function (e) {
                 type: "content1"
             },
             success: function (res) {
-                var data = res.data, option = '<option value="">默认</option>';
+                // var data = res.data, option = '<option value="">默认</option>';
+                var data = res.data, option = '';
                 for (var i = 0; i < data.length; i++) {
                     option += '<option value="' + data[i] + '">' + data[i] + '</option>';
                 };
@@ -93,11 +94,6 @@ layui.define(["http", "utils"], function (e) {
             });
         });
     });
-
-
-
-
-
 
 
     var siteId = '', type = 'minute';

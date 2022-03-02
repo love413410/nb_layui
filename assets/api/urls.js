@@ -3,7 +3,8 @@ layui.define(function (exports) {
     var hostname = window.location.hostname;//域名
     var port = window.location.port;//端口号
 
-    var base = 'http://192.168.1.156';
+    // var base = 'http://192.168.1.156';
+    var base = 'http://192.168.1.206';
     var baseUrl = base + ':8006';
     var baseFileUrl = protocol + "//" + hostname + ":" + port;
     

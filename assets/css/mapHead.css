@@ -32,33 +32,34 @@
   letter-spacing: 0.055em;
 }
 /* head右侧 */
-.data {
+.head .layui-form {
   height: 34px;
+  padding: 2px 0;
+  box-sizing: border-box;
+}
+.head .layui-form .layui-form-item {
+  height: 30px;
   line-height: 30px;
   color: #feef69;
   font-size: 18px;
-  padding: 2px 0;
-  box-sizing: border-box;
-  display: flex;
+  margin-bottom: 0;
+  overflow: hidden;
 }
-.data > div {
-  margin-left: 10px;
+.head .layui-form .layui-input-block {
+  width: auto;
+  margin-left: 0;
 }
-.data #headDate {
-  margin-left: 0px;
-}
-.data .layui-btn {
-  margin-top: 4px;
+.head .layui-form .layui-btn {
   border: none;
 }
-.data .danger {
+.head .layui-form .danger {
   background-color: #ff5722;
 }
 
-.data > .menuBtn {
+.head .layui-form > .menuBtn {
   position: relative;
 }
-.data > .menuBtn span {
+.head .layui-form > .menuBtn span {
   font-size: 12px;
 }
 .singTips {
