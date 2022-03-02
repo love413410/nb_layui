@@ -54,8 +54,7 @@ layui.define(["http"], function (e) {
                 layer.msg(res.msg, {
                     time: 1500
                 }, function () {
-                    // parent.getSiteFn();
-                    parent.ReLoadFn();
+                    parent.getSiteFn();
                 });
             }
         });

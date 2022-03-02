@@ -47,9 +47,7 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                 type: typeId,
                 style: style,
                 startTime: startTime,
-                endTime: endTime,
-                pageSize: 10,
-                pageNum: page
+                endTime: endTime
             },
             cols: [
                 [{

@@ -7,21 +7,6 @@ layui.define(["http"], function (e) {
         form = layui.form,
         layer = layui.layer;
 
-    function getTime() {
-        http({
-            url: urls.getWord,
-            success: function (res) {
-                var data = res.data, option = '<option value="">默认</option>';
-                for (var i = 0; i < data.length; i++) {
-                    option += '<option value="' + data[i] + '">' + data[i] + '</option>';
-                };
-                $("#time").html(option);
-                form.render();
-            }
-        });
-    };
-    getTime();
-
     tinymce.init({
         selector: '#content',
         auto_focus: true,
@@ -82,11 +67,29 @@ layui.define(["http"], function (e) {
             });
         },
         init_instance_callback: function () {
-            getDataFn();
+            getTime();
         }
     });
 
-    var time = '';
+    var time = '1995-02-10';
+    function getTime() {
+        http({
+            url: urls.getWord,
+            success: function (res) {
+                var data = res.data, option = '<option value="1995-02-10">默认</option>';
+                for (var i = 0; i < data.length; i++) {
+                    option += '<option value="' + data[i] + '">' + data[i] + '</option>';
+                };
+                $("#time").html(option);
+                form.val('example', {
+                    time: time
+                });
+                form.render();
+                getDataFn();
+            }
+        });
+    };
+
     function getDataFn() {
         http({
             url: urls.word,
@@ -121,6 +124,8 @@ layui.define(["http"], function (e) {
                 content: content
             },
             success: function (res) {
+                time = res.time;
+                getTime();
                 layer.msg(res.msg);
             }
         });

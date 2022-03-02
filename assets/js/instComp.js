@@ -7,20 +7,7 @@ layui.define(["http"], function (e) {
         form = layui.form,
         layer = layui.layer;
 
-    function getTime() {
-        http({
-            url: urls.getCompared,
-            success: function (res) {
-                var data = res.data, option = '<option value="">默认</option>';
-                for (var i = 0; i < data.length; i++) {
-                    option += '<option value="' + data[i] + '">' + data[i] + '</option>';
-                };
-                $("#time").html(option);
-                form.render();
-            }
-        });
-    };
-    getTime();
+
 
     tinymce.init({
         selector: '#content',
@@ -82,17 +69,32 @@ layui.define(["http"], function (e) {
             });
         },
         init_instance_callback: function () {
-            getDataFn();
+            getTime();
         }
     });
 
-    var time = '';
+    var time = '1995-02-10';
+    function getTime() {
+        http({
+            url: urls.getCompared,
+            success: function (res) {
+                var data = res.data, option = '<option value="1995-02-10">默认</option>';
+                for (var i = 0; i < data.length; i++) {
+                    option += '<option value="' + data[i] + '">' + data[i] + '</option>';
+                };
+                $("#time").html(option);
+                form.val('example', {
+                    time: time
+                });
+                form.render();
+                getDataFn();
+            }
+        });
+    };
     function getDataFn() {
         http({
             url: urls.compared,
-            data: {
-                time: time
-            },
+            data: { time: time },
             success: function (res) {
                 tinyMCE.editors['content'].setContent(res.data);
             }
@@ -117,14 +119,14 @@ layui.define(["http"], function (e) {
         content.length <= 0 ? layer.msg("内容不可为空") : http({
             url: urls.compared,
             type: "post",
-            data: {
-                content: content
-            },
+            data: { content: content },
             success: function (res) {
+                time = res.time;
+                getTime();
                 layer.msg(res.msg);
             }
         });
     });
-    e("record", {});
+    e("instComp", {});
 });
 
