@@ -105,6 +105,7 @@ layui.define(function (exports) {
         personnelDelete: baseUrl + '/personnel/delete/',//人员信息>>删除
         personnelChange: baseUrl + '/personnel/change/',//人员信息>>修改和详情
         personnelUser: baseUrl + '/personnel/user/',//人员信息>>添加>>所属账号
+        personnelUsers: baseUrl + '/personnel/users/',//人员信息>>添加>>所属账号
 
         userList: baseUrl + '/user/list/',//权限管理>>列表
         userAdd: baseUrl + '/user/register/',//权限管理>>添加

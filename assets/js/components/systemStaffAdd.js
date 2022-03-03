@@ -37,7 +37,7 @@ layui.define(["http", "utils"], function (e) {
 
     function getListFn() {
         http({
-            url: urls.personnelUser,
+            url: urls.personnelUsers,
             success: function (res) {
                 var data = res.data;
                 var str = '';
