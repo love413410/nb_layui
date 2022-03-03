@@ -1,5 +1,5 @@
 layui.extend({
-    store: "../../store/store",
+    store: "../store/store",
 }).define(["store"], function (exports) {
     var store = layui.store;
     var $ = layui.$,

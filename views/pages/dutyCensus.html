@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>值班管理>>值班监控</title>
+    <title>值班管理>>值班统计</title>
     <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
     <link rel="stylesheet" href="../../assets/css/dutyCensus.css" />
 </head>
@@ -38,7 +38,7 @@
         })
         .extend({
             http: "api/http",
-            getFn: "../../store/getFn",
+            getFn: "../store/getFn",
             tabList: "js/common/tabList",
             dutyCensus: "js/dutyCensus",
         }).use("dutyCensus");

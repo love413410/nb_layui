@@ -39,7 +39,7 @@ layui.define(["http", "tabList"], function (e) {
             fixed: 'right',
             align: "center",
             title: '操作',
-            minWidth: 200,
+            minWidth: 220,
             toolbar: '#toolbar'
         });
     }
@@ -101,10 +101,6 @@ layui.define(["http", "tabList"], function (e) {
     };
 
     var clickMethod = {
-        entr: function (id) {
-            var url = store.filterUrl("instEntr") + "?id=" + id;
-            layAlertFn("归还设备", url, "680px", "300px");
-        },
         check: function (id) {
             var url = store.filterUrl("instReuseCheck") + "?id=" + id;
             layAlertFn("校验信息", url);
@@ -116,12 +112,30 @@ layui.define(["http", "tabList"], function (e) {
         replace: function (id) {
             var url = store.filterUrl("instReusePart") + "?id=" + id;
             layAlertFn("更换零部件", url, "680px", "430px");
-        }
+        },
+
+        checkList: function (id) {
+            var url = store.filterUrl("instCheckList") + "?id=" + id;
+            layAlertFn("校验记录", url, "680px", "575px");
+        },
+        contrastList: function (id) {
+            var url = store.filterUrl("instContrastList") + "?id=" + id;
+            layAlertFn("对比记录", url, '680px', '575px');
+        },
+        partList: function (id) {
+            var url = store.filterUrl("instPartList") + "?id=" + id;
+            layAlertFn("更换零部件记录", url, '680px', '575px');
+        },
     };
 
     table.on('tool(table)', function (data) {
         var event = data.event;
         var id = data.data.pk;
+
+
+        
+
+
         if (event == 'entr') {
             dropdown.render({
                 elem: this,
@@ -156,6 +170,21 @@ layui.define(["http", "tabList"], function (e) {
                     })
                 }
             });
+        }
+
+        if (event == 'query') {
+            dropdown.render({
+                elem: this,
+                show: true,
+                data: [
+                    { title: '校验记录', id: 'checkList' },
+                    { title: '对比记录', id: 'contrastList' },
+                    { title: '更换零部件记录', id: 'partList' }
+                ],
+                click: function (menudata) {
+                    clickMethod[menudata.id](id);
+                }
+            })
         }
         if (event == 'more') {
             dropdown.render({

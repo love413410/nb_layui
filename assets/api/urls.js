@@ -1,15 +1,27 @@
 layui.define(function (exports) {
-    var protocol = window.location.protocol;//协议
-    var hostname = window.location.hostname;//域名
-    var port = window.location.port;//端口号
+    var service = 'development';//开发
+    // var service = 'deploy';//部署
 
-    // var base = 'http://192.168.1.156';
-    var base = 'http://192.168.8.91';
-    var baseUrl = base + ':8006';
-    var baseFileUrl = protocol + "//" + hostname + ":" + port;
-    
-    // var baseUrl=baseFileUrl=protocol + "//" + hostname + ":" + port;//实际项目中
-    // var base = protocol + "//" + hostname;
+    var base, baseUrl, baseFileUrl;
+
+    if (service == 'development') {
+        var protocol = window.location.protocol;//协议
+        var hostname = window.location.hostname;//域名
+        var port = window.location.port;//端口号
+        base = 'http://192.168.8.91';
+        baseUrl = base + ':8006';
+        baseFileUrl = protocol + "//" + hostname + ":" + port;
+    }
+    if (service == 'deploy') {
+        var baseOrigin = window.location.origin || window.location.protocol + "//" + window.location.host;
+        var pathName = window.document.location.pathname;
+        var basePath = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        var isPath = basePath == "/dist" ? '' : "/dist";
+        base = window.location.protocol + "//" + window.location.hostname;
+        baseUrl = baseOrigin;
+        baseFileUrl = baseOrigin + basePath + isPath;
+    }
+
     exports('urls', {
         // 项目目录
         base: base,

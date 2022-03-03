@@ -159,7 +159,6 @@ layui.define(["http", "utils", "tabList"], function (e) {
                     clickMethod[menudata.id](id);
                 }
             })
-
         }
         if (event == 'more') {
             dropdown.render({

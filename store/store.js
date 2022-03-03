@@ -1,8 +1,7 @@
 layui.extend({
     utils: "../store/utils",
 }).define(["utils"], function (e) {
-    var grade = layui.utils.grade,
-        urls = layui.urls;
+    var urls = layui.urls;
     var router = {
         "index": "/index.html",
         "map": "/views/map.html",
