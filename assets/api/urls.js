@@ -8,7 +8,7 @@ layui.define(function (exports) {
         var protocol = window.location.protocol;//协议
         var hostname = window.location.hostname;//域名
         var port = window.location.port;//端口号
-        base = 'http://192.168.8.91';
+        base = 'http://192.168.1.156';
         baseUrl = base + ':8006';
         baseFileUrl = protocol + "//" + hostname + ":" + port;
     }

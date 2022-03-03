@@ -35,7 +35,7 @@ layui.define(["http", "tabList"], function (e) {
     };
 
     //乱七八糟的在最下面,监听按钮,验证等
-    var tableIns, page = 1;
+    var tableIns, typeId, page = 1;
     function getListFn() {
         tableIns = tabList.render({
             url: urls.videoList,
@@ -43,19 +43,22 @@ layui.define(["http", "tabList"], function (e) {
             where: { id: typeId },
             cols: [cols],
             page: true,
-            done: function (data, curr) { page = curr; first = false; }
+            done: function (data, curr) {
+                typeId = data.count == 0 ? null : typeId;
+                page = curr;
+                first = false;
+            }
         });
     };
     // 重载当前页面
     function ReLoadFn() {
         layer.closeAll(function () {
             tableIns.reload({
+                where: { id: typeId },
                 page: { curr: page }
             });
         });
     };
-
-    var typeId;
     window.getSiteFn = function () {
         http({
             url: urls.videoIndex,
@@ -67,7 +70,8 @@ layui.define(["http", "tabList"], function (e) {
                 };
                 $("#site").html(str);
 
-                typeId = typeId || data[0].pk;
+                typeId = typeId ? typeId : data.length > 0 ? data[0].pk : "";
+                console.log(typeId)
                 form.val('example', {
                     id: typeId
                 });
@@ -129,7 +133,8 @@ layui.define(["http", "tabList"], function (e) {
                         layer.msg(res.msg, {
                             time: 1500
                         }, function () {
-                            getSiteFn();
+                            typeId = typeId == dataId ? "" : typeId;
+                            ReLoadFn();
                         });
                     }
                 });
