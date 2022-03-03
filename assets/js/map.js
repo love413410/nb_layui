@@ -142,12 +142,6 @@ layui.define(["http"], function (e) {
         });
     };
 
-    // 获取地图数据
-    var myChart = echarts.init(document.getElementById('main'));
-    $.getJSON(urls.mapUrl, function (geoJson) {
-        echarts.registerMap('zhejiang', geoJson);
-        initMapFn();
-    });
     // 左侧站点类型
     var siteType = '', checkTime, xm;
     function getsiteTypeFn() {
@@ -181,26 +175,26 @@ layui.define(["http"], function (e) {
                     },
                     height: 'auto',
                     data: res.data,
-                    on: function (item) {
-                        var data = item.arr, list = [];
-                        for (var i = 0; i < data.length; i++) {
-                            list.push(data[i].id)
-                        };
+                    on: function () {
                         clearTimeout(checkTime);
-                        siteType = list.join(",");
-                        checkTime = setTimeout(function () {
-                            getMapDataFn();
-                        }, 1000);
-                    },
+                        checkTime = setTimeout(getMapDataFn, 500);
+                    }
                 });
-                siteType = xm.getValue('valueStr');
                 getMapDataFn();
             }
         });
     };
+    getsiteTypeFn();
 
+
+    // 获取地图数据
+    var myChart;
+    $.getJSON(urls.mapUrl, function (geoJson) {
+        echarts.registerMap('zhejiang', geoJson);
+    });
     var mapTime = '';
     function getMapDataFn() {
+        siteType = xm.getValue('valueStr');
         clearTimeout(mapTime);
         http({
             url: urls.index,
@@ -217,45 +211,17 @@ layui.define(["http"], function (e) {
                     dataItem.symbolSize = dataItem.size;
                     temp.push(dataItem);
                 };
-                myChart.setOption({
-                    series: [{
-                        data: temp
-                    }, {
-                        data: lineData
-                    }]
-                });
+                myChart = echarts.init(document.getElementById('main')).dispose();
+                myChart = echarts.init(document.getElementById('main'));
+                initMapFn(temp, lineData);
             },
             complete: function () {
-                mapTime = setTimeout(function () {
-                    getMapDataFn();
-                }, 60000);
+                mapTime = setTimeout(getMapDataFn, 60000);
             }
         });
     };
 
-    myChart.on('click', function (e) {
-        if (!e.data || !e.data.id) {
-            // layer.msg("请使用最新版IE打开")
-            return;
-        };
-        var data = e.data;
-        var siteId = data.id;
-        var url = store.filterUrl('layHome') + "?id=" + siteId;
-        layer.closeAll(function () {
-            layer.open({
-                type: 2,
-                title: data.site,
-                shade: 0.8,
-                resize: !1,
-                moveOut: 1,
-                skin: "home_layer",
-                area: ['400px', '300px'],
-                content: url
-            });
-        });
-    });
-
-    function initMapFn() {
+    function initMapFn(data, lineData) {
         var option = {
             tooltip: {
                 trigger: 'item',
@@ -310,6 +276,7 @@ layui.define(["http"], function (e) {
                         formatter: '{b}'
                     }
                 },
+                data: data
             }, {
                 type: 'lines',
                 tooltip: {
@@ -328,11 +295,31 @@ layui.define(["http"], function (e) {
                             return color;
                         }
                     }
-                }
+                },
+                data: lineData
             }]
         };
         myChart.setOption(option);
-        getsiteTypeFn();
+        myChart.on('click', function (e) {
+            if (!e.data || !e.data.id) {
+                return;
+            };
+            var data = e.data;
+            var siteId = data.id;
+            var url = store.filterUrl('layHome') + "?id=" + siteId;
+            layer.closeAll(function () {
+                layer.open({
+                    type: 2,
+                    title: data.site,
+                    shade: 0.8,
+                    resize: !1,
+                    moveOut: 1,
+                    skin: "home_layer",
+                    area: ['400px', '300px'],
+                    content: url
+                });
+            });
+        });
     };
 
     e("map", {})
