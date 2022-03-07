@@ -7,7 +7,7 @@ layui.define(["http"], function (e) {
 
     var $ = layui.$,
         form = layui.form;
-        
+
     function setTimeFn() {
         var date = new Date();
         date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
@@ -50,8 +50,6 @@ layui.define(["http"], function (e) {
             }
         });
     });
-
-
 
     var audio = document.getElementById("audio"),
         play = 0, isPlay;
@@ -230,13 +228,12 @@ layui.define(["http"], function (e) {
             }
         });
     };
-    getsiteTypeFn();
-
 
     // 获取地图数据
     var myChart;
     $.getJSON(urls.mapUrl, function (geoJson) {
         echarts.registerMap('zhejiang', geoJson);
+        getsiteTypeFn();
     });
     var mapTime = '';
     function getMapDataFn() {

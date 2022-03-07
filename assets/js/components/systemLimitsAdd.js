@@ -25,8 +25,7 @@ layui.define(['http'], function (e) {
     getGradeFn();
 
     //常规使用 - 普通图片上传
-    var isUpload = false;
-    var token = layui.sessionData('token').key || '';
+    var isUpload = false, token = layui.sessionData('token').key || '';
     var uploadInst = upload.render({
         elem: '#upload',
         url: urls.signUpload,

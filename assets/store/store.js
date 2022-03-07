@@ -1,11 +1,8 @@
 layui.extend({
     urls: "api/urls",
 }).define(["urls"], function (e) {
-
     var utils = layui.utils,
         urls = layui.urls;
-
-
     var baseFileUrl = urls.baseFileUrl;
 
     var router = {
@@ -183,6 +180,12 @@ layui.extend({
             toRouter('index');
         }) : toRouter('index');
     };
+
+    function already() {
+        var token = layui.sessionData('token').key;
+        !token && !utils.pathIndex ? logOut("请先登录") : "";
+    };
+    already();
 
     e("store", {
         filterUrl: filterUrl,

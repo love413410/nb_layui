@@ -20,12 +20,12 @@ layui.define(['http'], function (e) {
     };
     getDetaFn();
 
-    var isUpload = false;
+    var isUpload = false, token = layui.sessionData('token').key || '';
     var uploadInst = upload.render({
         elem: '#upload',
         url: urls.signUpload,
         headers: {
-            'token': sessionStorage.token
+            'token': token
         },
         accept: 'file',
         acceptMime: 'image/jpeg,image/png',

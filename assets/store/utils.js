@@ -7,14 +7,16 @@ layui.define(function (e) {
     var basePath = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
     var isPath = basePath == "/dist" ? '' : "/dist";
 
+    var pathIndex;
     if (service == 'development') {
         baseUrl = 'http://192.168.1.156:8006';
+        pathIndex = pathName.indexOf("/dist/index.html") > -1;
     }
     if (service == 'deploy') {
         baseUrl = baseOrigin;
+        pathIndex = pathName.indexOf("/static/dist/index.html") > -1;
     }
     baseFileUrl = baseOrigin + basePath + isPath;
-    var pathIndex = pathName == "/dist/" || pathName == "/dist/index.html";
 
     var instObsState = [
         { id: 0, title: "正常", color: "#009688" },
