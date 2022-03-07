@@ -1,30 +1,16 @@
-layui.define(function (exports) {
-    var service = 'development';//开发
-    // var service = 'deploy';//部署
 
-    var base, baseUrl, baseFileUrl;
 
-    if (service == 'development') {
-        var protocol = window.location.protocol;//协议
-        var hostname = window.location.hostname;//域名
-        var port = window.location.port;//端口号
-        base = 'http://192.168.1.156';
-        baseUrl = base + ':8006';
-        baseFileUrl = protocol + "//" + hostname + ":" + port;
-    }
-    if (service == 'deploy') {
-        var baseOrigin = window.location.origin || window.location.protocol + "//" + window.location.host;
-        var pathName = window.document.location.pathname;
-        var basePath = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-        var isPath = basePath == "/dist" ? '' : "/dist";
-        base = window.location.protocol + "//" + window.location.hostname;
-        baseUrl = baseOrigin;
-        baseFileUrl = baseOrigin + basePath + isPath;
-    }
+layui.extend({
+    utils: "store/utils",
+}).define(["utils"], function (exports) {
+
+    var utils = layui.utils;
+
+    var baseUrl = utils.baseUrl,
+        baseFileUrl = utils.baseFileUrl;
 
     exports('urls', {
         // 项目目录
-        base: base,
         baseFileUrl: baseFileUrl,
         mapUrl: baseFileUrl + "/assets/lib/zhejiang.json",
         fileUpload: baseUrl + "/file/upload/",//文件上传

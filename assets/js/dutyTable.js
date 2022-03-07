@@ -1,17 +1,15 @@
 layui.define(["http", "utils"], function (e) {
-    var store = layui.store,
-        utils = layui.utils;
+    var utils = layui.utils;
 
     var http = layui.http,
         urls = layui.urls;
 
     var form = layui.form;
 
-    var grade = store.getSessionData("grade");
 
     var grade = utils.grade,
         action = utils.locaStr("action");
-    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+    var result = utils.differ(grade[action]);
 
     if (result) {
         $("#saveBtn").css("display", "inline-block");

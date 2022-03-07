@@ -1,8 +1,10 @@
 layui.define(["store"], function (e) {
     var store = layui.store;
+
     var layer = layui.layer,
         table = layui.table;
-    var token = store.getSessionData("token");
+
+    var token = layui.sessionData('token').key;
     function tabListFn(data) {
         var tableIns = table.render({
             elem: data.elem || '#table',
@@ -36,11 +38,7 @@ layui.define(["store"], function (e) {
             error: function (err) {
                 if (err.status == 502) {
                     var data = err.responseJSON;
-                    layer.msg(data.msg, {
-                        time: 1500
-                    }, function () {
-                        store.logOut();
-                    })
+                    store.logOut(data.msg);
                 }
             }
         });

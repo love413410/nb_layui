@@ -1,11 +1,10 @@
 
 layui.define(["http"], function (e) {
-    var store = layui.store;
-
+    
     var urls = layui.urls;
     var upload = layui.upload;
 
-    var token = store.getSessionData("token") || '';
+    var token = layui.sessionData('token').key || '';
 
     upload.render({
         elem: '#upload',

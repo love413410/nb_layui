@@ -13,9 +13,19 @@ layui.define(["http", "store"], function (e) {
             type: 'post',
             data: data,
             success: function (res) {
-                store.setSessionData("grade", res.grade);
-                store.setSessionData("token", res.token);
-                store.setSessionData("userName", data.userName);
+                layui.sessionData('grade', {
+                    key: 'key',
+                    value: res.grade
+                });
+
+                layui.sessionData('token', {
+                    key: 'key',
+                    value: res.token
+                });
+                layui.sessionData('userName', {
+                    key: 'key',
+                    value: data.userName
+                });
                 store.toRouter('map');
             }
         });

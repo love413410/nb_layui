@@ -1,5 +1,5 @@
 layui.extend({
-    store: "../store/store",
+    store: "store/store",
 }).define(["store"], function (exports) {
     var store = layui.store;
     var $ = layui.$,
@@ -13,7 +13,7 @@ layui.extend({
         var data = val.data || {};
         var dataType = val.dataType || 'json';
         var async = val.async || true;
-        var token = store.getSessionData("token") || '';
+        var token = layui.sessionData('token').key || '';
         $.ajax({
             url: url,
             type: type,
@@ -41,8 +41,7 @@ layui.extend({
                     layer.msg("请求地址不存在");
                     return false;
                 } else if (status == 502) {
-                    var url = layui.urls.baseFileUrl + '/index.html';
-                    window.top.location.href = url;
+                    store.logOut(err.responseJSON.msg);
                 } else {
                     val.error && val.error(status);
                 };

@@ -1,11 +1,12 @@
-layui.define(["http", "getFn"], function (e) {
+layui.define(["http"], function (e) {
+    var utils = layui.utils;
+
     var http = layui.http,
-        urls = layui.urls,
-        getFn = layui.getFn;
+        urls = layui.urls;
 
     var form = layui.form;
 
-    var id = getFn.locaStr('id');
+    var id = utils.locaStr('id');
     
     function getTypeFn() {
         http({

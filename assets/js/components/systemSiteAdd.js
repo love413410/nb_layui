@@ -4,7 +4,7 @@ layui.define(["http"], function (e) {
 
     var $ = layui.$,
         form = layui.form;
-        
+
     var typeId;
     function getTypeFn() {
         http({
@@ -25,7 +25,7 @@ layui.define(["http"], function (e) {
         http({
             url: urls.siteStyle,
             success: function (res) {
-                var data = res.data,str = '';
+                var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
                     str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
                 };
@@ -35,9 +35,9 @@ layui.define(["http"], function (e) {
         });
         http({
             url: urls.siteStyle,
-            type:"post",
+            type: "post",
             success: function (res) {
-                var data = res.data,str = '';
+                var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
                     str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
                 };

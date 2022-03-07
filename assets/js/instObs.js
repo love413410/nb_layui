@@ -15,7 +15,7 @@ layui.define(["http", "utils", "tabList"], function (e) {
 
     var grade = utils.grade,
         action = utils.locaStr("action");
-    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+    var result = utils.differ(grade[action]);
 
     var cols = [{
         title: '仪器状态',

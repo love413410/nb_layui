@@ -1,11 +1,57 @@
 layui.define(["http"], function (e) {
-    var store = layui.store;
+    var utils = layui.utils,
+        store = layui.store;
 
     var http = layui.http,
         urls = layui.urls;
 
     var $ = layui.$,
         form = layui.form;
+        
+    function setTimeFn() {
+        var date = new Date();
+        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+        date = date.toJSON().substr(0, 19).replace(/T/g, ' ');
+        $('#headDate').html(date);
+        setTimeout(setTimeFn, 500);
+    };
+    setTimeFn();
+
+    var userName = layui.sessionData('userName').key;
+    $("#users").html(userName);
+
+    function isSign() {
+        http({
+            url: urls.personnelSign,
+            type: "post",
+            success: function (res) {
+                if (res.code == 200) {
+                    $("#singTips").show();
+                    $("#isSign").show();
+                }
+            },
+            complete: function () {
+                setTimeout(isSign, 1800000);
+            }
+        });
+    };
+    isSign();
+    // 值班签到
+    $("#menuBtn").click(function () {
+        http({
+            url: urls.personnelSign,
+            success: function (res) {
+                layer.msg(res.msg, {
+                    time: 1500
+                }, function () {
+                    $("#singTips").hide();
+                    $("#isSign").hide();
+                });
+            }
+        });
+    });
+
+
 
     var audio = document.getElementById("audio"),
         play = 0, isPlay;
@@ -322,5 +368,18 @@ layui.define(["http"], function (e) {
         });
     };
 
+    // 退出
+    $("#outBtn").click(function () {
+        store.logOut();
+    });
+    window.routerTo = function (url) {
+        store.toRouter(url);
+    };
+    // 判断权限
+    function isNoFn() {
+        var grade = layui.sessionData('grade').key;
+        grade.indexOf(utils.grade.duty) > -1 ? $("#menuBtn").show() : $("#menuBtn").hide();
+    };
+    isNoFn();
     e("map", {})
 });

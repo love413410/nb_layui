@@ -3,13 +3,13 @@ layui.define(["http"], function (e) {
 
     var $ = layui.$,
         element = layui.element,
-        dropdown = layui.dropdown
-
+        dropdown = layui.dropdown;
+        
     var pagesList = store.pagesList;
     var tabFilter = 'home';
 
-    var user = store.getSessionData("userName");
-    $("#user").html(user);
+    var userName = layui.sessionData('userName').key;
+    $("#user").html(userName);
 
     var tabsList = [];
     function menuForFn() {
@@ -55,16 +55,12 @@ layui.define(["http"], function (e) {
         var title = item.title, id = item.id, url = item.name, index = 0, action = item.action;
         tabsList.push(url);
 
-        breadcrumbAdd(title, index);
-        elementAdd(title, id, url, index, action);
-        element.tabChange(tabFilter, id);
-
-        // setTimeout(function () {
-        //     breadcrumbAdd(title, index);
-        //     elementAdd(title, id, url, index, action);
-        //     element.tabChange(tabFilter, id);
-        // }, 5000)
-
+        var token = layui.sessionData('token').key;
+        if (token) {
+            breadcrumbAdd(title, index);
+            elementAdd(title, id, url, index, action);
+            element.tabChange(tabFilter, id);
+        };
         element.init();
     };
     menuForFn();

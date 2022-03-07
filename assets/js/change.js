@@ -1,7 +1,6 @@
-layui.define(['http', 'getFn'], function (e) {
+layui.define(['http'], function (e) {
     var http = layui.http,
-        urls = layui.urls,
-        getFn = layui.getFn;
+        urls = layui.urls;
     var $ = layui.$,
         form = layui.form,
         upload = layui.upload;

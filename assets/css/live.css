@@ -29,8 +29,17 @@ body {
 .layui_retr .retr_select {
   width: 200px;
 }
+.layui_retr .retr_selects {
+  width: 100px;
+}
 .live {
   width: 960px;
   height: 540px;
   margin: 50px auto;
+}
+.text {
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
+  color: #f00;
 }

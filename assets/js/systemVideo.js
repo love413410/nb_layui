@@ -12,7 +12,7 @@ layui.define(["http", "tabList"], function (e) {
 
     var grade = utils.grade,
         action = utils.locaStr("action");
-    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+    var result = utils.differ(grade[action]);
 
     var first = true;
 
@@ -71,7 +71,6 @@ layui.define(["http", "tabList"], function (e) {
                 $("#site").html(str);
 
                 typeId = typeId ? typeId : data.length > 0 ? data[0].pk : "";
-                console.log(typeId)
                 form.val('example', {
                     id: typeId
                 });

@@ -1,6 +1,4 @@
-layui.define(["http", "store", "getFn"], function (e) {
-    var store = layui.store;
-
+layui.define(["http", "getFn"], function (e) {
     var http = layui.http,
         urls = layui.urls,
         getFn = layui.getFn;
@@ -10,7 +8,7 @@ layui.define(["http", "store", "getFn"], function (e) {
         upload = layui.upload,
         laydate = layui.laydate;
 
-    var token = store.getSessionData("token");
+    var token = layui.sessionData('token').key;
     var id = getFn.locaStr('id');
 
     var date = new Date();
@@ -32,7 +30,7 @@ layui.define(["http", "store", "getFn"], function (e) {
         min: 0,
         btns: ['now', 'confirm']
     });
-    
+
 
     var isUpload = false;
     upload.render({

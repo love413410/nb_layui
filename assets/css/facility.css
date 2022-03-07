@@ -23,3 +23,90 @@ body {
 .layui-form .layui-btn {
   margin-left: 0;
 }
+
+.tableHead {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+.table {
+  border: #000;
+  width: 100%;
+  table-layout: fixed;
+}
+.table * {
+  outline: none;
+  word-break: keep-all;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.table tbody td {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+.table tbody .checkbox {
+  height: 21px;
+  line-height: 20px;
+  text-align: left;
+  display: flex;
+  border-right: none;
+}
+.strong {
+  font-weight: 700;
+}
+.table tbody .checkbox p {
+  margin-left: 10px;
+}
+.table tbody .checkbox input,
+.table tbody .checkbox label {
+  vertical-align: middle;
+}
+.table tbody .label_span {
+  flex: 0 0 40px;
+}
+.table tbody .layui-input {
+  height: 20px;
+  line-height: 20px;
+  border: none;
+}
+
+.table tbody .textarea {
+  padding: 6px 10px;
+}
+.table tbody .textarea textarea {
+  width: 100%;
+  height: 120px;
+  line-height: 20px;
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  border: none;
+  resize: none;
+}
+.tfoot {
+  display: flex;
+  justify-content: center;
+}
+.tfoot * {
+  outline: none;
+  word-break: keep-all;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tfoot > div {
+  flex: 1;
+  display: flex;
+  padding: 10px;
+  line-height: 20px;
+  box-sizing: border-box;
+}
+.tfoot > div label,
+.tfoot > div p {
+  vertical-align: middle;
+}
+.tfoot > div p {
+  width: 100px;
+}

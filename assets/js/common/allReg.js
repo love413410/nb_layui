@@ -1,5 +1,5 @@
 layui.extend({
-    getFn: "../store/getFn"
+    getFn: "store/getFn"
 }).define(["getFn"], function (e) {
     var getFn = layui.getFn;
 

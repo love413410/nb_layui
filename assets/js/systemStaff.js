@@ -14,7 +14,7 @@ layui.define(["http", "tabList"], function (e) {
 
     var grade = utils.grade,
         action = utils.locaStr("action");
-    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+    var result = utils.differ(grade[action]);
 
     var cols = [
         { title: '姓名', templet: function (item) { return item.fields.personnel; } },

@@ -26,7 +26,7 @@ layui.define(['http'], function (e) {
 
     //常规使用 - 普通图片上传
     var isUpload = false;
-    var token = store.getSessionData("token") || '';
+    var token = layui.sessionData('token').key || '';
     var uploadInst = upload.render({
         elem: '#upload',
         url: urls.signUpload,

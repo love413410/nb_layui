@@ -12,7 +12,7 @@ layui.define(["http", "tabList"], function (e) {
 
     var grade = utils.grade,
         action = utils.locaStr("action");
-    var result = utils.differ(store.getSessionData("grade"), grade[action]);
+    var result = utils.differ(grade[action]);
 
     var cols = [
         { title: '名称', templet: function (item) { return item.fields.deviceName; } },
@@ -33,7 +33,7 @@ layui.define(["http", "tabList"], function (e) {
         });
         $("[name=ctrBtn]").show();
     }
-    
+
     var tableIns, type = $("#type").val(), retrName = '', page = 1;
     function getListFn() {
         tableIns = tabList.render({
