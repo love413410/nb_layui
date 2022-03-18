@@ -9,8 +9,8 @@ layui.define(function (e) {
 
     var pathIndex;
     if (service == 'development') {
-        baseUrl = 'http://192.168.1.156:8006';
-        pathIndex = pathName.indexOf("/dist/index.html") > -1;
+        baseUrl = 'http://192.168.1.178:8006';
+        pathIndex = pathName == "/dist/" || pathName == "/dist/index.html";
     }
     if (service == 'deploy') {
         baseUrl = baseOrigin;

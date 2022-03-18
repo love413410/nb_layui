@@ -68,65 +68,117 @@ layui.define(["http"], function (e) {
         play && isPlay == 'false' ? audio.play() : audio.pause();
     };
 
-    function getRightSelect() {
-        http({
-            url: urls.siteType,
-            success: function (res) {
-                var data = res.data;
-                var option = '';
-                for (var i = 0; i < data.length; i++) {
-                    option += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
-                };
-                $("#siteType").html(option);
-                form.render("select", "layInputBox");
-                if (data.length > 0) {
-                    dayval = data[0].pk;
-                    getToDayDataFn();
-                };
-            }
-        });
-    };
-    getRightSelect();
+    // function getRightSelect() {
+    //     http({
+    //         url: urls.siteType,
+    //         success: function (res) {
+    //             var data = res.data;
+    //             var option = '';
+    //             for (var i = 0; i < data.length; i++) {
+    //                 option += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
+    //             };
+    //             $("#siteType").html(option);
+    //             form.render("select", "layInputBox");
+    //             if (data.length > 0) {
+    //                 dayval = data[0].pk;
+    //                 getToDayDataFn();
+    //             };
+    //         }
+    //     });
+    // };
+    // getRightSelect();
 
-    // 右侧今日传输量
-    var dayTime, dayval;
-    function getToDayDataFn() {
-        clearTimeout(dayTime);
+    // // 右侧今日传输量
+    // var dayTime, dayval;
+    // function getToDayDataFn() {
+    //     clearTimeout(dayTime);
+    //     http({
+    //         url: urls.indexReceive,
+    //         data: { type: dayval },
+    //         success: function (res) {
+    //             var data = res.data;
+    //             $("#file").html(data.file);
+    //             $("#fileUnit").html(data.fileUnit);
+    //             $("#data").html(data.data);
+    //             $("#dataUnit").html(data.dataUnit);
+    //         },
+    //         complete: function () {
+    //             dayTime = setTimeout(function () {
+    //                 getToDayDataFn();
+    //             }, 60000);
+    //         }
+    //     });
+    // };
+    // form.on('select(siteType)', function (data) {
+    //     dayval = data.value;
+    //     getToDayDataFn();
+    // });
+
+    // 实时数据
+    var realTimer, realRollTimer;
+    function getRealFn() {
+        clearInterval(realRollTimer);
+        clearTimeout(realTimer);
+        $("#realRoll").empty();
         http({
-            url: urls.indexReceive,
-            data: { type: dayval },
+            url: urls.indexData,
             success: function (res) {
-                var data = res.data;
-                $("#file").html(data.file);
-                $("#fileUnit").html(data.fileUnit);
-                $("#data").html(data.data);
-                $("#dataUnit").html(data.dataUnit);
+                $("#realRoll").empty();
+                var data = res.data, content = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    // for (var i = 0; i < 99; i++) {
+                    //     var dataItem = data[0];
+                    content += '<div class="list_item">' +
+                        '<p class="item_deta">' + dataItem.name + '</p>' +
+                        '<p class="item_time">' + dataItem.value + '</p>' +
+                        '</div>';
+                };
+                $("#realRoll").html(content);
+                // if ($("#realRoll").height() > $("#realList").height()) {
+                //     realRollTimer = setInterval(realRollFn, 30);
+                // };
             },
             complete: function () {
-                dayTime = setTimeout(function () {
-                    getToDayDataFn();
-                }, 60000);
+                realTimer = setTimeout(getRealFn, 60000);
             }
         });
     };
-    form.on('select(siteType)', function (data) {
-        dayval = data.value;
-        getToDayDataFn();
-    });
+    getRealFn();
+
+    function realRollFn() {
+        $("#realRoll").animate({
+            marginTop: '-=1'
+        }, 0, function () {
+            var s = Math.abs(parseInt($(this).css("margin-top")));
+            if (s >= 40) {
+                $(this).find("div").slice(0, 1).appendTo($(this));
+                $(this).css("margin-top", 0);
+            }
+        });
+        $("#realList").hover(function () {
+            clearInterval(realRollTimer);
+            clearTimeout(realTimer);
+        }, function () {
+            clearInterval(realRollTimer);
+            clearTimeout(realTimer);
+            realRollTimer = setInterval(realRollFn, 30);
+            realTimer = setTimeout(getRealFn, 30000);
+        });
+    };
 
     // 右侧故障
-    var rollTime, rollTimeout, rollSh = 40, rollSpeed = 30;
-    function getListFn() {
-        clearInterval(rollTime);
-        clearTimeout(rollTimeout);
+    var faultTimer, faultRollTimer;
+    function getFaultFn() {
+        clearInterval(faultRollTimer);
+        clearTimeout(faultTimer);
         $("#roll").empty();
         http({
             url: urls.alarmList,
             data: { type: siteType },
             success: function (res) {
                 $("#roll").empty();
-                var data = res.data;
-                var content = '';
+                var data = res.data, content = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
                     content += '<div class="list_item">' +
@@ -136,13 +188,9 @@ layui.define(["http"], function (e) {
                 };
                 $("#menuRoll").html(content);
                 if ($("#menuRoll").height() > $("#menuList").height()) {
-                    rollTime = setInterval(function () {
-                        setRollFn();
-                    }, rollSpeed);
+                    faultRollTimer = setInterval(faultRollFn, 30);
                 };
-
                 play = data.length > 0 ? 1 : 0;
-
                 var isIe = layui.device().ie;
                 if (isIe) {
                     $("#play").hide();
@@ -153,36 +201,30 @@ layui.define(["http"], function (e) {
                 };
             },
             complete: function () {
-                rollTimeout = setTimeout(function () {
-                    getListFn();
-                }, 60000);
+                faultTimer = setTimeout(getFaultFn, 60000);
             }
         });
     };
-    getListFn();
+    getFaultFn();
 
-    function setRollFn() {
+    function faultRollFn() {
         $("#menuRoll").animate({
             marginTop: '-=1'
         }, 0, function () {
             var s = Math.abs(parseInt($(this).css("margin-top")));
-            if (s >= rollSh) {
+            if (s >= 40) {
                 $(this).find("div").slice(0, 1).appendTo($(this));
                 $(this).css("margin-top", 0);
             }
         });
         $("#menuList").hover(function () {
-            clearInterval(rollTime);
-            clearTimeout(rollTimeout);
+            clearInterval(faultRollTimer);
+            clearTimeout(faultTimer);
         }, function () {
-            clearInterval(rollTime);
-            clearTimeout(rollTimeout);
-            rollTime = setInterval(function () {
-                setRollFn();
-            }, rollSpeed);
-            rollTimeout = setTimeout(function () {
-                getListFn();
-            }, 30000);
+            clearInterval(faultRollTimer);
+            clearTimeout(faultTimer);
+            faultRollTimer = setInterval(faultRollFn, 30);
+            faultTimer = setTimeout(getFaultFn, 30000);
         });
     };
 
@@ -364,7 +406,6 @@ layui.define(["http"], function (e) {
             });
         });
     };
-
     // 退出
     $("#outBtn").click(function () {
         store.logOut();

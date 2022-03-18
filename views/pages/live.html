@@ -11,6 +11,33 @@
 </head>
 
 <body>
+
+    <div class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline nav_list">
+                <div class="nav_tree">
+                    <div class="xmSelect">
+                        <div id="siteList"></div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div>
+                        <select lay-filter="selectChange">
+                            <option value="1">1*1</option>
+                            <option value="2" selected>2*2</option>
+                            <option value="3">3*3</option>
+                            <option value="4">4*4</option>
+                        </select>
+                    </div>
+                    <div class="text" id="text"></div>
+                </div>
+            </div>
+            <div class="layui-inline live" id="live"></div>
+        </div>
+    </div>
+
+    <!-- 
     <div class="layui-form layui_retr">
         <div class="layui-form-item">
             <div class="layui-inline">
@@ -44,7 +71,7 @@
     </div>
     <div id="divPlugin" class="live"></div>
 
-    <div id="text" class="text"></div>
+    <div id="text" class="text"></div> -->
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
 <script src="../../assets/lib/xmselect.js"></script>

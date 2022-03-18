@@ -155,6 +155,7 @@ layui.extend({
         pagesList[pagesList.length - 2].name = 'pages/live'
     };
 
+    pagesList[pagesList.length - 2].name = 'pages/live'
     //拼接路径
     function filterUrl(url) {
         // var token = layui.sessionData('token').key;

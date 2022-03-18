@@ -64,12 +64,19 @@
     <div class="home_right_box">
         <div class="home_right">
             <div class="menu_head">
-                今日传输量
-                <div class="layui-form layui_input_box" lay-filter="layInputBox">
+                实时潮位数据显示
+                <!-- <div class="layui-form layui_input_box" lay-filter="layInputBox">
                     <select id="siteType" lay-filter="siteType"></select>
-                </div>
+                </div> -->
             </div>
-            <div class="menu_charts">
+            <div class="real_head">
+                <p>站点</p>
+                <p>要素值</p>
+            </div>
+            <div class="real_list" id="realList">
+                <div class="real_roll" id="realRoll"></div>
+            </div>
+            <!-- <div class="menu_charts">
                 <div>
                     <div class="menu_ring" id="file">0</div>
                     <p class="menu_ring_text">文件接收量(<span id="fileUnit"></span>)</p>
@@ -79,7 +86,7 @@
                     <div class="menu_ring" id="data">0</div>
                     <p class="menu_ring_text">数据接收量(<span id="dataUnit"></span>)</p>
                 </div>
-            </div>
+            </div> -->
             <div class="menu_head">
                 站点故障信息
             </div>

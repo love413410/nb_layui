@@ -7,34 +7,37 @@ layui.define(["http"], function (e) {
 
     var $ = layui.$,
         form = layui.form,
-        tree = layui.tree,
         layer = layui.layer;
 
     var baseFileUrl = urls.baseFileUrl;
 
-    var videoId = "", playList = {};
     function getTree() {
         http({
             url: urls.videoTree,
             success: function (res) {
-                var data = res.data;
-                var isClick = false;
-                tree.render({
-                    elem: '#siteList',
-                    data: data,
-                    accordion: 1,
-                    click: function (obj) {
-                        if (isClick) {
-                            videoId = obj.data.id;
-                            iRet == -1 ? loadWebKit() : videoDeta();
-                        } else {
-                            isClick = true;
-                        };
-                        setTimeout(function () {
-                            isClick = false
-                        }, 800);
-                    }
-                });
+                xmSelect.render({
+                    el: '#siteList',
+                    tips: '请选择视频',
+                    name: 'id',
+                    prop: {
+                        name: 'title',
+                        value: 'id'
+                    },
+                    tree: {
+                        show: true,
+                        expandedKeys: true,
+                        strict: true,
+                        showLine: false,
+                    },
+                    iconfont: {
+                        parent: "hidden"
+                    },
+                    radio: true,
+                    clickClose: true,
+                    model: { label: { type: 'text' } },
+                    filterable: true,
+                    data: res.data
+                })
             }
         });
     };
@@ -66,6 +69,7 @@ layui.define(["http"], function (e) {
     };
     iRetFn();
 
+    var videoId = "", videoName = "";
     // 播放
     form.on('submit(playBtn)', function (data) {
         videoId = data.field.id;
@@ -73,7 +77,7 @@ layui.define(["http"], function (e) {
     });
     // 停止播放
     form.on('submit(stopPlay)', function (data) {
-        stopRealPlay();
+        clickStopRealPlay();
     });
     // 更换屏幕
     form.on('select(selectChange)', function (data) {
@@ -81,7 +85,6 @@ layui.define(["http"], function (e) {
         WebVideoCtrl.I_ChangeWndNum(parseInt(value, 10));
     });
     // 摄像头详情
-    var videoName = "";
     function videoDeta() {
         http({
             url: urls.videoDeta,
@@ -89,62 +92,52 @@ layui.define(["http"], function (e) {
             success: function (res) {
                 var data = res.data.fields;
                 videoName = data.videoName;
-                var loginData = playList[videoId];
-                !loginData ? clickLogin(data.account, data.passWord, data.ip) : startRealPlay(loginData);
+                clickLogin(data.account, data.passWord, data.ip);
             }
         });
     };
-    var width = $("#live").width(), height = $("#live").height();
+
     var g_iWndIndex = 0;
-    WebVideoCtrl.I_InitPlugin(width, height, {
-        // WebVideoCtrl.I_InitPlugin(960, 540, {
+    WebVideoCtrl.I_InitPlugin(960, 540, {
         iWndowType: 2,
         bNoPlugin: true,
         cbSelWnd: function (xmlDoc) {
             g_iWndIndex = parseInt($(xmlDoc).find("SelectWnd").eq(0).text(), 10);
         },
         cbInitPluginComplete: function () {
-            WebVideoCtrl.I_InsertOBJECTPlugin("live");
+            WebVideoCtrl.I_InsertOBJECTPlugin("divPlugin");
         }
     });
-    // 登录监控
+
     function clickLogin(username, password, ip) {
         var port = 80;
         WebVideoCtrl.I_Login(ip, 1, port, username, password, {
-            success: function () {
-                var loginData = ip + '_' + port;
-                startRealPlay(loginData);
+            success: function (xmlDoc) {
+                var oWndInfo = WebVideoCtrl.I_GetWindowStatus(g_iWndIndex);
+                var startRealPlay = function () {
+                    WebVideoCtrl.I_StartRealPlay(ip + '_' + port, {
+                        iStreamType: 2,
+                        error: function (status, xmlDoc) {
+                            showOPInfo(videoName + '开始预览失败！');
+                        }
+                    });
+                };
+                if (oWndInfo != null) {
+                    WebVideoCtrl.I_Stop({
+                        success: function () {
+                            startRealPlay();
+                        }
+                    });
+                } else {
+                    startRealPlay();
+                };
             },
-            error: function () {
+            error: function (status, xmlDoc) {
                 showOPInfo(videoName + " 登录失败！");
             }
         });
     };
-    // 预览监控
-    function startRealPlay(loginData) {
-        var oWndInfo = WebVideoCtrl.I_GetWindowStatus(g_iWndIndex);
-        var realPlay = function () {
-            WebVideoCtrl.I_StartRealPlay(loginData, {
-                iStreamType: 2,
-                success: function () {
-                    playList[videoId] = loginData;
-                },
-                error: function () {
-                    showOPInfo(videoName + '开始预览失败！');
-                }
-            });
-        };
-        if (oWndInfo != null) {
-            WebVideoCtrl.I_Stop({
-                success: function () {
-                    realPlay();
-                }
-            });
-        } else {
-            realPlay();
-        }
-    };
-    function stopRealPlay() {
+    function clickStopRealPlay() {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(g_iWndIndex);
         if (oWndInfo != null) {
             WebVideoCtrl.I_Stop({

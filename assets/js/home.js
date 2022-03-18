@@ -4,14 +4,14 @@ layui.define(["http"], function (e) {
     var $ = layui.$,
         element = layui.element,
         dropdown = layui.dropdown;
-        
+
     var pagesList = store.pagesList;
     var tabFilter = 'home';
 
     var userName = layui.sessionData('userName').key;
     $("#user").html(userName);
 
-    var tabsList = [];
+    var tabsList = [], tabAddList = [];
     function menuForFn() {
         var list = '';
         for (var i = 0; i < pagesList.length; i++) {
@@ -53,7 +53,8 @@ layui.define(["http"], function (e) {
         $("#sideMenu .layui-nav-item").eq(0).addClass("layui-this");
         var item = pagesList[0];
         var title = item.title, id = item.id, url = item.name, index = 0, action = item.action;
-        tabsList.push(url);
+        // tabsList.push(url);
+        tabAddList.push(id);
 
         var token = layui.sessionData('token').key;
         if (token) {
@@ -72,9 +73,11 @@ layui.define(["http"], function (e) {
         var url = $(this).attr("lay-url");
         var action = $(this).attr("action");
 
-        var index = tabsList.indexOf(url);
+        // var index = tabsList.indexOf(url);
+        var index = tabAddList.indexOf(id);
         if (index < 0) {
-            tabsList.push(url);
+            // tabsList.push(url);
+            tabAddList.push(id);
             elementAdd(title, id, url, idx, action);
         };
         element.tabChange(tabFilter, id);
@@ -119,8 +122,12 @@ layui.define(["http"], function (e) {
         breadcrumbAdd(title, idx);
     });
     element.on('tabDelete(' + tabFilter + ')', function (elem) {
-        var url = $(this).parent().attr("lay-url");
-        tabsList.splice(tabsList.indexOf(url), 1);
+        // var url = $(this).parent().attr("lay-url");
+        // var id = $(this).parent().attr("lay-id");
+        // tabsList.splice(tabsList.indexOf(url), 1);
+        // tabAddList.splice(tabAddList.indexOf(id), 1);
+        var id = $(this).parent().attr("lay-id");
+        tabAddList.splice(tabAddList.indexOf(id), 1);
     });
     $(".layui-nav-item").click(function () {
         $(this).siblings().removeClass("layui-nav-itemed");
@@ -153,6 +160,21 @@ layui.define(["http"], function (e) {
         trigger: 'hover',
         click: function (data) {
             clickMethod[data.id]();
+        }
+    });
+    
+    // 全部的
+    dropdown.render({
+        elem: "#tabs",
+        id: "tabs",
+        trigger: "contextmenu",
+        data: [
+            { title: "关闭全部", id: "all" }
+        ],
+        click: function () {
+            for (var i = tabAddList.length - 1; i >= 1; i--) {
+                element.tabDelete(tabFilter, tabAddList[i]);
+            };
         }
     });
 

@@ -10,6 +10,8 @@ layui.define(["http", "getFn", "tabList"], function (e) {
 
     var startTime = getFn.initDate(),
         endTime = getFn.initDate();
+    var id = "",
+        type = $("#type").val();
 
     laydate.render({
         elem: '#date',
@@ -48,17 +50,19 @@ layui.define(["http", "getFn", "tabList"], function (e) {
             url: urls.dataList,
             data: { type: typeId },
             success: function (res) {
-                var data = res.data;
-                var str = '';
+                var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
                     str += '<option value="' + data[i].pk + '">' + data[i].fields.stationName + '</option>';
                 };
                 $("#site").html(str);
                 form.render();
+                id = data.length > 0 ? data[0].pk : "";
+                getListFn();
+                getChartsFn();
             }
         });
     };
-    var id = "", type = $("#type").val();
+
     function getListFn() {
         http({
             url: urls.dataCenter,

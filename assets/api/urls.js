@@ -21,6 +21,8 @@ layui.extend({
         // 首页
         index: baseUrl + '/index/',//地图数据
         indexReceive: baseUrl + '/index/receive/',//数据到报
+        indexData: baseUrl + '/index/data/',//实时数据
+        
         indexClock: baseUrl + '/index/clock/',//站点详情
         personnelSign: baseUrl + '/personnel/sign/',//值班签到
 
