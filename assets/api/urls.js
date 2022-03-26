@@ -22,18 +22,25 @@ layui.extend({
         index: baseUrl + '/index/',//地图数据
         indexReceive: baseUrl + '/index/receive/',//数据到报
         indexData: baseUrl + '/index/data/',//实时数据
-        
+
         indexClock: baseUrl + '/index/clock/',//站点详情
         personnelSign: baseUrl + '/personnel/sign/',//值班签到
 
         // 值班记录
         personnelLog: baseUrl + '/personnel/log/',//值班监控>>人员列表 or 值班监控>>值班列表
-        getRecord: baseUrl + '/personnel/get/record/',//值班记录表1 值班记录表2>>获取历史模板列表
+        
         record: baseUrl + '/personnel/record/',//值班记录表1 值班记录表2>>详情和保存
         signList: baseUrl + '/sign/list/',//值班查询列表
         personnelCount: baseUrl + '/personnel/count/',//值班统计
 
         dutyCurve: baseUrl + '/duty/curve/',//值班统计
+
+
+       
+        getRecord: baseUrl + '/personnel/get/record/',//获取值班记录表
+        dutySite: baseUrl + '/duty/site/', // 值班记录>>获取设置站点     设置值班记录表
+        dutyBuoy: baseUrl + '/duty/buoy/', // 值班记录>>获取设置浮标
+        
 
         // 业务管理
         word: baseUrl + '/work/event/',//大事记
@@ -48,7 +55,6 @@ layui.extend({
         workUpload: baseUrl + '/work/upload/',//业务档案>>上传业务档案
         // 数据查询
         dataCenter: baseUrl + '/data/center/',//站点数据列表 or 图形列表
-
         alarmType: baseUrl + '/alarm/type/',//报警记录>>故障类型
         alarmList: baseUrl + '/alarm/list/',//报警记录>>列表
         dataRate: baseUrl + '/data/rate/',//数据统计>>列表
@@ -59,6 +65,30 @@ layui.extend({
         upload: baseUrl + "/upload/",//数据上传
 
         // 设备巡查
+        toolType: baseUrl + '/tool/type/',//备品备件>>仪器名称
+        toolState: baseUrl + '/tool/state/',//备品备件>>仪器状态
+        toolRegister: baseUrl + '/tool/register/',//备品备件>>添加
+        toolList: baseUrl + '/tool/list/',//备品备件>>添加
+        toolDelete: baseUrl + '/tool/delete/',//备品备件>>删除
+        toolDetail: baseUrl + '/tool/detail/',//备品备件>>详情
+        toolChange: baseUrl + '/tool/change/',//备品备件>>修改
+        toolRecord: baseUrl + '/tool/record/',//备品备件>>流转记录
+        toolStock: baseUrl + '/tool/stock/',//备品备件>>出库
+
+        // 在用设备
+        useSite: baseUrl + '/use/site/',//在用设备站点列表
+        useDetail: baseUrl + '/use/detail/',//在用设备详情
+        useChange: baseUrl + '/use/change/',//在用设备修改
+        useType: baseUrl + '/use/type/',//在用设备修改
+        useEnter: baseUrl + '/use/enter/',//在用设备归还
+        // 比测仪器
+        testRegister: baseUrl + '/test/register/',//比测仪器>>添加
+        testList: baseUrl + '/test/list/',//比测仪器>>列表
+        testDelete: baseUrl + '/test/delete/',//比测仪器>>删除
+        testDetail: baseUrl + '/test/detail/',//比测仪器>>详情
+        testChange: baseUrl + '/test/change/',//比测仪器>>修改
+        /**/
+
         useList: baseUrl + '/use/list/',//在用设备列表
         useDevice: baseUrl + '/use/device/',//在用设备>>添加>>可用仪器列表 在用设备>>添加>>添加在用设备
         useRecede: baseUrl + '/use/recede/',//在用设备>>归还
@@ -76,17 +106,13 @@ layui.extend({
         deviceStock: baseUrl + '/device/stock/',//出入库接口  post:出库  get:入库
         deviceStockList: baseUrl + '/device/stock/list/',//备品备件记录表
 
-        instList: baseUrl + '/tool/list/',//仪器管理>>列表
-        instType: baseUrl + '/tool/type/',//仪器类型
-        instAdd: baseUrl + '/tool/register/',//仪器管理>>添加
-        instDelete: baseUrl + '/tool/delete/',//仪器管理>>删除
-        instChange: baseUrl + '/tool/change/',//详情和修改:修改、出库、在用设备>>添加
+
         toolRecede: baseUrl + '/tool/recede/',//仪器管理>>入库仪器列表
         toolStockPeople: baseUrl + '/tool/stock/people/',//仪器管理>>出库领用人
-        toolStock: baseUrl + '/tool/stock/',//仪器管理>>出库
-        toolRecord: baseUrl + '/tool/stock/list/',//仪器管理>>出入库记录
 
         // 系统设置
+        dataReal: baseUrl + '/data/real/',//实时数据
+
         siteList: baseUrl + '/site/list/',//站点信息>>列表
         siteDelete: baseUrl + '/site/delete/',//站点信息>>删除
 

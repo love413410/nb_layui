@@ -20,14 +20,13 @@
                     <input type="text" name="retrName" autocomplete="off" placeholder="请输入人员名" class="layui-input" />
                 </div>
             </div>
-
             <div class="layui-inline">
                 <div class="layui-input-inline">
                     <button lay-submit lay-filter="subBtn" class="layui-btn layui-btn-normal">
                         查询
                     </button>
                 </div>
-                <div class="layui-input-inline" name="ctrBtn">
+                <div class="layui-input-inline">
                     <button lay-submit lay-filter="addBtn" class="layui-btn layui-btn-normal">
                         添加人员
                     </button>
@@ -38,7 +37,6 @@
     <div class="layui-hide" id="table" lay-filter="table"></div>
 </body>
 <script type="text/html" id="toolbar">
-	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script src="../../assets/lib/layui/layui.js"></script>

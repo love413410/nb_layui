@@ -29,7 +29,7 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                 var str = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
-                    str += '<option value="' + dataItem.pk + '">' + dataItem.fields.personnel + '</option>';
+                    str += '<option value="' + dataItem.pk + '">' + dataItem.fields.Name + '</option>';
                 };
                 $("#ofUser").html(str);
                 form.render();

@@ -53,9 +53,14 @@
 
     <div class="home_left_box">
         <div class="home_left">
-            <div class="menu_head">站点类型</div>
-            <div class="xmSelect" id="siteList"></div>
-            <!-- <div class="layui-form" id="siteCheck" lay-filter="siteCheck"></div> -->
+            <div class="layui-form" id="siteCheck">
+                <!-- <div class="layui-form-item checkbox_head">地方站</div>
+                <div class="layui-form-item">
+                    <input type="checkbox" lay-skin="primary" title="写作">
+                    <input type="checkbox" lay-skin="primary" title="阅读">
+                    <input type="checkbox" lay-skin="primary" title="游戏">
+                </div> -->
+            </div>
         </div>
     </div>
 
@@ -63,15 +68,15 @@
 
     <div class="home_right_box">
         <div class="home_right">
-            <div class="menu_head">
-                实时潮位数据显示
-                <!-- <div class="layui-form layui_input_box" lay-filter="layInputBox">
-                    <select id="siteType" lay-filter="siteType"></select>
-                </div> -->
+            <div class="layui-form el_list">
+                <div class="layui-form-item" id="elList">
+                    <!-- <div class="layui-inline">1</div> -->
+                </div>
             </div>
             <div class="real_head">
                 <p>站点</p>
                 <p>要素值</p>
+                <p>时间</p>
             </div>
             <div class="real_list" id="realList">
                 <div class="real_roll" id="realRoll"></div>
@@ -160,7 +165,6 @@
 </body>
 
 <script src="../assets/lib/layui/layui.js"></script>
-<script src="../assets/lib/xmselect.js"></script>
 <script src="../assets/lib/echarts.js"></script>
 <script>
     layui.config({

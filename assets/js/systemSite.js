@@ -1,6 +1,5 @@
 layui.define(["http", "tabList"], function (e) {
-    var store = layui.store,
-        utils = layui.utils;
+    var store = layui.store;
 
     var urls = layui.urls,
         http = layui.http,
@@ -9,33 +8,6 @@ layui.define(["http", "tabList"], function (e) {
     var $ = layui.$,
         form = layui.form,
         table = layui.table;
-
-    var grade = utils.grade,
-        action = utils.locaStr("action");
-    var result = utils.differ(grade[action]);
-
-    var cols = [
-        { title: '站点名', templet: function (item) { return item.fields.stationName; } },
-        { title: '站点类型', templet: function (item) { return item.fields.Type; } },
-        { title: '所属类型:', templet: function (item) { return item.fields.ofType; } },
-        { title: '所在区域', templet: function (item) { return item.fields.ofArea; } },
-        { title: '站名代码', templet: function (item) { return item.fields.stationNumCode; } },
-        { title: '经度', templet: function (item) { return item.fields.Lon; } },
-        { title: '纬度', templet: function (item) { return item.fields.Lat; } },
-        { title: 'IP地址', templet: function (item) { return item.fields.ip; } },
-        { title: '应到文件', templet: function (item) { return item.fields.handleTime; } },
-        { title: '延时时间', templet: function (item) { return item.fields.delayTime; } },
-    ];
-    if (result) {
-        cols.push({
-            fixed: 'right',
-            align: "center",
-            title: '操作',
-            minWidth: 150,
-            toolbar: '#toolbar'
-        });
-        $("[name=ctrBtn]").show();
-    }
 
     var tableIns, ofType = 0, ofArea = 0, page = 1;
 
@@ -46,7 +18,19 @@ layui.define(["http", "tabList"], function (e) {
                 ofType: ofType,
                 ofArea: ofArea
             },
-            cols: [cols],
+            cols: [[
+                { title: '站点名', templet: function (item) { return item.fields.stationName; } },
+                { title: '站点类型', templet: function (item) { return item.fields.Type; } },
+                { title: '所属类型:', templet: function (item) { return item.fields.ofType; } },
+                { title: '所在区域', templet: function (item) { return item.fields.ofArea; } },
+                { title: '站名代码', templet: function (item) { return item.fields.stationNumCode; } },
+                { title: '经度', templet: function (item) { return item.fields.Lon; } },
+                { title: '纬度', templet: function (item) { return item.fields.Lat; } },
+                { title: 'IP地址', templet: function (item) { return item.fields.ip; } },
+                { title: '应到文件', templet: function (item) { return item.fields.handleTime + '(个)'; } },
+                { title: '延时时间', templet: function (item) { return item.fields.delayTime + '(分钟)'; } },
+                { fixed: 'right', align: "center", title: '操作', minWidth: 150, toolbar: '#toolbar' }
+            ]],
             page: true,
             done: function (data, curr) { page = curr; }
         });

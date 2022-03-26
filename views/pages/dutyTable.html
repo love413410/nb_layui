@@ -11,63 +11,33 @@
 </head>
 
 <body>
-    <!-- <div class="layui-form print">
-        <div class="layui-item">
-            <div class="layui-inline readonly">
-                <select name="time" id="time"></select>
-            </div>
-            <div class="layui-inline readonly">
-                <button class="layui-btn layui-btn-sm layui-btn-normal readonly" lay-submit lay-filter="lookup"
-                    id="lookup">查询</button>
-            </div>
-            <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm" id="print">打印</button>
-            </div>
-            <div class="layui-inline" id="saveBtn">
-                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn">保存</button>
-            </div>
-        </div>
-    </div> -->
-
     <div class="layui-form print">
         <div class="layui-item">
             <div class="layui-inline line">
                 <div class="layui-inline">
-                    <select name="id" id="site"></select>
+                    <select name="id" id="site" lay-filter="selectFilter"></select>
                 </div>
-                <div class="layui-inline">
-                    <select name="type">
-                        <option value="minute" selected>分钟数据</option>
-                        <option value="hour">小时数据</option>
+                <!-- <div class="layui-inline">
+                    <select name="type" id="type">
+                        <option value="minute">分钟数据</option>
+                        <option value="hour" selected>小时数据</option>
                     </select>
-                </div>
-                <div class="layui-inline">
-                    <button lay-submit lay-filter="lineBtn" class="layui-btn layui-btn-sm layui-btn-normal">查询</button>
-                </div>
+                </div> -->
             </div>
 
             <div class="layui-inline">
-                <div class="layui-inline readonly">
-                    <select name="time" id="time"></select>
-                </div>
-                <div class="layui-inline readonly">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal readonly" lay-submit
-                        lay-filter="lookup">查询</button>
+                <div class="layui-inline">
+                    <select name="time" id="time" lay-submit lay-filter="timeSelect"></select>
                 </div>
                 <div class="layui-inline">
                     <button class="layui-btn layui-btn-sm" id="print">打印</button>
-                </div>
-                <div class="layui-inline" id="saveBtn">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn">保存</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-
     <div class="charts" id="charts">
-        <div class="charts_box">
+        <div class="charts_box" id="chartsBox">
             <div class="line" id="wl"></div>
             <div class="line" id="ws"></div>
             <div class="line" id="at"></div>
@@ -82,18 +52,15 @@
         </div>
     </div>
 
-    <div class="print_contents">
-        <div id="printContents">
-            <div class="layui-fluid table_box" id="table"></div>
-            <p style="page-break-before: always;"></p>
-            <div class="layui-fluid duty_box" id="duty"></div>
-        </div>
+    <div class="layui-fluid table_box">
+        <div id="tableBox"></div>
     </div>
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
 <script src="../../assets/lib/jquery.js"></script>
 <script src="../../assets//lib/print/jQuery.print.js"></script>
 <script src="../../assets/lib/echarts.js"></script>
+<script src="../../assets/lib/xmselect.js"></script>
 <script>
     layui.config({
         base: "../../assets/"

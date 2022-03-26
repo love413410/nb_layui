@@ -5,7 +5,7 @@ body {
   height: 100%;
   padding-top: 40px;
   box-sizing: border-box;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .print {
   width: 100%;
@@ -21,24 +21,15 @@ body {
   margin-bottom: 0px;
 }
 .print .line {
-  width: 300px;
+  width: 285px;
 }
 
-.print .readonly,
-#saveBtn {
-  display: none;
-}
 .print .layui-input {
   width: 120px;
   height: 30px;
 }
-.tableHead {
-  width: 100%;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-}
 
+/* 左侧图表 */
 .charts {
   width: 300px;
   overflow: hidden;
@@ -56,192 +47,113 @@ body {
   height: 200px;
   margin-top: 20px;
 }
-.print_contents {
+/* 表1 */
+.table_box {
   width: 100%;
-  height: 100%;
   padding-left: 300px;
   box-sizing: border-box;
-  overflow: auto;
+  overflow: hidden;
+}
+.table_head {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  padding: 20px 0 30px 0px;
 }
 /* 日期 */
-.table_box .tableDate {
+.table_date {
   height: 32px;
   line-height: 32px;
   margin-bottom: 0;
 }
-.table_box .tableDate .layui-inline {
+.table_date .layui-inline {
   width: 100%;
   text-align: right;
   margin: 0;
 }
-.table_box .tableDate .layui-input-inline {
+.table_date .layui-input-inline {
   width: auto;
   float: none;
   margin: 0;
 }
-.table_box .tableDate .dateInput {
-  width: 48px;
-}
-.table_box .tableDate .dateInputs {
+.table_date .date_input {
   width: 30px;
 }
-.table_box .tableDate .layui-input {
+.table_date .layui-input {
   height: 32px;
   line-height: 32px;
   border: none;
 }
 /* 内容 */
-.table_box .table .tableOne {
-  flex: 0 0 120px;
-  width: 120px;
-  display: flex;
-}
-.table_box .table .tableOne > div {
-  flex: 1;
-  border-right: 1px solid #000;
-  box-sizing: border-box;
-}
-.table_box .table .tableOne > div:last-child {
-  border-right: none;
-}
-/* 表头 */
-.table_box .table {
-  width: 100%;
-  height: 100%;
-  border: 1px solid #000;
+.table_content {
   border-right: none;
   border-bottom: none;
   margin: 5px 0;
+  overflow: hidden;
 }
-.table_box .tableTitle {
-  width: 100%;
-  height: 41px;
-  border-bottom: 1px solid #000;
+.table_content_inside {
+  min-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #000;
+  border-right: none;
   box-sizing: border-box;
-  display: flex;
 }
-.table_box .tableTitle div {
-  flex: 1;
+
+/* 表一 */
+.table .thead tr,
+.table .tbody tr {
+  border-bottom: 1px solid #000;
+}
+.table .tbody tr:last-child {
+  border-bottom: none;
+}
+.table .thead td {
+  min-width: 60px;
   height: 40px;
   line-height: 40px;
   text-align: center;
   border-right: 1px solid #000;
-  box-sizing: border-box;
 }
-/* 内容 */
-.table_box .tableList {
-  height: 42px;
-  border-bottom: 1px solid #000;
-  box-sizing: border-box;
-  display: flex;
-}
-.table_box .tableList > div {
-  flex: 1;
+/* .table .thead th {
+  min-width: 60px;
   height: 40px;
   line-height: 40px;
   text-align: center;
   border-right: 1px solid #000;
-  box-sizing: border-box;
-}
-.table_box .tableList .oneItem {
-  display: flex;
-  flex-direction: column;
-}
-.table_box .oneItem p {
-  line-height: 20px;
-}
-.table_box .oneItem p:first-child {
-  border-bottom: 1px solid #000;
-  box-sizing: border-box;
-}
-.table_box .tableList .tableItem {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.table_box .tableList .tableItem div {
-  line-height: 20px;
-  border-bottom: 1px solid #000;
-  box-sizing: border-box;
-  display: flex;
-}
-.table_box .tableItem p {
-  flex: 1;
-  border-right: 1px solid #000;
-}
-.table_box .tableItem p:last-child {
-  border-right: none;
-}
-.table_box .tableItem .layui-input {
+} */
+.table .tbody td {
+  min-width: 60px;
   height: 20px;
   line-height: 20px;
-  border: none;
-  padding-left: 2px;
   text-align: center;
-}
-/* 复选框样式 */
-.table_box .tableCheckbox {
-  height: 21px;
-  line-height: 20px;
-}
-.table_box .tableList .tableTwo {
-  height: 21px;
-  line-height: 20px;
-  border-right: 1px solid #000;
-  box-sizing: border-box;
-}
-.table_box .tableList .tableTwo p {
-  flex: 1;
-  text-align: center;
-}
-.table_box .tableList .checkbox {
-  flex: 0 0 120px;
-  height: 21px;
-  line-height: 20px;
-  text-align: left;
-  display: flex;
-  border-right: none;
-}
-.table_box .tableList .checkbox p {
-  margin-left: 10px;
-}
-.table_box .tableList .checkbox input,
-.table_box .tableList .checkbox label {
-  vertical-align: middle;
-}
-.table_box .tableCheckbox .stateInput {
-  height: 20px;
-  line-height: 20px;
-  display: flex;
+  font-size: 14px;
   border-right: 1px solid #000;
 }
-.table_box .tableCheckbox .layui-input {
-  height: 20px;
-  line-height: 20px;
-  border: none;
-}
-.table_box .tableFoot {
+
+/* 签名和概述 */
+.table .table_foot {
   display: flex;
   height: 120px;
   border-right: 1px solid #000;
   border-bottom: 1px solid #000;
 }
-
-.table_box .tableFoot div {
+.table .table_foot div {
   flex: 1;
 }
-.table_box .tableFoot .tableThree {
-  flex: 0 0 120px;
+.table .table_foot .table_three {
+  flex: 0 0 122px;
   height: 120px;
   line-height: 120px;
   text-align: center;
+  border-left: 1px solid #000;
   border-right: 1px solid #000;
   box-sizing: border-box;
 }
-.table_box .tableFoot .textarea {
+.table .table_foot .textarea {
   padding: 6px 10px;
 }
-.table_box .tableFoot .textarea textarea {
+.table .table_foot .textarea textarea {
   width: 100%;
   height: 100%;
   line-height: 20px;
@@ -249,110 +161,83 @@ body {
   border: none;
   resize: none;
 }
-.table_box .tableList .time {
-  flex: 3;
+/* 签名 */
+.table_sign {
+  height: 42px;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+  box-sizing: border-box;
+  display: flex;
 }
-.table_box .tableList .text {
-  flex: 4;
-}
-.table_box .tableList .text img {
-  height: 40px;
-}
-
-/* 表二样式 */
-.duty_box {
-  margin: 20px 0;
-}
-.duty_box .tableHead {
-  width: 100%;
+.table_sign > div {
+  flex: 1;
   height: 40px;
   line-height: 40px;
   text-align: center;
+  border-right: 1px solid #000;
+  box-sizing: border-box;
 }
-
-.duty_box .table {
-  border: #000;
-  width: 100%;
-  table-layout: fixed;
+.sign_text {
+  flex: 0 0 60px;
+  width: 60px;
 }
-
-.duty_box thead,
-.duty_box tbody,
-.duty_box tfoot {
-  text-align: center;
+.table_sign .sign_time {
+  flex: 3;
 }
+.table_sign .sign_img {
+  flex: 4;
+}
+.table_sign .sign_img img {
+  height: 40px;
+}
+/* 表一结束 */
 
-.duty_box .table * {
+/* 表二 */
+.duty * {
   outline: none;
-  word-break: keep-all;
-  overflow: hidden;
-  white-space: nowrap;
 }
-
-.duty_box thead th {
+.duty .thead tr,
+.duty .tbody tr {
+  border-bottom: 1px solid #000;
+}
+/* .duty .thead th {
+  min-width: 60px;
   height: 20px;
   line-height: 20px;
+  text-align: center;
+  border-right: 1px solid #000;
+} */
+.duty .thead td {
+  min-width: 60px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-right: 1px solid #000;
 }
-
-.duty_box tbody td {
+.duty .tbody td {
+  min-width: 60px;
   height: 30px;
   line-height: 30px;
+  text-align: center;
+  font-size: 14px;
+  border-right: 1px solid #000;
 }
-
-.duty_box tfoot td {
-  text-align: left;
-}
-
-.duty_box .tabType {
+.duty .dutyType {
   height: 100%;
   text-align: left;
   padding-left: 10px;
   box-sizing: border-box;
 }
-
-.duty_box .tabType .layui-input {
-  text-align: left;
-  padding-left: 10px;
-  box-sizing: border-box;
-}
-
-.duty_box .checkbox {
-  height: 30px;
-  line-height: 30px;
-  text-align: left;
-  display: flex;
-  border-right: none;
-}
-
-.duty_box .checkbox p {
-  margin-left: 10px;
-}
-
-.duty_box .checkbox input,
-.duty_box .checkbox label {
-  vertical-align: middle;
-}
-
-.duty_box .stateInput {
-  height: 30px;
-  line-height: 30px;
-  display: flex;
-}
-
-.duty_box .stateInput .layui-input {
-  text-align: left;
-}
-
-.duty_box .stateInput p {
-  width: 100%;
-  text-align: left;
-}
-
-.duty_box tfoot td {
+.duty tfoot td {
   text-align: center;
+  min-width: 60px;
+  border-right: 1px solid #000;
 }
-
-.duty_box tfoot .layui-textarea {
+.duty tfoot .layui-textarea {
   height: 120px;
   resize: none;
+  border: none;
+  word-break: keep-all;
+  overflow: hidden;
+  white-space: nowrap;
 }

@@ -13,7 +13,8 @@ layui.define(['http'], function (e) {
                 $("#sign").attr("src", data.imgSrc);
                 form.val('changeForm', {
                     "userName": data.userName,
-                    "Name": data.Name
+                    "Name": data.Name,
+                    "mobile": data.mobile,
                 });
             }
         });
@@ -62,7 +63,7 @@ layui.define(['http'], function (e) {
         btnClick = false;
         setTimeout(function () {
             btnClick = true;
-        }, 5000);
+        }, 5*1000);
         !isUpload ? changeFn() : $("#uploadBtn").click();
         return false;
     });

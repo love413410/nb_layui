@@ -12,56 +12,49 @@
     <form class="layui-form">
         <div class="layui-form-item">
             <label class="layui-form-label">名称:</label>
-            <div class="layui-input-block">
-                <input type="text" name="deviceName" required lay-verify="deviceName" autocomplete="off"
-                    placeholder="请输入备品备件名称" class="layui-input" />
-            </div>
+            <div class="layui-input-block" id="instrumentName"></div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态:</label>
+            <div class="layui-input-block" id="state"></div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">采购日期:</label>
             <div class="layui-input-block">
-                <input type="text" id="stockTime" name="stockTime" lay-verify="stockTime" readonly placeholder="请选择采购日期"
+                <input id="stockTime" name="stockTime" readonly autocomplete="off" placeholder="请选择采购日期"
                     class="layui-input" />
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">类型:</label>
-            <div class="layui-input-block layui_select">
-                <select name="Type">
-                    <option value="一般">一般</option>
-                    <option value="关键">关键</option>
-                </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">供应商:</label>
             <div class="layui-input-block">
-                <input type="text" name="supplier" required lay-verify="supplier" autocomplete="off"
-                    placeholder="请输入备品备件供应商" class="layui-input" />
+                <input type="text" name="supplier" autocomplete="off" placeholder="请输入备品备件供应商" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">型号:</label>
             <div class="layui-input-block">
-                <input type="text" name="pattern" required lay-verify="pattern" autocomplete="off"
-                    placeholder="请输入备品备件型号" class="layui-input" />
-            </div>
-        </div>
-        <div class="layui-form-item lay_unit">
-            <label class="layui-form-label">数量:</label>
-            <div class="layui-input-block">
-                <input type="text" name="totalNum" required lay-verify="totalNum" autocomplete="off"
-                    placeholder="请输入备品备件数量" class="layui-input" />
-                <p>个</p>
+                <input type="text" name="Type" autocomplete="off" placeholder="请输入备品备件型号" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">存放位置:</label>
+            <label class="layui-form-label">编号:</label>
             <div class="layui-input-block">
-                <textarea name="savePath" placeholder="请输入存放位置" class="layui-textarea"></textarea>
+                <input type="text" name="serialNumber" autocomplete="off" placeholder="请输入备品备件型号" class="layui-input" />
             </div>
         </div>
 
+        <div class="layui-form-item">
+            <label class="layui-form-label">存放位置:</label>
+            <div class="layui-input-block" id="savePath"></div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" autocomplete="off" placeholder="请输入备注" class="layui-textarea"></textarea>
+            </div>
+        </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button lay-submit lay-filter="subbtn" class="layui-btn layui-btn-normal">
@@ -72,6 +65,7 @@
     </form>
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
+<script src="../../assets/lib/xmselect.js"></script>
 <script>
     layui.config({
         base: "../../assets/"

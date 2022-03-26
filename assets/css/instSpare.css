@@ -29,3 +29,24 @@ body {
 .layui_retr .retr_select {
   width: 150px;
 }
+
+/* 出库 */
+.instSpareOut {
+  width: 580px;
+  padding: 28px 15px;
+  box-sizing: border-box;
+  display: none;
+}
+#out {
+  overflow: visible;
+}
+.instSpareOut .layui-form-item:last-child {
+  margin-bottom: 0;
+}
+.instSpareOut .layui-input-inline {
+  margin: 0 !important;
+  width: 220px;
+}
+.instSpareOut .layui-form-item .site {
+  float: right;
+}

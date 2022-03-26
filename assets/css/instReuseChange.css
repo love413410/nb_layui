@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  cursor: default;
+}
+body {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.layui-form-item {
+  margin-bottom: 12px;
+}
+.layui-form-item:last-child {
+  margin-bottom: 0;
+}
+.layui_select .layui-input-inline {
+  margin: 0 !important;
+  width: 270px;
+}
+.layui_select .site {
+  float: right;
+}
+.layui-form .layui-form-item .layui-textarea {
+  min-height: 80px;
+  resize: none;
+  overflow: auto;
+}

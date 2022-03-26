@@ -1,77 +1,52 @@
-layui.define(["http", "utils"], function (e) {
-    var utils = layui.utils;
-
+layui.define(["http"], function (e) {
     var http = layui.http,
         urls = layui.urls;
 
     var form = layui.form;
 
-
-    var grade = utils.grade,
-        action = utils.locaStr("action");
-    var result = utils.differ(grade[action]);
-
-    if (result) {
-        $("#saveBtn").css("display", "inline-block");
-    } else {
-        $(".readonly").css("display", "inline-block");
-    };
+    var date = '', time = '';
     function getTime() {
         http({
             url: urls.getRecord,
-            data: {
-                type: "content1"
-            },
             success: function (res) {
-                // var data = res.data, option = '<option value="">默认</option>';
+                console.log(res)
                 var data = res.data, option = '';
                 for (var i = 0; i < data.length; i++) {
                     option += '<option value="' + data[i] + '">' + data[i] + '</option>';
                 };
                 $("#time").html(option);
+                date = time = data[0];
                 form.render();
+                getDataFn();
             }
         });
     };
     getTime();
 
-    var time = '';//表1
+    // 查询
+    form.on('select(timeSelect)', function (data) {
+        time = data.value;
+        getDataFn();
+    });
+
     function getDataFn() {
         http({
             url: urls.record,
             data: {
-                type: 'content1',
                 time: time
             },
             success: function (res) {
                 var data = res.data;
-                $("#printContents").html(data);
+                $("#tableBox").html(data);
+                var insideWidth = $("#inside").width();
+                $("#table").css('minWidth', insideWidth + 'px');
+
+                var dutyWidth = $("#dutyInside").width();
+                $("#duty").css('minWidth', dutyWidth + 'px');
+                indexList();
             }
         });
     };
-    getDataFn();
-
-    // 查询
-    form.on('submit(lookup)', function (data) {
-        time = data.field.time;
-        getDataFn();
-    });
-
-    // 保存
-    form.on('submit(saveBtn)', function (data) {
-        var content = $("#printContents").formhtml();
-        http({
-            url: urls.record,
-            type: 'post',
-            data: {
-                type: 'content1',
-                content: content
-            },
-            success: function (res) {
-                layer.msg(res.msg);
-            }
-        });
-    });
 
     // 打印
     var baseUrl = urls.baseFileUrl;
@@ -86,15 +61,35 @@ layui.define(["http", "utils"], function (e) {
             console.warn(err)
         }
         $("#print").on('click', function () {
-            $("#printContents").print({
+            $("#tableBox").print({
                 stylesheet: [layuiCss, dutyTable],
                 deferred: $.Deferred().done(function () { console.log('Printing done', arguments); })
             });
         });
     });
 
+    // 左侧
+    var elementList = [
+        { id: "wl", charts: null, title: "潮位" },
+        { id: "at", charts: null, title: "气温" },
+        { id: "bp", charts: null, title: "气压" },
+        { id: "hu", charts: null, title: "湿度" },
+        { id: "ws", charts: null, title: "风" },
+        { id: "vb", charts: null, title: "能见度" },
+        { id: "sl", charts: null, title: "盐度" },
+        { id: "wt", charts: null, title: "水温" },
+        { id: "rn", charts: null, title: "降水" }
+    ];
 
-    var siteId = '', type = 'minute';
+    var str = '';
+    for (var i = 0; i < elementList.length; i++) {
+        var dataItem = elementList[i];
+        var id = dataItem.id;
+        str += '<div class="line" id="' + id + '"></div>';
+    };
+    $("#chartsBox").html(str);
+
+    var siteId = '';
     function indexList() {
         http({
             url: urls.indexList,
@@ -111,53 +106,42 @@ layui.define(["http", "utils"], function (e) {
             }
         });
     };
-    indexList();
 
-    form.on('submit(lineBtn)', function (data) {
-        siteId = data.field.id;
-        type = data.field.type
+    form.on('select(selectFilter)', function (data) {
+        siteId = data.value;
         getLineFn();
     });
 
-    var title = {
-        wl: "潮位",
-        at: "气温",
-        bp: "气压",
-        hu: "湿度",
-        ws: "风",
-        vb: "能见度",
-        sl: "盐度",
-        wt: "水温",
-        rn: "降水",
-    };
-    var charts = {}, list = ['wl', 'at', 'bp', 'hu', 'ws', 'vb', 'sl', 'wt', 'rn'];
-
-    function repeat() {
-        $("#charts .line").each(function () {
-            var id = $(this).attr("id");
-            charts[id] = echarts.init(document.getElementById(id));
-        });
-    };
-    repeat();
-
     function getLineFn() {
+        var content = '';
+        if (time == date) {
+            content = $("#tableBox").html();
+        };
         http({
             url: urls.dutyCurve,
+            type: "post",
             data: {
                 id: siteId,
-                type: type
+                content: content
             },
             success: function (res) {
                 var data = res.data, time = res.time, unit = res.unit;
-                for (var i = 0; i < list.length; i++) {
-                    var el = list[i];
-                    var option = initLineFn(title[el], data[el], time, unit[el]);
-                    charts[el].setOption(option);
+                for (var i = 0; i < elementList.length; i++) {
+                    var dataItem = elementList[i];
+                    var id = dataItem.id;
+                    dataItem.charts = echarts.init(document.getElementById(id)).dispose();;
+                    dataItem.charts = echarts.init(document.getElementById(id));
+                    var option = initLineFn(dataItem.title, data[id], time, unit[id]);
+                    dataItem.charts.setOption(option);
                 };
+                var html = res.content;
+                $("#tableBox").html(html);
             },
             error: function () {
-                for (var item in charts) {
-                    charts[item].dispose();
+                $("#tableBox").empty();
+                for (var i = 0; i < elementList.length; i++) {
+                    var dataItem = elementList[i];
+                    dataItem.charts = echarts.init(document.getElementById(id)).dispose();;
                 }
             }
         });
@@ -179,18 +163,19 @@ layui.define(["http", "utils"], function (e) {
                 trigger: "axis",
                 formatter: function (item) {
                     var item = item[0];
-                    var html = item.marker + "<span>" + item.name + "</span>" + "<p>" + title + "</p>";
+                    var html = item.marker + "<span>" + item.name + "</span>" + "<p>" + item.value + "</p>";
                     return html;
                 }
             },
-            xAxis: [{
-                type: 'category',
-                data: time,
+            xAxis: {
+                boundaryGap: false,
                 axisLine: {
-                    onZero: false,
-                    lineStyle: {
-                        color: "#227BA6"
-                    }
+                    show: true,
+                    onZero: false
+                },
+                axisTick: {
+                    show: true,
+                    alignWithLabel: true
                 },
                 axisLabel: {
                     interval: "auto",
@@ -203,63 +188,100 @@ layui.define(["http", "utils"], function (e) {
                     margin: 15,
                     rotate: 45
                 },
-                splitLine: {
-                    show: true,
-                    lineStyle: {
-                        color: '#227BA6'
-                    },
-                },
-                axisPointer: {
-                    label: {
-                        padding: [0, 0, 10, 0],
-                        margin: 15,
-                        fontSize: 12
-                    }
-                },
-                boundaryGap: false
-            }],
-            yAxis: [{
-                // name: unit,
+                data: time
+            },
+            yAxis: {
                 nameTextStyle: {
                     fontSize: 16
                 },
-                type: 'value',
-                // min: min,
-                // max: max,
-                axisTick: {
-                    show: false
-                },
                 axisLine: {
-                    show: true,
-                    lineStyle: {
-                        color: "#227BA6"
-                    }
+                    show: true
                 },
-                axisLabel: {
-                    textStyle: {
-                        color: "#227BA6"
-                    }
-                },
-                splitLine: {
-                    lineStyle: {
-                        color: '#227BA6'
-                    },
+                axisTick: {
+                    show: true
                 }
-            }],
+            },
             series: [{
                 type: 'line',
+                smooth: true,
                 data: data,
                 symbolSize: 1,
                 symbol: 'circle',
-                smooth: true,
-                yAxisIndex: 0,
-                showSymbol: false,
-                lineStyle: {
-                    normal: {
-                        color: "#07a6ff"
-                    }
-                }
             }]
+            // xAxis: [{
+            //     type: 'category',
+            //     data: time,
+            //     axisLine: {
+            //         onZero: false,
+            //         lineStyle: {
+            //             color: "#227BA6"
+            //         }
+            //     },
+            //     axisLabel: {
+            //         interval: "auto",
+            //         showMinLabel: 1,
+            //         showMaxLabel: 1,
+            //         textStyle: {
+            //             color: "#227BA6"
+            //         },
+            //         fontSize: 12,
+            //         margin: 15,
+            //         rotate: 45
+            //     },
+            //     splitLine: {
+            //         show: true,
+            //         lineStyle: {
+            //             color: '#227BA6'
+            //         },
+            //     },
+            //     axisPointer: {
+            //         label: {
+            //             padding: [0, 0, 10, 0],
+            //             margin: 15,
+            //             fontSize: 12
+            //         }
+            //     },
+            //     boundaryGap: false
+            // }],
+            // yAxis: [{
+            //     nameTextStyle: {
+            //         fontSize: 16
+            //     },
+            //     type: 'value',
+            //     axisTick: {
+            //         show: false
+            //     },
+            //     axisLine: {
+            //         show: true,
+            //         lineStyle: {
+            //             color: "#227BA6"
+            //         }
+            //     },
+            //     axisLabel: {
+            //         textStyle: {
+            //             color: "#227BA6"
+            //         }
+            //     },
+            //     splitLine: {
+            //         lineStyle: {
+            //             color: '#227BA6'
+            //         },
+            //     }
+            // }],
+            // series: [{
+            //     type: 'line',
+            //     data: data,
+            //     symbolSize: 1,
+            //     symbol: 'circle',
+            //     smooth: true,
+            //     yAxisIndex: 0,
+            //     showSymbol: false,
+            //     lineStyle: {
+            //         normal: {
+            //             color: "#07a6ff"
+            //         }
+            //     }
+            // }]
         };
         return option;
     };

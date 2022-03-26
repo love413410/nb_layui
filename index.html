@@ -27,16 +27,24 @@
                 <img src="./images/user.svg" alt="user.svg">
             </label>
             <div class="layui-input-inline">
-                <input type="text" name="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                <input type="text" name="userName" autocomplete="off" disabled placeholder="请输入用户名" class="layui-input">
             </div>
         </div>
 
-        <div class="layui-form-item loginInput marInput">
+        <div class="layui-form-item loginInput ">
             <label class="layui-form-label">
                 <img src="./images/password.svg" alt="password.svg">
             </label>
             <div class="layui-input-inline">
-                <input type="password" name="passWord" autocomplete="off" placeholder="请输入密码" class="layui-input">
+                <input type="password" name="passWord" autocomplete="off" disabled placeholder="请输入密码"
+                    class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item marInput">
+            <div class="layui-input-block">
+                <input type="radio" name="isSign" value="1" title="今日值班人员" lay-submit lay-filter="isSign">
+                <input type="radio" name="isSign" value="0" title="非今日值班人员" lay-submit lay-filter="isSign">
             </div>
         </div>
 

@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  cursor: default;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* 页面检索框样式 */
+.layui_retr {
+  height: 40px;
+}
+.layui_retr .layui-form-item {
+  margin-bottom: 0;
+}
+.layui_retr .layui-inline {
+  margin: 0;
+}
+.layui_retr .retr_select {
+  width: 150px;
+}
+/* 图表 */
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .sub_line {
+  flex: 1;
+  height: 300px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.alone {
+  width: 100%;
+  height: 300px;
+}

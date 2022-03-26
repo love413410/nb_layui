@@ -22,7 +22,7 @@ layui.define(["http"], function (e) {
         function parent(data, idx) {
             var icon = data.meta.icon;
             var str = '<li class="layui-nav-item">' +
-                '<a name="laynav" lay-idx="' + idx + '" id="' + data.id + '" lay-id="' + data.id + '" lay-url="' + data.name + '" action="' + data.action + '">' +
+                '<a name="laynav" lay-idx="' + idx + '" id="' + data.id + '" lay-id="' + data.id + '" lay-url="' + data.name + '">' +
                 '<i class="layui-icon ' + icon + ' layui_icon"></i>  ' +
                 '<cite>' + data.title + '</cite>' +
                 '</a>' +
@@ -34,7 +34,7 @@ layui.define(["http"], function (e) {
             for (var i = 0; i < children.length; i++) {
                 var childrenItem = children[i];
                 childrenStr += '<dd>' +
-                    '<a name="laynav" lay-idx="' + idx + '" id="' + childrenItem.id + '" lay-id="' + childrenItem.id + '" lay-url="' + childrenItem.name + '" action="' + childrenItem.action + '">' +
+                    '<a name="laynav" lay-idx="' + idx + '" id="' + childrenItem.id + '" lay-id="' + childrenItem.id + '" lay-url="' + childrenItem.name + '">' +
                     '<cite>' + childrenItem.title + '</cite>' +
                     '</a>' +
                     '</dd>';
@@ -71,21 +71,19 @@ layui.define(["http"], function (e) {
         var idx = $(this).attr("lay-idx");
         var id = $(this).attr("lay-id");
         var url = $(this).attr("lay-url");
-        var action = $(this).attr("action");
 
-        // var index = tabsList.indexOf(url);
         var index = tabAddList.indexOf(id);
         if (index < 0) {
-            // tabsList.push(url);
             tabAddList.push(id);
-            elementAdd(title, id, url, idx, action);
+            elementAdd(title, id, url, idx);
         };
         element.tabChange(tabFilter, id);
     });
 
     // 添加tabs
-    function elementAdd(title, id, url, idx, action) {
-        var src = store.filterUrl(url) + "?action=" + action;
+    function elementAdd(title, id, url, idx) {
+        // var src = store.filterUrl(url) + "?action=" + action;
+        var src = store.filterUrl(url);
         var content = '<iframe src="' + src + '" frameborder="0" class="iframe"></iframe>';
         element.tabAdd(tabFilter, {
             title: title,
@@ -142,7 +140,7 @@ layui.define(["http"], function (e) {
                     shade: 0.8,
                     resize: !1,
                     skin: "layui_layer",
-                    area: ['400px', '400px'],
+                    area: ['680px', '460px'],
                     content: url
                 });
             });
@@ -162,7 +160,7 @@ layui.define(["http"], function (e) {
             clickMethod[data.id]();
         }
     });
-    
+
     // 全部的
     dropdown.render({
         elem: "#tabs",

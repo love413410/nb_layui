@@ -20,36 +20,36 @@ layui.define(["http"], function (e) {
     var userName = layui.sessionData('userName').key;
     $("#users").html(userName);
 
-    function isSign() {
-        http({
-            url: urls.personnelSign,
-            type: "post",
-            success: function (res) {
-                if (res.code == 200) {
-                    $("#singTips").show();
-                    $("#isSign").show();
-                }
-            },
-            complete: function () {
-                setTimeout(isSign, 1800000);
-            }
-        });
-    };
-    isSign();
+    // function isSign() {
+    //     http({
+    //         url: urls.personnelSign,
+    //         type: "post",
+    //         success: function (res) {
+    //             if (res.code == 200) {
+    //                 $("#singTips").show();
+    //                 $("#isSign").show();
+    //             }
+    //         },
+    //         complete: function () {
+    //             setTimeout(isSign, 1800000);
+    //         }
+    //     });
+    // };
+    // isSign();
     // 值班签到
-    $("#menuBtn").click(function () {
-        http({
-            url: urls.personnelSign,
-            success: function (res) {
-                layer.msg(res.msg, {
-                    time: 1500
-                }, function () {
-                    $("#singTips").hide();
-                    $("#isSign").hide();
-                });
-            }
-        });
-    });
+    // $("#menuBtn").click(function () {
+    //     http({
+    //         url: urls.personnelSign,
+    //         success: function (res) {
+    //             layer.msg(res.msg, {
+    //                 time: 1500
+    //             }, function () {
+    //                 $("#singTips").hide();
+    //                 $("#isSign").hide();
+    //             });
+    //         }
+    //     });
+    // });
 
     var audio = document.getElementById("audio"),
         play = 0, isPlay;
@@ -68,102 +68,60 @@ layui.define(["http"], function (e) {
         play && isPlay == 'false' ? audio.play() : audio.pause();
     };
 
-    // function getRightSelect() {
-    //     http({
-    //         url: urls.siteType,
-    //         success: function (res) {
-    //             var data = res.data;
-    //             var option = '';
-    //             for (var i = 0; i < data.length; i++) {
-    //                 option += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
-    //             };
-    //             $("#siteType").html(option);
-    //             form.render("select", "layInputBox");
-    //             if (data.length > 0) {
-    //                 dayval = data[0].pk;
-    //                 getToDayDataFn();
-    //             };
-    //         }
-    //     });
-    // };
-    // getRightSelect();
-
-    // // 右侧今日传输量
-    // var dayTime, dayval;
-    // function getToDayDataFn() {
-    //     clearTimeout(dayTime);
-    //     http({
-    //         url: urls.indexReceive,
-    //         data: { type: dayval },
-    //         success: function (res) {
-    //             var data = res.data;
-    //             $("#file").html(data.file);
-    //             $("#fileUnit").html(data.fileUnit);
-    //             $("#data").html(data.data);
-    //             $("#dataUnit").html(data.dataUnit);
-    //         },
-    //         complete: function () {
-    //             dayTime = setTimeout(function () {
-    //                 getToDayDataFn();
-    //             }, 60000);
-    //         }
-    //     });
-    // };
-    // form.on('select(siteType)', function (data) {
-    //     dayval = data.value;
-    //     getToDayDataFn();
-    // });
-
+    // 右侧要素值
+    var el = '';
+    function getElementFn() {
+        http({
+            url: urls.siteEl,
+            data: { type: 1 },//固定写死,1为站点
+            async: false,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i].fields;
+                    if (i == 0) {
+                        el = dataItem.el;
+                        str += '<div class="layui-inline active" lay-id=' + dataItem.el + '>' + dataItem.Name + '</div>';
+                    } else {
+                        str += '<div class="layui-inline" lay-id=' + dataItem.el + '>' + dataItem.Name + '</div>';
+                    };
+                };
+                $("#elList").html(str);
+                getRealFn()
+            }
+        });
+    };
+    getElementFn();
+    $("#elList").on("click", "div", function () {
+        $("#elList div").removeClass('active');
+        $(this).addClass('active');
+        el = $(this).attr("lay-id");
+        getRealFn();
+    });
     // 实时数据
-    var realTimer, realRollTimer;
+    var realTimer;
     function getRealFn() {
-        clearInterval(realRollTimer);
         clearTimeout(realTimer);
         $("#realRoll").empty();
         http({
             url: urls.indexData,
+            data: { el: el },
             success: function (res) {
                 $("#realRoll").empty();
                 var data = res.data, content = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
-                    // for (var i = 0; i < 99; i++) {
-                    //     var dataItem = data[0];
                     content += '<div class="list_item">' +
                         '<p class="item_deta">' + dataItem.name + '</p>' +
                         '<p class="item_time">' + dataItem.value + '</p>' +
+                        '<p class="item_deta">' + dataItem.time + '</p>' +
                         '</div>';
                 };
                 $("#realRoll").html(content);
-                // if ($("#realRoll").height() > $("#realList").height()) {
-                //     realRollTimer = setInterval(realRollFn, 30);
-                // };
             },
             complete: function () {
-                realTimer = setTimeout(getRealFn, 60000);
+                realTimer = setTimeout(getRealFn, 60 * 1000);
             }
-        });
-    };
-    getRealFn();
-
-    function realRollFn() {
-        $("#realRoll").animate({
-            marginTop: '-=1'
-        }, 0, function () {
-            var s = Math.abs(parseInt($(this).css("margin-top")));
-            if (s >= 40) {
-                $(this).find("div").slice(0, 1).appendTo($(this));
-                $(this).css("margin-top", 0);
-            }
-        });
-        $("#realList").hover(function () {
-            clearInterval(realRollTimer);
-            clearTimeout(realTimer);
-        }, function () {
-            clearInterval(realRollTimer);
-            clearTimeout(realTimer);
-            realRollTimer = setInterval(realRollFn, 30);
-            realTimer = setTimeout(getRealFn, 30000);
         });
     };
 
@@ -175,7 +133,6 @@ layui.define(["http"], function (e) {
         $("#roll").empty();
         http({
             url: urls.alarmList,
-            data: { type: siteType },
             success: function (res) {
                 $("#roll").empty();
                 var data = res.data, content = '';
@@ -201,7 +158,7 @@ layui.define(["http"], function (e) {
                 };
             },
             complete: function () {
-                faultTimer = setTimeout(getFaultFn, 60000);
+                faultTimer = setTimeout(getFaultFn, 60 * 1000);
             }
         });
     };
@@ -224,63 +181,56 @@ layui.define(["http"], function (e) {
             clearInterval(faultRollTimer);
             clearTimeout(faultTimer);
             faultRollTimer = setInterval(faultRollFn, 30);
-            faultTimer = setTimeout(getFaultFn, 30000);
+            faultTimer = setTimeout(getFaultFn, 30 * 1000);
         });
     };
 
-    // 左侧站点类型
-    var siteType = '', checkTime, xm;
-    function getsiteTypeFn() {
-        http({
-            url: urls.index,
-            success: function (res) {
-                xm = xmSelect.render({
-                    el: '#siteList',
-                    prop: {
-                        name: 'title',
-                        value: 'id'
-                    },
-                    tree: {
-                        show: true,
-                        expandedKeys: true,
-                        strict: true,
-                        showLine: false,
-                    },
-                    model: {
-                        label: {
-                            type: 'xmselect',
-                            xmselect: {
-                                template: function (data, sels) {
-                                    return "选中 " + sels.length + "项"
-                                }
-                            }
-                        }
-                    },
-                    iconfont: {
-                        parent: "hidden"
-                    },
-                    height: 'auto',
-                    data: res.data,
-                    on: function () {
-                        clearTimeout(checkTime);
-                        checkTime = setTimeout(getMapDataFn, 500);
-                    }
-                });
-                getMapDataFn();
-            }
-        });
-    };
 
-    // 获取地图数据
+    // 加入浙江地图
     var myChart;
     $.getJSON(urls.mapUrl, function (geoJson) {
         echarts.registerMap('zhejiang', geoJson);
         getsiteTypeFn();
     });
-    var mapTime = '';
+    // 左侧站点类型
+    var typeArr = [];
+    function getsiteTypeFn() {
+        http({
+            url: urls.index,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i], title = '<div class="layui-form-item checkbox_head">' + dataItem.title + '</div>', checkbox = '';
+                    for (var j = 0; j < dataItem.children.length; j++) {
+                        var checkboxItem = dataItem.children[j];
+                        if (checkboxItem.selected == true) {
+                            typeArr.push(checkboxItem.id);
+                            checkbox += '<input type="checkbox" checked lay-skin="primary" value="' + checkboxItem.id + '" title="' + checkboxItem.title + '" lay-filter="siteCheck">';
+                        } else {
+                            checkbox += '<input type="checkbox" lay-skin="primary" value="' + checkboxItem.id + '" title="' + checkboxItem.title + '" lay-filter="siteCheck">';
+                        };
+                    };
+                    str += title + '<div class="layui-form-item">' + checkbox + '</div>';
+                };
+                $("#siteCheck").html(str);
+                form.render();
+                getMapDataFn();
+            }
+        });
+    };
+    // 选择后添加
+    form.on('checkbox(siteCheck)', function (data) {
+        var value = data.value;
+        var isChck = data.elem.checked;
+        isChck ? typeArr.push(value) : typeArr.splice(typeArr.indexOf(value), 1);
+        getMapDataFn();
+    });
+
+    // 获取地图数据
+    var mapTimer = '';
     function getMapDataFn() {
-        siteType = xm.getValue('valueStr');
-        clearTimeout(mapTime);
+        var siteType = typeArr.join(',');
+        clearTimeout(mapTimer);
         http({
             url: urls.index,
             type: "post",
@@ -301,7 +251,7 @@ layui.define(["http"], function (e) {
                 initMapFn(temp, lineData);
             },
             complete: function () {
-                mapTime = setTimeout(getMapDataFn, 60000);
+                mapTimer = setTimeout(getMapDataFn, 60 * 1000);
             }
         });
     };
@@ -310,7 +260,7 @@ layui.define(["http"], function (e) {
         var option = {
             tooltip: {
                 trigger: 'item',
-                borderColor: '#FFFFCC',
+                backgroundColor: 'rgba(50,50,50,0.7)',
                 hideDelay: 0,
                 transitionDuration: 0,
                 extraCssText: 'z-index:100',
@@ -324,6 +274,8 @@ layui.define(["http"], function (e) {
             },
             geo: {
                 map: 'zhejiang',
+                center: [121.80, 29.60],
+                zoom: 3,
                 roam: true,
                 label: {
                     normal: {
@@ -418,6 +370,6 @@ layui.define(["http"], function (e) {
         var grade = layui.sessionData('grade').key;
         grade.indexOf(utils.grade.duty) > -1 ? $("#menuBtn").show() : $("#menuBtn").hide();
     };
-    isNoFn();
+    // isNoFn();
     e("map", {})
 });

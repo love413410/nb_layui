@@ -6,9 +6,7 @@ layui.define(["http"], function (e) {
     var $ = layui.$,
         form = layui.form,
         layer = layui.layer;
-
-
-
+        
     tinymce.init({
         selector: '#content',
         auto_focus: true,

@@ -5,38 +5,7 @@ layui.define(["http", "utils"], function (e) {
 
     var form = layui.form;
 
-    var staffXmList = layui.utils.staffXmList;
-
-    var id = getFn.locaStr('id');
-
-    var xm = xmSelect.render({
-        el: '#siteList',
-        tips: '请至少选择一个值班日期',
-        name: 'onDuty',
-        layVerify: 'required',
-        layReqText: '请至少选择一个值班日期!',
-        prop: {
-            name: 'name',
-            value: 'id'
-        },
-        model: {
-            label: {
-                type: 'xmselect',
-                xmselect: {
-                    template: function (data, sels) {
-                        return "选中 " + sels.length + " 项, 共 " + data.length + " 项"
-                    }
-                }
-            }
-        },
-        toolbar: {
-            show: true,
-            showIcon: false
-        },
-        filterable: true,
-        data: staffXmList
-    });
-
+    
     //获取详情
     function getDetaFn() {
         http({

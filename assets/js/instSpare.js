@@ -1,6 +1,5 @@
 layui.define(["http", "tabList"], function (e) {
-    var store = layui.store,
-        utils = layui.utils;
+    var store = layui.store;
 
     var http = layui.http,
         urls = layui.urls,
@@ -10,64 +9,70 @@ layui.define(["http", "tabList"], function (e) {
         form = layui.form,
         table = layui.table;
 
-    var grade = utils.grade,
-        action = utils.locaStr("action");
-    var result = utils.differ(grade[action]);
-
-    var cols = [
-        { title: '名称', templet: function (item) { return item.fields.deviceName; } },
-        { title: '采购时间', templet: function (item) { return item.fields.stockTime; } },
-        { title: '类型', templet: function (item) { return item.fields.Type; } },
-        { title: '供应商', templet: function (item) { return item.fields.supplier; } },
-        { title: '型号', templet: function (item) { return item.fields.pattern; } },
-        { title: '数量', templet: function (item) { return item.fields.totalNum; } },
-        { title: '存放位置', templet: function (item) { return item.fields.savePath; } }
-    ];
-    if (result) {
-        cols.push({
-            fixed: 'right',
-            align: "center",
-            title: '操作',
-            minWidth: 150,
-            toolbar: '#toolbar'
+    var retrType = "";
+    function getRetrType() {
+        http({
+            url: urls.toolType,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    str += '<option value="' + dataItem.value + '">' + dataItem.name + '</option>';
+                };
+                retrType = data.length > 0 ? data[0].value : "";
+                $("#type").html(str);
+                form.render('select');
+                getListFn();
+            }
         });
-        $("[name=ctrBtn]").show();
-    }
-
-    var tableIns, type = $("#type").val(), retrName = '', page = 1;
+    };
+    getRetrType();
+    // 选择下拉之后发起查询
+    form.on('select(retrSelect)', function (data) {
+        retrType = data.value;
+        getListFn();
+    });
+    var tableIns, page = 1;
     function getListFn() {
         tableIns = tabList.render({
-            url: urls.deviceList,
-            where: {
-                type: type,
-                name: retrName
-            },
-            cols: [cols],
+            url: urls.toolList,
+            where: { type: retrType },
+            cols: [[
+                { title: '名称', templet: function (item) { return item.fields.instrumentName; } },
+                { title: '状态', templet: function (item) { return item.fields.state; } },
+                { title: '采购日期', templet: function (item) { return item.fields.stockTime; } },
+                { title: '供应商', templet: function (item) { return item.fields.supplier; } },
+                { title: '型号', templet: function (item) { return item.fields.Type; } },
+                { title: '编号', templet: function (item) { return item.fields.serialNumber; } },
+                { title: '存放位置', templet: function (item) { return item.fields.savePath; } },
+                { title: '备注', templet: function (item) { return item.fields.remark; } },
+                { fixed: 'right', align: "center", title: '操作', minWidth: 260, toolbar: '#toolbar' }
+            ]],
             page: 1,
             done: function (data, curr) { page = curr; }
         });
     };
-    getListFn();
-
-    // 重载当前页面
+    // 重新加载
     window.ReLoadFn = function () {
         layer.closeAll(function () {
-            tableIns.reload({
-                page: { curr: page }
-            });
+            getRetrType();
         });
     };
-    // 查询按钮
-    form.on('submit(subBtn)', function (data) {
-        type = data.field.type;
-        retrName = data.field.retrName;
-        getListFn();
-    });
+
+    // 重载当前页面
+    // window.ReLoadFn = function () {
+    //     layer.closeAll(function () {
+    //         tableIns.reload({
+    //             page: { curr: page }
+    //         });
+    //     });
+    // };
+
 
     // 添加按钮
     form.on('submit(addBtn)', function () {
         var title = "添加备品备件", url = store.filterUrl("instSpareAdd");
-        layAlertFn(title, url, "680px", "520px");
+        layAlertFn(title, url, "680px", "550px");
     });
 
     function layAlertFn(title, url, width, height) {
@@ -84,30 +89,46 @@ layui.define(["http", "tabList"], function (e) {
     };
 
     var clickMethod = {
-        edit: function (id) {
-            var url = store.filterUrl("instSpareChange") + "?id=" + id + "";
-            layAlertFn("修改备品备件", url, "680px", "520px");
+        edit: function () {
+            var url = store.filterUrl("instSpareChange") + "?id=" + dataId + "";
+            layAlertFn("修改备品备件", url, "680px", "550px");
+        },
+        record: function () {
+            var url = store.filterUrl("instSpareRecord") + "?id=" + dataId + "";
+            layAlertFn("流转记录", url, "680px", "575px");
+        },
+        out: function () {
+            layer.open({
+                type: 1,
+                title: "出库",
+                resize: !1,
+                skin: "layui_layer",
+                id: "out",
+                offset: "50px",
+                content: $("#instSpareOut")
+            });
         },
         delete: deleFn
     };
 
+    var dataId;
     table.on('tool(table)', function (data) {
         var event = data.event;
-        var id = data.data.pk;
-        clickMethod[event](id);
+        dataId = data.data.pk;
+        clickMethod[event]();
     });
 
     /*@@删除*/
-    function deleFn(id) {
+    function deleFn() {
         layer.msg('此操作将永久删除该数据, 是否继续?', {
             time: 5000,
             shade: 0.5,
             btn: ['确定', '取消'],
             yes: function () {
                 http({
-                    url: urls.deviceDelete,
+                    url: urls.toolDelete,
                     type: 'post',
-                    data: { id: id },
+                    data: { id: dataId },
                     success: function (res) {
                         layer.msg(res.msg, {
                             time: 1500
@@ -122,6 +143,62 @@ layui.define(["http", "tabList"], function (e) {
             }
         });
     };
+
+
+    // 出库部分
+    var typeId;
+    function getTypeFn() {
+        http({
+            url: urls.siteType,
+            success: function (res) {
+                var data = res.data;
+                var str = '';
+                for (var i = 0; i < data.length; i++) {
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
+                };
+                $("#sitetype").html(str);
+                form.render();
+                typeId = data.length > 0 ? data[0].pk : "";
+                getSiteFn();
+            }
+        });
+    };
+    getTypeFn();
+    form.on('select(siteType)', function (data) {
+        typeId = data.value;
+        getSiteFn();
+    });
+    function getSiteFn() {
+        http({
+            url: urls.dataList,
+            data: { type: typeId },
+            success: function (res) {
+                var data = res.data;
+                var str = '';
+                for (var i = 0; i < data.length; i++) {
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.stationName + '</option>';
+                };
+                $("#site").html(str);
+                form.render();
+            }
+        });
+    };
+    form.on('submit(subbtn)', function (data) {
+        var data = data.field;
+        data.id = dataId;
+        http({
+            url: urls.toolStock,
+            data: data,
+            success: function (res) {
+                layer.msg(res.msg, {
+                    time: 1500
+                }, function () {
+                    ReLoadFn();
+                });
+            }
+        });
+        return false;
+    });
     e("instSpare", {})
 });
 

@@ -10,10 +10,6 @@ layui.define(["http", "tabList"], function (e) {
         form = layui.form,
         table = layui.table;
 
-    var grade = utils.grade,
-        action = utils.locaStr("action");
-    var result = utils.differ(grade[action]);
-
     var first = true;
 
     var cols = [
@@ -22,17 +18,9 @@ layui.define(["http", "tabList"], function (e) {
         { title: '监控IP', templet: function (item) { return item.fields.ip; } },
         { title: '经度', templet: function (item) { return item.fields.Lon; } },
         { title: '纬度', templet: function (item) { return item.fields.Lat; } },
-        { title: '备注', templet: function (item) { return item.fields.description; } }
+        { title: '备注', templet: function (item) { return item.fields.description; } },
+        { fixed: 'right', align: "center", title: '操作', toolbar: '#toolbar' }
     ];
-    if (result) {
-        cols.push({
-            fixed: 'right',
-            align: "center",
-            title: '操作',
-            toolbar: '#toolbar'
-        });
-        $("[name=ctrBtn]").show();
-    };
 
     //乱七八糟的在最下面,监听按钮,验证等
     var tableIns, typeId, page = 1;

@@ -1,6 +1,5 @@
 layui.define(["http", "utils", "tabList"], function (e) {
-    var store = layui.store,
-        utils = layui.utils;
+    var store = layui.store;
 
     var http = layui.http,
         urls = layui.urls,
@@ -11,85 +10,68 @@ layui.define(["http", "utils", "tabList"], function (e) {
         table = layui.table,
         dropdown = layui.dropdown;
 
-    var instObsState = utils.instObsState;
-
-    var grade = utils.grade,
-        action = utils.locaStr("action");
-    var result = utils.differ(grade[action]);
-
-    var cols = [{
-        title: '仪器状态',
-        templet: function (item) {
-            var state = item.fields.state;
-            var html = '<span style="color:' + instObsState[state].color + '">' + instObsState[state].title + '</span>';
-            return html;
-        }
-    },
-    { title: '采购时间', templet: function (item) { return item.fields.stockTime; } },
-    { title: '供应商', templet: function (item) { return item.fields.supplier; } },
-    { title: '价格', templet: function (item) { return item.fields.price; } },
-    { title: '型号', templet: function (item) { return item.fields.instrumentModel; } },
-    { title: '序列号', templet: function (item) { return item.fields.instrumentNumber; } },
-    { title: '内部编号', templet: function (item) { return item.fields.internalNum; } },
-    { title: '存放位置', templet: function (item) { return item.fields.savePath; } },
-    { title: '备注', templet: function (item) { return item.fields.remark; } }];
-    if (result) {
-        cols.push({
-            fixed: 'right',
-            align: "center",
-            title: '操作',
-            minWidth: 220,
-            toolbar: '#toolbar'
-        });
-        $("[name=ctrBtn]").show();
-    }
-
-    var tableIns, retrName = '0', page = 1;
-
-    function instType() {
+    var retrType = '';
+    function getRetrType() {
         http({
-            url: urls.instType,
+            url: urls.toolType,
             success: function (res) {
-                var data = res.data, str = '<option value="0">全部</option>';
+                var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
-                    str += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    var dataItem = data[i];
+                    str += '<option value="' + dataItem.value + '">' + dataItem.name + '</option>';
                 };
-                $("#insttype").html(str);
-                form.render();
+                retrType = data.length > 0 ? data[0].value : "";
+                $("#type").html(str);
+                form.render('select');
                 getListFn();
             }
         });
     };
-    instType();
+    getRetrType();
+    // 选择下拉之后发起查询
+    form.on('select(retrSelect)', function (data) {
+        retrType = data.value;
+        getListFn();
+    });
 
+    var tableIns, page = 1;
     function getListFn() {
         tableIns = tabList.render({
-            url: urls.instList,
-            where: { type: retrName },
-            cols: [cols],
+            url: urls.testList,
+            where: { type: retrType },
+            cols: [[
+                { title: '名称', templet: function (item) { return item.fields.instrumentName; } },
+                { title: '状态', templet: function (item) { return item.fields.state; } },
+                { title: '采购日期', templet: function (item) { return item.fields.stockTime; } },
+                { title: '供应商', templet: function (item) { return item.fields.supplier; } },
+                { title: '型号', templet: function (item) { return item.fields.Type; } },
+                { title: '编号', templet: function (item) { return item.fields.serialNumber; } },
+                { title: '存放位置', templet: function (item) { return item.fields.savePath; } },
+                { title: '备注', templet: function (item) { return item.fields.remark; } },
+                { fixed: 'right', align: "center", title: '操作', minWidth: 120, toolbar: '#toolbar' }
+            ]],
             page: 1,
             done: function (data, curr) { page = curr; }
         });
     };
 
     // 重载当前页面
+    // window.ReLoadFn = function () {
+    //     layer.closeAll(function () {
+    //         tableIns.reload({
+    //             page: { curr: page }
+    //         });
+    //     });
+    // };
     window.ReLoadFn = function () {
         layer.closeAll(function () {
-            tableIns.reload({
-                page: { curr: page }
-            });
+            getRetrType();
         });
     };
-    // 查询按钮
-    form.on('submit(subBtn)', function (data) {
-        type = data.field.type;
-        retrName = data.field.retrName;
-        getListFn();
-    });
     // 添加按钮
     form.on('submit(addBtn)', function () {
-        var title = "添加仪器", url = store.filterUrl("instObsAdd");
-        layAlertFn(title, url, "680px", "640px");
+        var title = "修改比测仪器", url = store.filterUrl("instObsAdd");
+        layAlertFn(title, url, "680px", "550px");
     });
 
     function layAlertFn(title, url, width, height) {
@@ -122,8 +104,6 @@ layui.define(["http", "utils", "tabList"], function (e) {
             var url = store.filterUrl("instObsRecord") + "?id=" + id + "";
             layAlertFn("出入库记录", url, "700px", "595px");
         },
-        del: deleFn,
-
         checkList: function (id) {
             var url = store.filterUrl("instCheckList") + "?id=" + id;
             layAlertFn("校验记录", url, "680px", "575px");
@@ -136,57 +116,58 @@ layui.define(["http", "utils", "tabList"], function (e) {
             var url = store.filterUrl("instPartList") + "?id=" + id;
             layAlertFn("更换零部件记录", url, '680px', '575px');
         },
-    };
 
+        edit:function(){
+            var title = "修改比测仪器", url = store.filterUrl("instObsChange") + "?id=" + dataId + "";
+            layAlertFn(title, url, "680px", "550px");
+        },
+        delete: deleFn,
+    };
+    var dataId;
     table.on('tool(table)', function (data) {
         var event = data.event;
-        var id = data.data.pk;
-
-        if (event == 'edit') {
-            var title = "修改仪器", url = store.filterUrl("instObsChange") + "?id=" + id + "";
-            layAlertFn(title, url, "680px", "640px");
-        }
-        if (event == 'query') {
-            dropdown.render({
-                elem: this,
-                show: true,
-                data: [
-                    { title: '校验记录', id: 'checkList' },
-                    { title: '对比记录', id: 'contrastList' },
-                    { title: '更换零部件记录', id: 'partList' }
-                ],
-                click: function (menudata) {
-                    clickMethod[menudata.id](id);
-                }
-            })
-        }
-        if (event == 'more') {
-            dropdown.render({
-                elem: this,
-                show: true,
-                data: [
-                    { title: '出库', id: 'out' },
-                    // { title: '记录表', id: 'record' },
-                    { title: '删除', id: 'del' }
-                ],
-                click: function (menudata) {
-                    clickMethod[menudata.id](id);
-                }
-            })
-        }
+        dataId = data.data.pk;
+        clickMethod[event]();
+        // if (event == 'query') {
+        //     dropdown.render({
+        //         elem: this,
+        //         show: true,
+        //         data: [
+        //             { title: '校验记录', id: 'checkList' },
+        //             { title: '对比记录', id: 'contrastList' },
+        //             { title: '更换零部件记录', id: 'partList' }
+        //         ],
+        //         click: function (menudata) {
+        //             clickMethod[menudata.id](id);
+        //         }
+        //     })
+        // }
+        // if (event == 'more') {
+        //     dropdown.render({
+        //         elem: this,
+        //         show: true,
+        //         data: [
+        //             { title: '出库', id: 'out' },
+        //             { title: '删除', id: 'del' }
+        //         ],
+        //         click: function (menudata) {
+        //             clickMethod[menudata.id](id);
+        //         }
+        //     })
+        // }
     });
 
     /*删除*/
-    function deleFn(id) {
+    function deleFn() {
         layer.msg('此操作将永久删除该数据, 是否继续?', {
             time: 5000,
             shade: 0.5,
             btn: ['确定', '取消'],
             yes: function () {
                 http({
-                    url: urls.instDelete,
+                    url: urls.testDelete,
                     type: 'post',
-                    data: { id: id },
+                    data: { id: dataId },
                     success: function (res) {
                         layer.msg(res.msg, {
                             time: 1500

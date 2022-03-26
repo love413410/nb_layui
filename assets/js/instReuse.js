@@ -1,6 +1,5 @@
 layui.define(["http", "tabList"], function (e) {
-    var store = layui.store,
-        utils = layui.utils;
+    var store = layui.store;
 
     var http = layui.http,
         urls = layui.urls,
@@ -8,70 +7,74 @@ layui.define(["http", "tabList"], function (e) {
 
     var $ = layui.$,
         form = layui.form,
-        table = layui.table,
-        dropdown = layui.dropdown;
+        table = layui.table;
 
-    var instObsState = utils.instObsState;
-
-    var grade = utils.grade,
-        action = utils.locaStr("action");
-    var result = utils.differ(grade[action]);
-
-    var cols = [{
-        title: '仪器状态',
-        templet: function (item) {
-            var state = item.fields.state;
-            var html = '<span style="color:' + instObsState[state].color + '">' + instObsState[state].title + '</span>';
-            return html;
-        }
-    },
-    { title: '采购时间', templet: function (item) { return item.fields.stockTime; } },
-    { title: '供应商', templet: function (item) { return item.fields.supplier; } },
-    { title: '价格', templet: function (item) { return item.fields.price; } },
-    { title: '型号', templet: function (item) { return item.fields.instrumentModel; } },
-    { title: '序列号', templet: function (item) { return item.fields.instrumentNumber; } },
-    { title: '内部编号', templet: function (item) { return item.fields.internalNum; } },
-    { title: '存放位置', templet: function (item) { return item.fields.savePath; } },
-    { title: '备注', templet: function (item) { return item.fields.remark; } }
-    ];
-    if (result) {
-        cols.push({
-            fixed: 'right',
-            align: "center",
-            title: '操作',
-            minWidth: 220,
-            toolbar: '#toolbar'
-        });
-    }
-
-    var tableIns, retrName = '0', page = 1;
-
-    function instType() {
+    var retrType = '', retrSite = 0;
+    function getRetrFn() {
         http({
-            url: urls.instType,
+            url: urls.toolType,
+            async: false,
             success: function (res) {
-                var data = res.data, str = '<option value="0">全部</option>';
+                var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
-                    str += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    var dataItem = data[i];
+                    str += '<option value="' + dataItem.value + '">' + dataItem.name + '</option>';
                 };
-                $("#insttype").html(str);
-                form.render();
+                retrType = data.length > 0 ? data[0].value : "";
+                $("#type").html(str);
+                getUseSite();
+            }
+        });
+
+    };
+    getRetrFn();
+    form.on('select(retrType)', function (data) {
+        retrType = data.value;
+        getUseSite();
+    });
+
+    function getUseSite() {
+        http({
+            url: urls.useSite,
+            data: { id: retrType },
+            success: function (res) {
+                var data = res.data, str = '<option value="' + retrSite + '">全部</option>';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    str += '<option value="' + dataItem.value + '">' + dataItem.name + '</option>';
+                };
+                $("#station").html(str);
+                form.render("select");
                 getListFn();
             }
         });
     };
-    instType();
+    form.on('select(retrSite)', function (data) {
+        retrSite = data.value;
+        getListFn();
+    });
 
+    var tableIns, page = 1;
     function getListFn() {
         tableIns = tabList.render({
             url: urls.useList,
-            where: { type: retrName },
-            cols: [cols],
+            method: "post",
+            where: { type: retrType, station: retrSite },
+            cols: [[
+                { title: '站点', templet: function (item) { return item.fields.ofStation; } },
+                { title: '启用日期', templet: function (item) { return item.fields.outTime; } },
+                { title: '到期日期', templet: function (item) { return item.fields.expireTime; } },
+                { title: '供应商', templet: function (item) { return item.fields.supplier; } },
+                { title: '型号', templet: function (item) { return item.fields.Type; } },
+                { title: '编号', templet: function (item) { return item.fields.serialNumber; } },
+                { title: '更换人员', templet: function (item) { return item.fields.outPeople; } },
+                { title: '备注', templet: function (item) { return item.fields.usRemark; } },
+                { fixed: 'right', align: "center", title: '操作', minWidth: 120, toolbar: '#toolbar' }
+            ]],
             page: 1,
             done: function (data, curr) { page = curr; }
         });
     };
-    getListFn();
     // 重载当前页面
     window.ReLoadFn = function () {
         layer.closeAll(function () {
@@ -80,11 +83,6 @@ layui.define(["http", "tabList"], function (e) {
             });
         });
     };
-    // 查询按钮
-    form.on('submit(subBtn)', function (data) {
-        retrName = data.field.retrName;
-        getListFn();
-    });
 
     function layAlertFn(title, content, width, height) {
         width = width || "680px", height = height || "530px";
@@ -101,105 +99,86 @@ layui.define(["http", "tabList"], function (e) {
     };
 
     var clickMethod = {
-        check: function (id) {
-            var url = store.filterUrl("instReuseCheck") + "?id=" + id;
-            layAlertFn("校验信息", url);
-        },
-        contrast: function (id) {
-            var url = store.filterUrl("instReuseContrast") + "?id=" + id;
-            layAlertFn("对比信息", url);
-        },
-        replace: function (id) {
-            var url = store.filterUrl("instReusePart") + "?id=" + id;
-            layAlertFn("更换零部件", url, "680px", "430px");
-        },
+        // check: function (id) {
+        //     var url = store.filterUrl("instReuseCheck") + "?id=" + id;
+        //     layAlertFn("校验信息", url);
+        // },
+        // contrast: function (id) {
+        //     var url = store.filterUrl("instReuseContrast") + "?id=" + id;
+        //     layAlertFn("对比信息", url);
+        // },
+        // replace: function (id) {
+        //     var url = store.filterUrl("instReusePart") + "?id=" + id;
+        //     layAlertFn("更换零部件", url, "680px", "430px");
+        // },
 
-        checkList: function (id) {
-            var url = store.filterUrl("instCheckList") + "?id=" + id;
-            layAlertFn("校验记录", url, "680px", "575px");
-        },
-        contrastList: function (id) {
-            var url = store.filterUrl("instContrastList") + "?id=" + id;
-            layAlertFn("对比记录", url, '680px', '575px');
-        },
-        partList: function (id) {
-            var url = store.filterUrl("instPartList") + "?id=" + id;
-            layAlertFn("更换零部件记录", url, '680px', '575px');
-        },
+        // checkList: function (id) {
+        //     var url = store.filterUrl("instCheckList") + "?id=" + id;
+        //     layAlertFn("校验记录", url, "680px", "575px");
+        // },
+        // contrastList: function (id) {
+        //     var url = store.filterUrl("instContrastList") + "?id=" + id;
+        //     layAlertFn("对比记录", url, '680px', '575px');
+        // },
+        // partList: function (id) {
+        //     var url = store.filterUrl("instPartList") + "?id=" + id;
+        //     layAlertFn("更换零部件记录", url, '680px', '575px');
+        // },
     };
-
+    var dataId;
     table.on('tool(table)', function (data) {
         var event = data.event;
-        var id = data.data.pk;
-
-
-        
-
-
+        dataId = data.data.pk;
         if (event == 'entr') {
-            dropdown.render({
-                elem: this,
-                show: true,
-                data: instObsState,
-                click: function (menudata) {
-                    var state = menudata.id;
-                    layer.msg('是否确认归还?', {
-                        time: 5000,
-                        shade: 0.5,
-                        btn: ['确定', '取消'],
-                        yes: function () {
-                            http({
-                                url: urls.useRecede,
-                                type: 'post',
-                                data: {
-                                    id: id,
-                                    state: state
-                                },
-                                success: function (res) {
-                                    layer.msg(res.msg, {
-                                        time: 1500
-                                    }, function () {
-                                        ReLoadFn();
-                                    });
-                                }
-                            });
-                        },
-                        btn2: function () {
-                            layer.msg('已取消归还。');
+            layer.open({
+                type: 1,
+                title: "出库",
+                resize: !1,
+                skin: "layui_layer",
+                id: "out",
+                offset: "50px",
+                content: $("#instReuseEnter"),
+                success: function () {
+                    http({
+                        url: urls.useType,
+                        success: function (res) {
+                            var data = res.data, str = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var dataItem = data[i];
+                                if (i == 0) {
+                                    str += '<input type="radio" name="state" value="' + dataItem.id + '" title="' + dataItem.title + '" checked>';
+                                } else {
+                                    str += '<input type="radio" name="state" value="' + dataItem.id + '" title="' + dataItem.title + '">';
+                                };
+                            };
+                            $("#state").html(str);
+                            form.render("radio");
                         }
-                    })
+                    });
                 }
             });
         }
-
-        if (event == 'query') {
-            dropdown.render({
-                elem: this,
-                show: true,
-                data: [
-                    { title: '校验记录', id: 'checkList' },
-                    { title: '对比记录', id: 'contrastList' },
-                    { title: '更换零部件记录', id: 'partList' }
-                ],
-                click: function (menudata) {
-                    clickMethod[menudata.id](id);
-                }
-            })
+        if (event == 'edit') {
+            var url = store.filterUrl("instReuseChange") + "?id=" + dataId + "";
+            layAlertFn("修改在用设备", url, "680px", "550px");
         }
-        if (event == 'more') {
-            dropdown.render({
-                elem: this,
-                show: true,
-                data: [
-                    { title: '校验', id: 'check' },
-                    { title: '对比', id: 'contrast' },
-                    { title: '更换零部件', id: 'replace' }
-                ],
-                click: function (menudata) {
-                    clickMethod[menudata.id](id);
-                }
-            });
-        }
+    });
+    form.on('submit(subbtn)', function (data) {
+        var data = data.field;
+        data.id = dataId;
+        http({
+            url: urls.useEnter,
+            type:"post",
+            data: data,
+            success: function (res) {
+                layer.msg(res.msg, {
+                    time: 1500
+                }, function () {
+                    ReLoadFn();
+                });
+            }
+        });
+        return false;
     });
     e("instReuse", {})
 });

@@ -1,43 +1,125 @@
-layui.define(["http", "utils"], function (e) {
+layui.define(["http"], function (e) {
     var http = layui.http,
-        urls = layui.urls,
-        utils = layui.utils;
+        urls = layui.urls;
 
-    var $ = layui.$,
-        form = layui.form,
+    var form = layui.form,
         laydate = layui.laydate;
 
-    var instObsState = utils.instObsState;
-
-    //初始化日期框
     laydate.render({
-        elem: "#purchaseTime",
-        type: 'datetime',
+        elem: "#stockTime",
         trigger: 'click',
-        max: 0,
-        btns: ['now', 'confirm']
+        max: 0
     });
 
-    function instType() {
-        http({
-            url: urls.instType,
-            success: function (res) {
-                var data = res.data, str = '';
-                for (var i = 0; i < data.length; i++) {
-                    str += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-                };
-                $("#insttype").html(str);
-                form.render();
-            }
-        });
+    function getToolType() {
+        var getInstNameData = function () {
+            http({
+                url: urls.toolType,
+                success: function (res) {
+                    var data = res.data;
+                    data.length > 0 ? data[0].selected = true : "";
+                    xmSelect.render({
+                        el: '#instrumentName',
+                        radio: true,
+                        clickClose: true,
+                        filterable: true,
+                        tips: "请选择或输入名称",
+                        name: "instrumentName",
+                        layVerify: 'required',
+                        layVerType: 'msg',
+                        layReqText: '请选择或输入名称',
+                        model: {
+                            icon: 'hidden',
+                            label: {
+                                type: 'text',
+                            }
+                        },
+                        data: data,
+                        create: function (val, arr) {
+                            if (arr.length === 0) {
+                                return {
+                                    name: '添加新名称-' + val,
+                                    value: val
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        };
+        var getStateData = function () {
+            http({
+                url: urls.toolState,
+                success: function (res) {
+                    var data = res.data;
+                    data.length > 0 ? data[0].selected = true : "";
+                    xmSelect.render({
+                        el: '#state',
+                        radio: true,
+                        clickClose: true,
+                        tips: "请选择仪器状态",
+                        name: "state",
+                        layVerify: 'required',
+                        layVerType: 'msg',
+                        layReqText: '请选择仪器状态',
+                        model: {
+                            icon: 'hidden',
+                            label: {
+                                type: 'text',
+                            }
+                        },
+                        data: data
+                    });
+                }
+            });
+        };
+        var getSavePathData = function () {
+            http({
+                url: urls.toolType,
+                type: "post",
+                success: function (res) {
+                    var data = res.data;
+                    data.length > 0 ? data[0].selected = true : "";
+
+                    xmSelect.render({
+                        el: '#savePath',
+                        radio: true,
+                        clickClose: true,
+                        filterable: true,
+                        tips: "请选择或输入库房",
+                        name: "savePath",
+                        layVerify: 'required',
+                        layVerType: 'msg',
+                        layReqText: '请选择或输入库房',
+                        model: {
+                            icon: 'hidden',
+                            label: {
+                                type: 'text',
+                            }
+                        },
+                        data: data,
+                        create: function (val, arr) {
+                            if (arr.length === 0) {
+                                return {
+                                    name: '添加新库房-' + val,
+                                    value: val
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        };
+        getInstNameData();
+        getStateData();
+        getSavePathData();
     };
-    instType();
+    getToolType();
 
     form.on('submit(subbtn)', function (data) {
         var data = data.field;
-        data.state = instObsState[0].id;
         http({
-            url: urls.instAdd,
+            url: urls.testRegister,
             type: "post",
             data: data,
             success: function (res) {
@@ -51,5 +133,5 @@ layui.define(["http", "utils"], function (e) {
         return false;
     });
 
-    e("instObsAdd", {})
+    e("instSpareAdd", {})
 });

@@ -8,7 +8,6 @@
     <title>设备巡查>>备品备件</title>
     <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
     <link rel="stylesheet" href="../../assets/css/common/layer.css" />
-    <link rel="stylesheet" href="../../assets/css/common/controlButton.css" />
     <link rel="stylesheet" href="../../assets/css/instSpare.css" />
 </head>
 
@@ -17,26 +16,11 @@
         <div class="layui-form-item">
             <div class="layui-inline">
                 <div class="layui-input-inline retr_select">
-                    <select name="type" id="type">
-                        <option>全部</option>
-                        <option>一般</option>
-                        <option>关键</option>
-                    </select>
+                    <select name="type" id="type" lay-filter="retrSelect"></select>
                 </div>
             </div>
             <div class="layui-inline">
                 <div class="layui-input-inline">
-                    <input type="text" name="retrName" autocomplete="off" placeholder="请输入备品备件名称" class="layui-input" />
-                </div>
-            </div>
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <button lay-submit lay-filter="subBtn" class="layui-btn layui-btn-normal">
-                        查询
-                    </button>
-                </div>
-
-                <div class="layui-input-inline" name="ctrBtn">
                     <button lay-submit lay-filter="addBtn" class="layui-btn layui-btn-normal">
                         添加备品备件
                     </button>
@@ -45,9 +29,34 @@
         </div>
     </div>
     <div class="layui-hide" id="table" lay-filter="table"></div>
+
+    <div class="layui-form instSpareOut" id="instSpareOut">
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属站点:</label>
+            <div class="layui-input-inline layui_select">
+                <select id="sitetype" lay-filter="siteType"></select>
+            </div>
+            <div class="layui-input-inline layui_select site">
+                <select name="stationId" id="site"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">领用人:</label>
+            <div class="layui-input-block">
+                <input type="text" name="outPeople" autocomplete="off" placeholder="请输入领用人" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button lay-submit lay-filter="subbtn" class="layui-btn  layui-btn-normal">提交</button>
+            </div>
+        </div>
+    </div>
 </body>
 <script type="text/html" id="toolbar">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="record">流转记录</a>
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="out">出库</a>
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
 </script>
 <script src="../../assets/lib/layui/layui.js"></script>

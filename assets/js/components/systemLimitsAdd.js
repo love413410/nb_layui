@@ -14,8 +14,11 @@ layui.define(['http'], function (e) {
             success: function (res) {
                 var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
-                    str += '<input type="checkbox" class="like" lay-skin="primary" value="' + data[i].pk + '" title="' + data[i].fields.grade + '"></input>';
-                    // str += '<option value="' + data[i].pk + '">' + data[i].fields.grade + '</option>';
+                    if (i == 0) {
+                        str += '<input type="radio" name="grade" value="' + data[i].pk + '" title="' + data[i].fields.grade + '" checked></input>';
+                    } else {
+                        str += '<input type="radio" name="grade" value="' + data[i].pk + '" title="' + data[i].fields.grade + '"></input>';
+                    };
                 };
                 $("#limit").html(str);
                 form.render();
@@ -52,8 +55,6 @@ layui.define(['http'], function (e) {
             }
             var data = form.val('example');
             data.imgSrc = res.data;
-            data.grade = arr.join(',');
-
             delete data.file;
             http({
                 url: urls.userAdd,
@@ -81,26 +82,14 @@ layui.define(['http'], function (e) {
         btnClick = false;
         setTimeout(function () {
             btnClick = true;
-        }, 5000);
-
+        }, 5*1000);
         if (!isUpload) {
             layer.msg("请上传电子签名", {
                 icon: 2, shift: 6,
             });
             return;
-        }
+        };
 
-        $('#limit .like').each(function () {
-            var is = $(this).is(":checked");
-            is ? arr.push($(this).val()) : "";
-        });
-
-        if (arr.length <= 0) {
-            layer.msg("请至少选择一个用户权限", {
-                icon: 2, shift: 6,
-            });
-            return;
-        }
         $("#uploadBtn").click();
     });
     e("systemLimitsAdd", {});

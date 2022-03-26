@@ -28,11 +28,24 @@
 
         .layui-elem-field {
             margin: 20px 0;
+            line-height: 30px;
         }
 
         .layui-field-box {
             font-size: 16px;
             padding: 20px 15px;
+        }
+
+        .normal {
+            color: #5FB878;
+        }
+
+        .yellow {
+            color: #FFB800;
+        }
+
+        .warning {
+            color: #FF5722;
         }
     </style>
 </head>
@@ -43,7 +56,7 @@
             <strong>中心站管理员</strong>
         </legend>
         <div class="layui-field-box">
-            对值班管理>>值班记录只可查看和打印,不可修改,其余页面拥有全部权限,增删改查等...
+            <span class="normal">拥有全部页面的权限</span>
         </div>
     </fieldset>
 
@@ -52,7 +65,7 @@
             <strong>管理员</strong>
         </legend>
         <div class="layui-field-box">
-            对设备巡查模块只可查询,不可操作;对值班管理>>值班记录只可查看和打印,不可修改;别的权限等同中心站管理员
+            <span class="normal">拥有全部页面的权限</span>
         </div>
     </fieldset>
 
@@ -61,7 +74,8 @@
             <strong>仪器管理员</strong>
         </legend>
         <div class="layui-field-box">
-            拥有对设备巡查>>所有子模块的全部权限,别的模块只可查询、下载,不可进行增删改操作
+            <span class="warning">无法查看系统管理页面</span><br>
+            <span class="normal">拥有其余页面的权限</span>
         </div>
     </fieldset>
 
@@ -70,7 +84,20 @@
             <strong>值班用户</strong>
         </legend>
         <div class="layui-field-box">
-            可以在首页值班签到,可以在值班管理>>值班记录进行修改、保存;别的模块只可查询、下载,不可进行增删改操作
+            <span class="warning">无法查看系统管理页面</span><br>
+            <span class="warning">无法查看仪器管理页面</span><br>
+            <span class="normal">拥有其余页面的权限</span>
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field">
+        <legend>
+            <strong>视频播放</strong>
+        </legend>
+        <div class="layui-field-box">
+            由于设备型号只支持<span class="normal">IE浏览器</span>,<br>
+            不支持<span class="warning">谷歌等浏览器</span>,<br>
+            视频播放只能在IE浏览器,为了保证页面不错乱,目前只能用<span class="yellow">IE11的浏览器</span>
         </div>
     </fieldset>
 </body>

@@ -16,6 +16,8 @@ body {
 .layui-form-item:last-child {
   margin-bottom: 0px;
 }
-xm-select .scroll-body {
-  max-height: 120px !important;
+.layui-form .layui-form-item .layui-textarea {
+  min-height: 80px;
+  resize: none;
+  overflow: auto;
 }

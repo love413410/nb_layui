@@ -30,3 +30,19 @@ body {
 .layui_retr .retr_select {
   width: 150px;
 }
+
+/* 归还 */
+.instReuseEnter {
+  width: 580px;
+  padding: 28px 15px;
+  box-sizing: border-box;
+  display: none;
+}
+.instReuseEnter .layui-form-item:last-child {
+  margin-bottom: 0;
+}
+.instReuseEnter .layui-textarea {
+  min-height: 80px;
+  resize: none;
+  overflow: auto;
+}

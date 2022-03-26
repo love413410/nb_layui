@@ -1,6 +1,7 @@
 
 
 layui.define(["http"], function (e) {
+    var store = layui.store;
 
     var http = layui.http,
         urls = layui.urls;
@@ -9,8 +10,6 @@ layui.define(["http"], function (e) {
         form = layui.form,
         tree = layui.tree,
         layer = layui.layer;
-
-    var baseFileUrl = urls.baseFileUrl;
 
     var videoId = "", playList = {};
     function getTree() {
@@ -41,40 +40,28 @@ layui.define(["http"], function (e) {
     getTree();
 
     function loadWebKit() {
-        layer.confirm('您还未安装过插件，点击按钮进行下载', {
-            btn: ['下载', '取消']
-        }, function () {
-            layer.msg('根据浏览器选择', {
-                btn: ['32位(建议)', '64位'],
-                yes: function (index) {
-                    var href = baseFileUrl + '/assets/lib/WebComponentsKit32.exe';
-                    window.top.location.href = href;
-                    layer.closeAll();
-                },
-                btn2: function () {
-                    var href = baseFileUrl + '/assets/lib/WebComponentsKit64.exe';
-                    window.top.location.href = href;
-                }
-            })
+        layer.closeAll(function () {
+            layer.open({
+                type: 2,
+                title: false,
+                shade: 0.5,
+                shadeClose: true,
+                move: false,
+                resize: false,
+                closeBtn: 0,
+                area: ['300px', '165px'],
+                content: store.filterUrl("loadWebKit")
+            });
         });
     };
-    var iRet = -1;
 
+    var iRet = -1;
     function iRetFn() {
         iRet = WebVideoCtrl.I_CheckPluginInstall();
         iRet == -1 ? loadWebKit() : "";
     };
     iRetFn();
 
-    // 播放
-    form.on('submit(playBtn)', function (data) {
-        videoId = data.field.id;
-        iRet == -1 ? loadWebKit() : videoDeta();
-    });
-    // 停止播放
-    form.on('submit(stopPlay)', function (data) {
-        stopRealPlay();
-    });
     // 更换屏幕
     form.on('select(selectChange)', function (data) {
         var value = data.value;
@@ -97,7 +84,6 @@ layui.define(["http"], function (e) {
     var width = $("#live").width(), height = $("#live").height();
     var g_iWndIndex = 0;
     WebVideoCtrl.I_InitPlugin(width, height, {
-        // WebVideoCtrl.I_InitPlugin(960, 540, {
         iWndowType: 2,
         bNoPlugin: true,
         cbSelWnd: function (xmlDoc) {
