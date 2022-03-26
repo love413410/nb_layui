@@ -32,6 +32,9 @@ body {
 }
 
 /* 归还 */
+.layui-layer-content {
+  overflow: visible !important;
+}
 .instReuseEnter {
   width: 580px;
   padding: 28px 15px;

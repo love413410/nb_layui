@@ -159,7 +159,7 @@ layui.extend({
             { title: "值班查询", name: "pages/dutyQuery", id: "dutyQuery" },
             { title: "值班统计", name: "pages/dutyCensus", id: "dutyCensus" },
             { title: "值班记录", name: "pages/dutyTable", id: "dutyTable" },
-            { title: "记得删除", name: "pages/test", id: "test" }
+            // { title: "记得删除", name: "pages/test", id: "test" }
         ]
     }, {
         title: "业务管理",

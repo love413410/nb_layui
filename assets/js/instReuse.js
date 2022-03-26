@@ -125,36 +125,22 @@ layui.define(["http", "tabList"], function (e) {
         //     layAlertFn("更换零部件记录", url, '680px', '575px');
         // },
     };
-    var dataId;
+    var dataId, initValue;
     table.on('tool(table)', function (data) {
         var event = data.event;
         dataId = data.data.pk;
+        initValue = [data.data.fields.savePath];
         if (event == 'entr') {
             layer.open({
                 type: 1,
-                title: "出库",
+                title: "归还",
                 resize: !1,
                 skin: "layui_layer",
                 id: "out",
                 offset: "50px",
                 content: $("#instReuseEnter"),
                 success: function () {
-                    http({
-                        url: urls.useType,
-                        success: function (res) {
-                            var data = res.data, str = '';
-                            for (var i = 0; i < data.length; i++) {
-                                var dataItem = data[i];
-                                if (i == 0) {
-                                    str += '<input type="radio" name="state" value="' + dataItem.id + '" title="' + dataItem.title + '" checked>';
-                                } else {
-                                    str += '<input type="radio" name="state" value="' + dataItem.id + '" title="' + dataItem.title + '">';
-                                };
-                            };
-                            $("#state").html(str);
-                            form.render("radio");
-                        }
-                    });
+                    getPathFn();
                 }
             });
         }
@@ -163,12 +149,67 @@ layui.define(["http", "tabList"], function (e) {
             layAlertFn("修改在用设备", url, "680px", "550px");
         }
     });
+
+    function getPathFn() {
+        http({
+            url: urls.useType,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    if (i == 0) {
+                        str += '<input type="radio" name="state" value="' + dataItem.id + '" title="' + dataItem.title + '" checked>';
+                    } else {
+                        str += '<input type="radio" name="state" value="' + dataItem.id + '" title="' + dataItem.title + '">';
+                    };
+                };
+                $("#state").html(str);
+                form.render("radio");
+            }
+        });
+        http({
+            url: urls.toolType,
+            type: "post",
+            success: function (res) {
+                var data = res.data;
+
+                xmSelect.render({
+                    el: '#savePath',
+                    radio: true,
+                    clickClose: true,
+                    filterable: true,
+                    initValue: initValue,
+                    tips: "请选择或输入库房",
+                    name: "savePath",
+                    layVerify: 'required',
+                    layVerType: 'msg',
+                    layReqText: '请选择或输入库房',
+                    model: {
+                        icon: 'hidden',
+                        label: {
+                            type: 'text',
+                        }
+                    },
+                    data: data,
+                    create: function (val, arr) {
+                        if (arr.length === 0) {
+                            return {
+                                name: '添加新库房-' + val,
+                                value: val
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    };
+
     form.on('submit(subbtn)', function (data) {
         var data = data.field;
         data.id = dataId;
         http({
             url: urls.useEnter,
-            type:"post",
+            type: "post",
             data: data,
             success: function (res) {
                 layer.msg(res.msg, {

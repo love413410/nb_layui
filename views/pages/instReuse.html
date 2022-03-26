@@ -35,9 +35,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">存放位置:</label>
-            <div class="layui-input-block">
-                <textarea name="remark" autocomplete="off" placeholder="请输入备注" class="layui-textarea"></textarea>
-            </div>
+            <div class="layui-input-block" id="savePath"></div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -51,6 +49,7 @@
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="entr">归还</a>
 </script>
 <script src="../../assets/lib/layui/layui.js"></script>
+<script src="../../assets/lib/xmselect.js"></script>
 <script>
     layui.config({
         base: "../../assets/"
