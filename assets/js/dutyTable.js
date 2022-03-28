@@ -74,7 +74,8 @@ layui.define(["http"], function (e) {
         { id: "at", charts: null, title: "气温" },
         { id: "bp", charts: null, title: "气压" },
         { id: "hu", charts: null, title: "湿度" },
-        { id: "ws", charts: null, title: "风" },
+        { id: "ws", charts: null, title: "风速" },
+        { id: "wd", charts: null, title: "风向" },
         { id: "vb", charts: null, title: "能见度" },
         { id: "sl", charts: null, title: "盐度" },
         { id: "wt", charts: null, title: "水温" },
@@ -115,7 +116,7 @@ layui.define(["http"], function (e) {
     function getLineFn() {
         var content = '';
         if (time == date) {
-            content = $("#tableBox").html();
+            content = $("#tableBox").formhtml();
         };
         http({
             url: urls.dutyCurve,
@@ -290,8 +291,14 @@ layui.define(["http"], function (e) {
     var oldHTML = $.fn.html;
     $.fn.formhtml = function () {
         if (arguments.length) return oldHTML.apply(this, arguments);
-        $("input,textarea,button", this).each(function () {
+        // $("input,textarea,button", this).each(function () {
+        //     this.setAttribute('value', this.value);
+        // });
+        $("input,button", this).each(function () {
             this.setAttribute('value', this.value);
+        });
+        $("textarea", this).each(function () {
+            this.innerHTML = this.value;
         });
         $(":radio,:checkbox", this).each(function () {
             if (this.checked) this.setAttribute('checked', 'checked');
