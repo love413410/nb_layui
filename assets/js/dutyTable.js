@@ -36,16 +36,22 @@ layui.define(["http"], function (e) {
                 time: time
             },
             success: function (res) {
-                var data = res.data;
-                $("#tableBox").html(data);
-                var insideWidth = $("#inside").width();
-                $("#table").css('minWidth', insideWidth + 'px');
-
-                var dutyWidth = $("#dutyInside").width();
-                $("#duty").css('minWidth', dutyWidth + 'px');
-                indexList();
+                var html = res.data;
+                setTableHtml(html);
+                if (time == date) {
+                    indexList();
+                };
             }
         });
+    };
+    // 给table赋值
+    function setTableHtml(html) {
+        $("#tableBox").html(html);
+        var insideWidth = $("#inside").width();
+        $("#table").css('minWidth', insideWidth + 'px');
+
+        var dutyWidth = $("#dutyInside").width();
+        $("#duty").css('minWidth', dutyWidth + 'px');
     };
 
     // 打印
@@ -71,14 +77,14 @@ layui.define(["http"], function (e) {
     // 左侧
     var elementList = [
         { id: "wl", charts: null, title: "潮位" },
+        { id: "ws", charts: null, title: "风速" },
+        { id: "wd", charts: null, title: "风向" },
         { id: "at", charts: null, title: "气温" },
         { id: "bp", charts: null, title: "气压" },
         { id: "hu", charts: null, title: "湿度" },
-        { id: "ws", charts: null, title: "风速" },
-        { id: "wd", charts: null, title: "风向" },
-        { id: "vb", charts: null, title: "能见度" },
         { id: "sl", charts: null, title: "盐度" },
         { id: "wt", charts: null, title: "水温" },
+        { id: "vb", charts: null, title: "能见度" },
         { id: "rn", charts: null, title: "降水" }
     ];
 
@@ -136,7 +142,7 @@ layui.define(["http"], function (e) {
                     dataItem.charts.setOption(option);
                 };
                 var html = res.content;
-                $("#tableBox").html(html);
+                setTableHtml(html);
             },
             error: function () {
                 $("#tableBox").empty();
