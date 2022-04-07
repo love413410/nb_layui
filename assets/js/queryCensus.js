@@ -52,11 +52,9 @@ layui.define(["http", "getFn", "tabList"], function (e) {
             cols: [
                 [{
                     fixed: 'left',
+                    field: 'station',
                     title: '站点',
-                    templet: function (item) {
-                        return item.station;
-                    },
-                    totalRowText: '合计'
+                    totalRow: true
                 }, {
                     field: 'total',
                     title: '应到条数',
@@ -92,7 +90,7 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                 }]
             ],
             page: 1,
-            totalRow: true,
+            totalRow: true
         });
     };
     // 查询按钮调取站点列表接口

@@ -35,6 +35,8 @@ layui.extend({
 
         dutyCurve: baseUrl + '/duty/curve/',//值班统计
 
+        dutyCurves: baseUrl + '/duty/curves/',//值班统计
+
 
        
         getRecord: baseUrl + '/personnel/get/record/',//获取值班记录表

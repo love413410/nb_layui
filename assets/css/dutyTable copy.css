@@ -48,7 +48,6 @@ body {
   height: 200px;
   margin-top: 20px;
 }
-
 /* 表1 */
 .table_box {
   width: 100%;
@@ -68,11 +67,24 @@ body {
   height: 32px;
   line-height: 32px;
   margin-bottom: 0;
-  text-align: right;
-  /* letter-spacing: 2px; */
 }
-.table_date span {
-  margin-right: 2px;
+.table_date .layui-inline {
+  width: 100%;
+  text-align: right;
+  margin: 0;
+}
+.table_date .layui-input-inline {
+  width: auto;
+  float: none;
+  margin: 0;
+}
+.table_date .date_input {
+  width: 40px;
+}
+.table_date .layui-input {
+  height: 32px;
+  line-height: 32px;
+  border: none;
 }
 /* 内容 */
 .table_content {
@@ -82,7 +94,7 @@ body {
   overflow: hidden;
 }
 .table_content_inside {
-  width: 100%;
+  min-width: 100%;
   overflow-x: auto;
   border: 1px solid #000;
   border-right: none;
@@ -104,6 +116,13 @@ body {
   text-align: center;
   border-right: 1px solid #000;
 }
+/* .table .thead th {
+  min-width: 60px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-right: 1px solid #000;
+} */
 .table .tbody td {
   min-width: 60px;
   height: 20px;
@@ -120,8 +139,11 @@ body {
   border-right: 1px solid #000;
   border-bottom: 1px solid #000;
 }
-.table .table_foot .table_three {
+.table .table_foot div {
   flex: 1;
+}
+.table .table_foot .table_three {
+  flex: 0 0 122px;
   height: 120px;
   line-height: 120px;
   text-align: center;
@@ -130,9 +152,7 @@ body {
   box-sizing: border-box;
 }
 .table .table_foot .textarea {
-  flex: 14;
   padding: 6px 10px;
-  box-sizing: border-box;
 }
 .table .table_foot .textarea textarea {
   width: 100%;
@@ -181,6 +201,13 @@ body {
 .duty .tbody tr {
   border-bottom: 1px solid #000;
 }
+/* .duty .thead th {
+  min-width: 60px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-right: 1px solid #000;
+} */
 .duty .thead td {
   min-width: 60px;
   height: 20px;

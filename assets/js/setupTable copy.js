@@ -3,7 +3,125 @@ layui.define(["http"], function (e) {
         urls = layui.urls;
 
     var $ = layui.$,
-        form = layui.form;
+        form = layui.form,
+        transfer = layui.transfer;
+
+    var time = '1995-02-10';
+    function getDataFn() {
+        http({
+            url: urls.record,
+            data: {
+                time: time
+            },
+            success: function (res) {
+                var data = res.data;
+                $("#tableBox").html(data);
+                var insideWidth = $("#inside").width();
+                $("#table").css('minWidth', insideWidth + 'px');
+
+                var dutyWidth = $("#dutyInside").width();
+                $("#duty").css('minWidth', dutyWidth + 'px');
+            }
+        });
+    };
+    getDataFn();
+
+    var siteXm, buoyXm;
+    function getXmselectFn() {
+        http({
+            url: urls.dutySite,
+            success: function (res) {
+                var siteData = res.data;
+                var initValue = res.ids.length > 0 ? res.ids.split(',') : [];
+                siteXm = xmSelect.render({
+                    el: '#xmSite',
+                    content: "<div id='transfer'></div>",
+                    height: 'auto',
+                    data: siteData,
+                    initValue: initValue,
+                    prop: { name: 'title' },
+                    model: {
+                        label: {
+                            type: 'xmselect',
+                            xmselect: {
+                                template: function (data, sels) {
+                                    return "选中 " + sels.length + "项"
+                                }
+                            }
+                        }
+                    },
+                    on: function (data) {
+                        if (!data.isAdd) {
+                            transfer.reload('transfer', {
+                                value: siteXm.getValue('value')
+                            })
+                        }
+                    }
+                });
+                transfer.render({
+                    id: 'transfer',
+                    elem: '#transfer',
+                    title: ['未选', '已选'],
+                    data: siteData,
+                    value: initValue,
+                    onchange: function (data, index) {
+                        if (index == 0) {
+                            siteXm.append(data)
+                        } else {
+                            siteXm.delete(data)
+                        }
+                    }
+                });
+            }
+        });
+        http({
+            url: urls.dutyBuoy,
+            success: function (res) {
+                var buoyData = res.data;
+                var buoyInitValue = res.ids.length > 0 ? res.ids.split(',') : [];
+                buoyXm = xmSelect.render({
+                    el: '#xmBouy',
+                    content: "<div id='transfers'></div>",
+                    height: 'auto',
+                    data: buoyData,
+                    initValue: buoyInitValue,
+                    prop: { name: 'title' },
+                    model: {
+                        label: {
+                            type: 'xmselect',
+                            xmselect: {
+                                template: function (data, sels) {
+                                    return "选中 " + sels.length + "项"
+                                }
+                            }
+                        }
+                    },
+                    on: function (data) {
+                        if (!data.isAdd) {
+                            transfer.reload('transfers', {
+                                value: buoyXm.getValue('value')
+                            })
+                        }
+                    }
+                });
+                transfer.render({
+                    id: 'transfers',
+                    elem: '#transfers',
+                    title: ['未选', '已选'],
+                    data: buoyData,
+                    value: buoyInitValue,
+                    onchange: function (data, index) {
+                        if (index == 0) {
+                            buoyXm.append(data)
+                        } else {
+                            buoyXm.delete(data)
+                        }
+                    }
+                });
+            }
+        });
+    };
+    getXmselectFn();
 
     var baseUrl = urls.baseFileUrl;
     var layuiCss = baseUrl + "/assets/lib/layui/css/layui.css",
@@ -28,137 +146,12 @@ layui.define(["http"], function (e) {
         var bouyList = buoyXm.getValue();
         generateSite(siteIdList, bouyList);
     });
-
-    var time = [
-        17, 18, 19, 20, 21, 22, 23, 0,
-        1, 2, 3, 4, 5, 6, 7, 8,
-        9, 10, 11, 12, 13, 14
+    var timeList = [
+        '17', '18', '19', '20', '21', '22',
+        '23', '00', '01', '02', '03', '04',
+        '05', '06', '07', '08', '09', '10',
+        '11', '12', '13', '14', '15', '16'
     ];
-
-    function getHtmlFn() {
-        var site = [];
-        var data = {};
-        for (var i = 0; i < 100; i++) {
-            site.push({
-                name: '测试站点' + i,
-                id: i
-            });
-            data[i] = {};
-            for (var j = 0; j < 24; j++) {
-                data[i][j] = {
-                    wl: 10,
-                    ws: 11
-                };
-            };
-        };
-        data = JSON.stringify(data)
-
-        var datas = {
-            table: {
-                site: site,
-                data: data,
-                date: '<span>2022</span>年<span>3</span>月<span>20</span>日至<span>2022</span>年<span>3</span>月<span>21</span>日',
-                desc: "测试",
-                onNight: '',
-                onDay: ''
-            },
-            duty: {
-                size: 4,
-                data: []
-            }
-        };
-        var table = datas.table;
-        var duty = datas.duty;
-        testTable(table, duty);
-    };
-
-    getHtmlFn();
-
-
-    // 时间列表
-    var tableSite;
-    function testTable(data, duty) {
-
-        console.log(data.data)
-        $("#tableDate").html(data.date);
-        $("#textarea").html(data.desc);
-
-        tableSite = data.site;
-        var length = tableSite.length;
-        var tempWidth = 61 * (length + 2);
-        var insideWidth = $("#inside").width();
-        var width = tempWidth < insideWidth ? insideWidth : tempWidth;
-
-        var size = duty.size;
-        var dutyTempWidth = 61 * (size + 7);
-        console.log(dutyTempWidth)
-        var dutyInsideWidth = $("#dutyInside").width();
-        var dutyWidth = dutyTempWidth < dutyInsideWidth ? dutyInsideWidth : dutyTempWidth;
-        $("#duty").css('minWidth', dutyWidth + 'px');
-
-
-
-        var thead = ' <td>时间</td><td>测点</td>';
-        for (var a = 0; a < tableSite.length; a++) {
-            var dataItem = tableSite[a];
-            thead += '<td>' + dataItem.name + '</td>';
-        };
-        thead = '<tbody class="thead"><tr>' + thead + '<tr></tbody>';
-
-        var tbody = '';
-        for (var b = 0; b < time.length; b++) {
-            var z = time[b];
-            var wl = '', ws = '';
-            for (var c = 0; c < tableSite.length; c++) {
-                var y = tableSite[c];
-                wl += '<td id="wl_' + z + '_' + y.id + '"></td>';
-                ws += '<td id="ws_' + z + '_' + y.id + '"></td>';
-            };
-            var t = z < 10 ? '0' + z : z;
-            tbody += '<tr>' +
-                '<td rowspan="2">' + t + '时</td>' +
-                '<td>潮位</td>' + wl +
-                ' </tr>' +
-                '<tr>' +
-                '<td>风速</td>' + ws +
-                '</tr>';
-        };
-        tbody = '<tbody class="tbody"><tr>' + tbody + '<tr></tbody>';
-        var table = '<table cellspacing="0" cellpadding="0" border="0" style="min-width:' + width + 'px">' + thead + tbody + '</table>';
-        $("#inside").html(table);
-
-        // var realData = data.data;
-        var realData = JSON.parse(data.data);
-        for (var d = 0; d < time.length; d++) {
-            var x = time[d];
-            for (var key in realData) {
-                var wl_val = realData[key][x].wl;
-                $("#wl_" + x + '_' + key).text(wl_val);
-                var ws_val = realData[key][x].ws;
-                $("#ws_" + x + '_' + key).text(ws_val);
-            }
-        };
-    };
-
-    form.on('submit(setup)', function () {
-        var data = {};
-        for (var c = 0; c < tableSite.length; c++) {
-            var n = tableSite[c].id;
-            data[n] = {};
-            for (var d = 0; d < time.length; d++) {
-                var t = time[d];
-                var wl = $("#wl_" + t + '_' + n).text();
-                var ws = $("#ws_" + t + '_' + n).text();
-                data[n][t] = {
-                    wl: wl,
-                    ws: ws
-                }
-            };
-        };
-        console.log(data)
-    });
-
-
     function generateSite(siteData, buoyData) {
         var length = siteData.length;
         var tempWidth = 61 * (length + 2);
@@ -200,7 +193,6 @@ layui.define(["http"], function (e) {
         };
         $("#tbody").html(tbody);
 
-
         // 表二
         var bouyLength = buoyData.length;
         var dutyTempWidth = 61 * (length + 7);
@@ -217,13 +209,13 @@ layui.define(["http"], function (e) {
         //     '<th rowspan="2" colspan="2">机房环控</th>' +
         //     '<th rowspan="2" colspan="3">其他说明</th></tr>';
         var dutyThead = '<tr><td rowspan="2">时间</td>' +
-            '<td rowspan="2" id="shipin">视频</td>' +
-            '<td rowspan="2" id="leida">地波雷达</td>' +
-            '<td rowspan="2" id="gnss" >GNSS</td>' +
-            '<td colspan="2" id="zhiyuanchuan">志愿船</td>' +
-            '<td colspan="' + bouyLength + '">浮标</td>' +
-            '<td rowspan="2" colspan="2">机房环控</td>' +
-            '<td rowspan="2" colspan="3">其他说明</td></tr>';
+        '<td rowspan="2" id="shipin">视频</td>' +
+        '<td rowspan="2" id="leida">地波雷达</td>' +
+        '<td rowspan="2" id="gnss" >GNSS</td>' +
+        '<td colspan="2" id="zhiyuanchuan">志愿船</td>' +
+        '<td colspan="' + bouyLength + '">浮标</td>' +
+        '<td rowspan="2" colspan="2">机房环控</td>' +
+        '<td rowspan="2" colspan="3">其他说明</td></tr>';
         var th = '<td>近岸</td><td>远洋</td>';
         // var th = '<th>近岸</th><th>远洋</th>';
         for (var i = 0; i < buoyData.length; i++) {
@@ -266,6 +258,24 @@ layui.define(["http"], function (e) {
         };
         $("#dutyTbody").html(dutyTbody);
     };
+    // 生成
+    form.on('submit(setup)', function () {
+        var html = $("#tableBox").html();
+        var stationId = siteXm.getValue('valueStr');
+        var buoyId = buoyXm.getValue('valueStr');
+        http({
+            url: urls.dutySite,
+            type: "post",
+            data: {
+                stationId: stationId,
+                buoyId: buoyId,
+                content: html
+            },
+            success: function (res) {
+                layer.msg(res.msg)
+            }
+        });
+    });
 
-    e("test", {})
+    e("setupTable", {})
 });

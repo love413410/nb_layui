@@ -63,7 +63,7 @@ layui.define(['http'], function (e) {
         btnClick = false;
         setTimeout(function () {
             btnClick = true;
-        }, 5*1000);
+        }, 5 * 1000);
         !isUpload ? changeFn() : $("#uploadBtn").click();
         return false;
     });
@@ -75,7 +75,12 @@ layui.define(['http'], function (e) {
             data: setData,
             success: function (res) {
                 isUpload = false;
-                layer.msg(res.msg);
+                layer.msg(res.msg, {
+                    time: 1500
+                }, function () {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
             }
         });
     };

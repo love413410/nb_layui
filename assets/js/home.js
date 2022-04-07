@@ -152,7 +152,7 @@ layui.define(["http"], function (e) {
     dropdown.render({
         elem: "#user",
         data: [
-            { title: "修改密码", id: "change" },
+            { title: "修改信息", id: "change" },
             { title: "退出登录", id: "logOut" }
         ],
         trigger: 'hover',

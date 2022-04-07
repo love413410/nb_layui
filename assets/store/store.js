@@ -118,7 +118,6 @@ layui.extend({
     for (var key in pages) {
         router[key] = pages[key];
     };
-
     var pagesList = [{
         title: "实时数据", name: "pages/realData", id: "realData",
         meta: { isChildren: false, icon: "layui-icon-chart" },
@@ -147,7 +146,7 @@ layui.extend({
             { title: "报警参数", name: "pages/systemCall", id: "systemCall" },
             { title: "权限管理", name: "pages/systemLimits", id: "systemLimits" },
             { title: "人员信息", name: "pages/systemStaff", id: "systemStaff" },
-            { title: "值班报表", name: "pages/setupTable", id: "setupTable" },
+            // { title: "值班报表", name: "pages/setupTable", id: "setupTable" },
             { title: "视频监控", name: "pages/systemVideo", id: "systemVideo" },
             { title: "操作日志", name: "pages/systemLog", id: "systemLog" },
         ]

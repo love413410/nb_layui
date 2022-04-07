@@ -5,1192 +5,143 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>值班管理>>值班记录</title>
+    <title>系统设置>>生成报表</title>
+
     <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
     <link rel="stylesheet" href="../../assets/css/test.css" />
 </head>
 
 <body>
-    <!-- <div class="layui-form print">
-        <div class="layui-item">
-            <div class="layui-inline readonly">
-                <select name="time" id="time"></select>
-            </div>
-            <div class="layui-inline readonly">
-                <button class="layui-btn layui-btn-sm layui-btn-normal readonly" lay-submit lay-filter="lookup"
-                    id="lookup">查询</button>
+    <div class="layui-form layui_retr">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <div class="xmselect" id="xmSite"></div>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm" id="print">打印</button>
+                <div class="xmselect" id="xmBouy"></div>
             </div>
-            <div class="layui-inline" id="saveBtn">
-                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn">保存</button>
-            </div>
-        </div>
-    </div> -->
-
-    <div class="layui-form print">
-        <div class="layui-item">
-            <div class="layui-inline line">
-                <div class="layui-inline">
-                    <select name="id" id="site"></select>
-                </div>
-                <!-- <div class="layui-inline">
-                    <select name="type" id="type">
-                        <option value="minute">分钟数据</option>
-                        <option value="hour" selected>小时数据</option>
-                    </select>
-                </div> -->
-                <div class="layui-inline">
-                    <button lay-submit lay-filter="lineBtn" class="layui-btn layui-btn-sm layui-btn-normal">查询</button>
-                </div>
-            </div>
-
             <div class="layui-inline">
-                <div class="layui-inline readonly">
-                    <select name="time" id="time"></select>
+                <div class="layui-input-inline">
+                    <button lay-submit lay-filter="preview" class="layui-btn">预览</button>
                 </div>
-                <div class="layui-inline readonly">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal readonly" lay-submit
-                        lay-filter="lookup">查询</button>
+                <div class="layui-input-inline">
+                    <button lay-submit lay-filter="setup" class="layui-btn layui-btn-normal">生成</button>
                 </div>
-                <div class="layui-inline">
-                    <button class="layui-btn layui-btn-sm" id="print">打印</button>
+            </div>
+            <button id="print">打印</button>
+        </div>
+    </div>
+    <div class="layui-fluid table_box">
+        <div id="tableBox">
+            <div class="table_head">值班记录表Ⅰ</div>
+            <div class="table_date" id="tableDate"></div>
+            <div class="table_content table">
+                <div class="table_content_inside" id="inside"></div>
+                <div class="table_foot">
+                    <div class="table_three">值班概述</div>
+                    <div class="textarea">
+                        <textarea id="textarea"></textarea>
+                    </div>
                 </div>
-                <div class="layui-inline" id="saveBtn">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn">保存</button>
+                <div class="table_sign">
+                    <div class="sign_text">签名</div>
+                    <div class="sign_time">17-08时值班员</div>
+                    <div class="sign_img">
+                        <img id="onNight" src="">
+                    </div>
+                    <div class="sign_time">08-17时值班员</div>
+                    <div class="sign_img">
+                        <img id="onDay" src="">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-
-    <div class="charts" id="charts">
-        <div class="charts_box">
-            <div class="line" id="wl"></div>
-            <div class="line" id="ws"></div>
-            <div class="line" id="at"></div>
-
-            <div class="line" id="bp"></div>
-            <div class="line" id="hu"></div>
-            <div class="line" id="vb"></div>
-
-            <div class="line" id="sl"></div>
-            <div class="line" id="wt"></div>
-            <div class="line" id="rn"></div>
-        </div>
-    </div>
-
-    <!-- <div class="print_contents">
-        <div id="printContents">
-            <div class="layui-fluid table_box" id="table"></div>
-            <p style="page-break-before: always;"></p>
-            <div class="layui-fluid duty_box" id="duty"></div>
-        </div>
-    </div> -->
-   <div class="print_contents">
-        <div id="printContents">
-            <div class="layui-fluid table_box" id="table">
-                <div class="tableHead">值班记录表Ⅰ</div>
-                <div class="layui-form-item tableDate">
-                    <div class="layui-inline">
-                        <div class="layui-input-inline dateInput">
-                            <input type="text" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-input-inline">年</div>
-
-                        <div class="layui-input-inline dateInputs">
-                            <input type="text" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-input-inline">月</div>
-
-                        <div class="layui-input-inline dateInputs">
-                            <input type="text" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-input-inline">日至</div>
-
-                        <div class="layui-input-inline dateInput">
-                            <input type="text" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-input-inline">年</div>
-
-                        <div class="layui-input-inline dateInputs">
-                            <input type="text" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-input-inline">月</div>
-
-                        <div class="layui-input-inline dateInputs">
-                            <input type="text" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-input-inline">日</div>
-
-                    </div>
-                </div>
-                <div class="table">
-                    <div class="tableTitle">
-                        <div class="tableOne">
-                            <div>时间</div>
-                            <div>测点</div>
-                        </div>
-                        <div><input type="text" rep="1" value="北仑" class="layui-input"></div>
-                        <div><input type="text" rep="2" value="独山" class="layui-input"></div>
-                        <div><input type="text" rep="3" value="万华" class="layui-input"></div>
-                        <div><input type="text" rep="4" value="胡陈" class="layui-input"></div>
-                        <div><input type="text" rep="5" value="高塘" class="layui-input"></div>
-                        <div><input type="text" rep="6" value="松兰山" class="layui-input"></div>
-                        <div><input type="text" rep="7" value="健跳" class="layui-input"></div>
-                        <div><input type="text" rep="8" value="石浦" class="layui-input"></div>
-                        <div><input type="text" rep="9" value="桐照" class="layui-input"></div>
-                        <div><input type="text" rep="10" value="乌沙山" class="layui-input"></div>
-                        <div><input type="text" rep="11" value="黄避岙" class="layui-input"></div>
-                        <div><input type="text" rep="12" value="渔山" class="layui-input"></div>
-                        <div><input type="text" rep="13" value="梅山" class="layui-input"></div>
-                        <div><input type="text" rep="14" value="镇海" class="layui-input"></div>
-                    </div>
-
-                    <div class="tableList">
-                        <div class="tableOne">
-                            <div>17时</div>
-                            <div class="oneItem">
-                                <p>潮位</p>
-                                <p>风速</p>
-                            </div>
-                        </div>
-                        <div class="tableItem">
-                            <div>
-                                <p><input type="text" rep="wl_17_1" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_2" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_3" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_4" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_5" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_6" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_7" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_8" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_9" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_10" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_11" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_12" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_13" class="layui-input"></p>
-                                <p><input type="text" rep="wl_17_14" class="layui-input"></p>
-                            </div>
-                            <div>
-                                <p><input type="text" rep="ws_17_1" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_2" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_3" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_4" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_5" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_6" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_7" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_8" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_9" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_10" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_11" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_12" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_13" class="layui-input"></p>
-                                <p><input type="text" rep="ws_17_14" class="layui-input"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>18时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>19时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-
-                    <div class="tableList">
-                        <div class="tableOne">
-                            <div>20时</div>
-                            <div class="oneItem">
-                                <p>潮位</p>
-                                <p>风速</p>
-                            </div>
-                        </div>
-                        <div class="tableItem">
-                            <div>
-                                <p><input type="text" rep="wl_20_1" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_2" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_3" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_4" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_5" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_6" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_7" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_8" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_9" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_10" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_11" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_12" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_13" class="layui-input"></p>
-                                <p><input type="text" rep="wl_20_14" class="layui-input"></p>
-                            </div>
-                            <div>
-                                <p><input type="text" rep="ws_20_1" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_2" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_3" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_4" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_5" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_6" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_7" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_8" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_9" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_10" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_11" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_12" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_13" class="layui-input"></p>
-                                <p><input type="text" rep="ws_20_14" class="layui-input"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>21-07时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-
-                    <div class="tableList">
-                        <div class="tableOne">
-                            <div>08时</div>
-                            <div class="oneItem">
-                                <p>潮位</p>
-                                <p>风速</p>
-                            </div>
-                        </div>
-                        <div class="tableItem">
-                            <div>
-                                <p><input type="text" rep="wl_08_1" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_2" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_3" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_4" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_5" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_6" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_7" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_8" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_9" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_10" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_11" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_12" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_13" class="layui-input"></p>
-                                <p><input type="text" rep="wl_08_14" class="layui-input"></p>
-                            </div>
-                            <div>
-                                <p><input type="text" rep="ws_08_1" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_2" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_3" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_4" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_5" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_6" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_7" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_8" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_9" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_10" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_11" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_12" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_13" class="layui-input"></p>
-                                <p><input type="text" rep="ws_08_14" class="layui-input"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>09时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>10时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-
-                    <div class="tableList">
-                        <div class="tableOne">
-                            <div>11时</div>
-                            <div class="oneItem">
-                                <p>潮位</p>
-                                <p>风速</p>
-                            </div>
-                        </div>
-                        <div class="tableItem">
-                            <div>
-                                <p><input type="text" rep="wl_11_1" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_2" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_3" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_4" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_5" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_6" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_7" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_8" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_9" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_10" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_11" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_12" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_13" class="layui-input"></p>
-                                <p><input type="text" rep="wl_11_14" class="layui-input"></p>
-                            </div>
-                            <div>
-                                <p><input type="text" rep="ws_11_1" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_2" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_3" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_4" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_5" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_6" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_7" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_8" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_9" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_10" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_11" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_12" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_13" class="layui-input"></p>
-                                <p><input type="text" rep="ws_11_14" class="layui-input"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>12时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>13时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-
-                    <div class="tableList">
-                        <div class="tableOne">
-                            <div>14时</div>
-                            <div class="oneItem">
-                                <p>潮位</p>
-                                <p>风速</p>
-                            </div>
-                        </div>
-                        <div class="tableItem">
-                            <div>
-                                <p><input type="text" rep="wl_14_1" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_2" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_3" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_4" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_5" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_6" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_7" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_8" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_9" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_10" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_11" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_12" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_13" class="layui-input"></p>
-                                <p><input type="text" rep="wl_14_14" class="layui-input"></p>
-                            </div>
-                            <div>
-                                <p><input type="text" rep="ws_14_1" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_2" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_3" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_4" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_5" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_6" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_7" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_8" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_9" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_10" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_11" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_12" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_13" class="layui-input"></p>
-                                <p><input type="text" rep="ws_14_14" class="layui-input"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>15时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="tableList tableCheckbox">
-                        <div class="tableOne tableTwo">
-                            <p>16时</p>
-                        </div>
-                        <div class="checkbox">
-                            <p><input type="checkbox" /><label>正常</label></p>
-                            <p><input type="checkbox" /><label>不正常</label></p>
-                        </div>
-                        <div class="stateInput">
-                            <label>:</label>
-                            <input type="text" class="layui-input">
-                        </div>
-                    </div>
-
-
-                    <div class="tableFoot">
-                        <div class="tableThree">值班概述</div>
-                        <div class="textarea">
-                            <textarea></textarea>
-                        </div>
-                    </div>
-
-                    <div class="tableList">
-                        <div class="tableOne">
-                            <div>签名</div>
-                        </div>
-                        <div class="time">17-08时值班员</div>
-                        <div class="text">
-                            <img id="onNight">
-                        </div>
-                        <div class="time">08-17时值班员</div>
-                        <div class="text">
-                            <img id="onDay">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p style="page-break-before: always;"></p>
-            <div class="layui-fluid duty_box" id="duty">
-                <div class="tableHead">值班记录表Ⅱ</div>
-                <table cellspacing="0" cellpadding="0" border="1" class="table">
-                    <thead>
+        <p style="page-break-before: always;"></p>
+        <div class="table_head">值班记录表Ⅱ</div>
+        <div class="table_content duty">
+            <div class="table_content_inside" id="dutyInside">
+                <table cellspacing="0" cellpadding="0" border="0" id="duty">
+                    <tbody class="thead" id="dutyThead">
                         <tr>
-                            <th rowspan="2">时间</th>
-                            <th rowspan="2" rep="1">视频</th>
-                            <th rowspan="2" rep="2">地波雷达</th>
-                            <th rowspan="2" rep="3">GNSS</th>
-                            <th colspan="2">志愿船</th>
-                            <th colspan="2">能见度</th>
-                            <th colspan="6">浮标</th>
-                            <th rowspan="2" colspan="2">机房环控</th>
-                            <th rowspan="2" colspan="3">其他说明</th>
+                            <td rowspan="2">时间</td>
+                            <td rowspan="2">测点</td>
+                            <td rowspan="2">地波雷达</td>
+                            <td rowspan="2">GNSS</td>
+                            <td colspan="2">志愿船</td>
+                            <td colspan="4">浮标</td>
+                            <td rowspan="2" colspan="2">机房环控</td>
+                            <td rowspan="2" colspan="3">其他说明</td>
                         </tr>
                         <tr>
-                            <td>
-                                <div contenteditable=true rep="4">近岸</div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="5">远洋</div>
-                            </td>
+                            <td>近岸</td>
+                            <td>远洋</td>
 
-                            <td>
-                                <div contenteditable=true rep="6">北仑</div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="7">镇海</div>
-                            </td>
-
-                            <td>
-                                <div contenteditable=true rep="8">独山</div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="9">万华</div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="10">胡陈</div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="11">高塘</div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="12">松兰山</div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="13">健跳</div>
-                            </td>
+                            <td>北仑</td>
+                            <td>镇海</td>
+                            <td>独山</td>
+                            <td>万华</td>
                         </tr>
-                    </thead>
-                    <tbody>
+                    </tbody>
+                    <tbody class="tbody" id="dutyTbody">
                         <tr>
                             <td>17时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_17_13"></div>
-                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td rowspan="4" colspan="2">
-                                <div class="tabType">
+                                <div class="dutyType">
                                     <p>温度:</p>
                                     <p contenteditable></p>
                                     <p>湿度:</p>
-                                    <p contenteditable></p>
-                                </div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>18时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_18_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>19时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_19_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>20时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_20_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>21-07时</td>
-                            <td colspan="2">
-                                <div class="checkbox" id="checkbox">
-                                    <p><input type="checkbox" id="normal" /><label>正常</label></p>
-                                    <p><input type="checkbox" id="abnormal" /><label>不正常</label></p>
-                                </div>
-                            </td>
-                            <td colspan="13">
-                                <div class="stateInput">
-                                    <label>:</label>
                                     <p contenteditable></p>
                                 </div>
                             </td>
                             <td colspan="3" contenteditable></td>
                         </tr>
                         <tr>
-                            <td>08时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_08_13"></div>
-                            </td>
-                            <td colspan="2">— —</td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
+                            <td>17时</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="3" contenteditable></td>
                         </tr>
                         <tr>
-                            <td>09时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_09_13"></div>
-                            </td>
-                            <td rowspan="4" colspan="2">
-                                <div class="tabType">
-                                    <p>温度:</p>
-                                    <p contenteditable></p>
-                                    <p>湿度:</p>
-                                    <p contenteditable></p>
-                                </div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
+                            <td>17时</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="3" contenteditable></td>
                         </tr>
                         <tr>
-                            <td>10时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_10_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>11时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_11_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>12时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_12_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>13时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_13_13"></div>
-                            </td>
-                            <td rowspan="4" colspan="2">
-                                <div class="tabType">
-                                    <p>温度:</p>
-                                    <p contenteditable></p>
-                                    <p>湿度:</p>
-                                    <p contenteditable></p>
-                                </div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>14时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_14_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>15时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_15_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>16时</td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_1"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_2"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_3"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_4"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_5"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_6"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_7"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_8"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_9"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_10"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_11"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_12"></div>
-                            </td>
-                            <td>
-                                <div contenteditable=true rep="duty_16_13"></div>
-                            </td>
-                            <td colspan="3">
-                                <div contenteditable></div>
-                            </td>
+                            <td>17时</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="3" contenteditable></td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -1201,7 +152,7 @@
                                 概<br>
                                 述<br>
                             </td>
-                            <td colspan="18" class="desc">
+                            <td colspan="18" class="dutyDesc">
                                 <textarea class="layui-textarea" id="textarea"></textarea>
                             </td>
                         </tr>
@@ -1210,11 +161,205 @@
             </div>
         </div>
     </div>
+    <!-- <div class="layui-fluid table_box">
+        <div id="tableBox">
+            <div class="table_head">值班记录表Ⅰ</div>
+            <div class="table_date">
+                <div class="layui-inline">
+                    <div class="layui-input-inline date_input">
+                        <input type="text" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">年</div>
+                    <div class="layui-input-inline date_input">
+                        <input type="text" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">月</div>
+                    <div class="layui-input-inline date_input">
+                        <input type="text" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">日至</div>
+                    <div class="layui-input-inline date_input">
+                        <input type="text" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">年</div>
+                    <div class="layui-input-inline date_input">
+                        <input type="text" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">月</div>
+                    <div class="layui-input-inline date_input">
+                        <input type="text" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">日</div>
+                </div>
+            </div>
+            <div class="table_content table">
+                <div class="table_content_inside" id="inside">
+                    <table cellspacing="0" cellpadding="0" border="0" id="table">
+                        <tbody id="thead" class="thead">
+                            <tr>
+                                <td>时间</td>
+                                <td>测试</td>
+                            </tr>
+                        </tbody>
+                        <tbody id="tbody" class="tbody">
+                            <tr>
+                                <td rowspan="2">17时</td>
+                                <td>潮位</td>
+                                <td>111</td>
+                            </tr>
+                            <tr>
+                                <td>风速</td>
+                                <td>222</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table_foot">
+                    <div class="table_three">值班概述</div>
+                    <div class="textarea">
+                        <textarea></textarea>
+                    </div>
+                </div>
+                <div class="table_sign">
+                    <div class="sign_text">签名</div>
+                    <div class="sign_time">17-08时值班员</div>
+                    <div class="sign_img">
+                        <img id="onNight" src="">
+                    </div>
+                    <div class="sign_time">08-17时值班员</div>
+                    <div class="sign_img">
+                        <img id="onDay" src="">
+                    </div>
+                </div>
+            </div>
+            <p style="page-break-before: always;"></p>
+            <div class="table_head">值班记录表Ⅱ</div>
+            <div class="table_content duty">
+                <div class="table_content_inside" id="dutyInside">
+                    <table cellspacing="0" cellpadding="0" border="0" id="duty">
+                        <thead class="thead" id="dutyThead">
+                            <tr>
+                                <th rowspan="2">时间</th>
+                                <th rowspan="2">测试</th>
+                                <th rowspan="2">地波雷达</th>
+                                <th>GNSS</th>
+                                <th>志愿船</th>
+                                <th colspan="8">浮标</th>
+                                <th rowspan="2" colspan="2">机房环控</th>
+                                <th rowspan="2" colspan="3">其他说明</th>
+                            </tr>
+                            <tr>
+                                <th>近岸</th>
+                                <th>远洋</th>
+
+                                <th>北仑</th>
+                                <th>镇海</th>
+                                <th>独山</th>
+                                <th>万华</th>
+                                <th>胡陈</th>
+                                <th>高塘</th>
+                                <th>松兰山</th>
+                                <th>健跳</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody" id="dutyTbody">
+                            <tr>
+                                <td>17时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td rowspan="4" colspan="2">
+                                    <div class="dutyType">
+                                        <p>温度:</p>
+                                        <p contenteditable></p>
+                                        <p>湿度:</p>
+                                        <p contenteditable></p>
+                                    </div>
+                                </td>
+                                <td colspan="3" contenteditable></td>
+                            </tr>
+                            <tr>
+                                <td>17时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="3" contenteditable></td>
+                            </tr>
+                            <tr>
+                                <td>17时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="3" contenteditable></td>
+                            </tr>
+                            <tr>
+                                <td>17时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="3" contenteditable></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    值<br>
+                                    班<br>
+                                    概<br>
+                                    述<br>
+                                </td>
+                                <td colspan="18" class="dutyDesc">
+                                    <textarea class="layui-textarea" id="textarea"></textarea>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> -->
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
 <script src="../../assets/lib/jquery.js"></script>
 <script src="../../assets//lib/print/jQuery.print.js"></script>
-<script src="../../assets/lib/echarts.js"></script>
+<script src="../../assets/lib/xmselect.js"></script>
 <script>
     layui.config({
         base: "../../assets/"
