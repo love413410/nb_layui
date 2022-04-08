@@ -63,7 +63,7 @@ layui.define(["http"], function (e) {
     ];
     var realTimer = null;
     function getLineDataFn() {
-        clearTimeout(realTimer);
+        // clearTimeout(realTimer);
         http({
             url: urls.dataReal,
             data: { id: dataId },
@@ -82,7 +82,7 @@ layui.define(["http"], function (e) {
                 };
             },
             complete: function () {
-                realTimer = setTimeout(getLineDataFn, 60 * 1000);
+                // realTimer = setTimeout(getLineDataFn, 60 * 1000);
             }
         });
     };

@@ -17,12 +17,6 @@
                 <div class="layui-inline">
                     <select name="id" id="site" lay-filter="selectFilter"></select>
                 </div>
-                <!-- <div class="layui-inline">
-                    <select name="type" id="type">
-                        <option value="minute">分钟数据</option>
-                        <option value="hour" selected>小时数据</option>
-                    </select>
-                </div> -->
             </div>
 
             <div class="layui-inline">
@@ -53,7 +47,119 @@
     </div>
 
     <div class="layui-fluid table_box">
-        <div id="tableBox"></div>
+        <div id="tableBox">
+            <div class="table_head">值班记录表Ⅰ</div>
+            <div class="table_date" id="tableDate"></div>
+            <div class="table_content table">
+                <div class="table_content_inside" id="inside"></div>
+                <div class="table_foot">
+                    <div class="table_three">值班概述</div>
+                    <div class="textarea">
+                        <textarea id="desc"></textarea>
+                    </div>
+                </div>
+                <div class="table_sign">
+                    <div class="sign_text">签名</div>
+                    <div class="sign_time">17-08时值班员</div>
+                    <div class="sign_img">
+                        <img id="onNight" src="">
+                    </div>
+                    <div class="sign_time">08-17时值班员</div>
+                    <div class="sign_img">
+                        <img id="onDay" src="">
+                    </div>
+                </div>
+            </div>
+            <p style="page-break-before: always;"></p>
+            <div class="table_head">值班记录表Ⅱ</div>
+
+            <div class="table_content duty">
+                <div class="table_content_inside" id="dutyInside">
+                    <table cellspacing="0" cellpadding="0" border="0" id="duty">
+                        <tbody class="thead" id="dutyThead">
+                            <tr>
+                                <td rowspan="2">时间</td>
+                                <td rowspan="2">视频</td>
+                                <td rowspan="2">地波雷达</td>
+                                <td rowspan="2">GNSS</td>
+                                <td colspan="2">志愿船</td>
+                                <td colspan="1">浮标</td>
+                                <td rowspan="2">机房环控</td>
+                                <td rowspan="2">其他说明</td>
+                            </tr>
+                            <tr>
+                                <td>近岸</td>
+                                <td>远洋</td>
+                                <td>北仑</td>
+                            </tr>
+                        </tbody>
+                        <tbody class="tbody" id="dutyTbody">
+                            <tr>
+                                <td>17时</td>
+                                <td id="shipin_17"></td>
+                                <td id="leida_17"></td>
+                                <td id="gnss_17"></td>
+                                <td id="yuanyang_17"></td>
+                                <td id="jinan_17"></td>
+                                <td></td>
+                                <td rowspan="4">
+                                    <div class="dutyType">
+                                        <p>温度:</p>
+                                        <p contenteditable></p>
+                                        <p>湿度:</p>
+                                        <p contenteditable></p>
+                                    </div>
+                                </td>
+                                <td contenteditable></td>
+                            </tr>
+                            <tr>
+                                <td>18时</td>
+                                <td id="shipin_18"></td>
+                                <td id="leida_18"></td>
+                                <td id="gnss_18"></td>
+                                <td id="yuanyang_18"></td>
+                                <td id="jinan_18"></td>
+                                <td></td>
+                                <td contenteditable></td>
+                            </tr>
+                            <tr>
+                                <td>19时</td>
+                                <td id="shipin_19"></td>
+                                <td id="leida_19"></td>
+                                <td id="gnss_19"></td>
+                                <td id="yuanyang_19"></td>
+                                <td id="jinan_19"></td>
+                                <td></td>
+                                <td contenteditable></td>
+                            </tr>
+                            <tr>
+                                <td>20时</td>
+                                <td id="shipin_20"></td>
+                                <td id="leida_20"></td>
+                                <td id="gnss_20"></td>
+                                <td id="yuanyang_20"></td>
+                                <td id="jinan_20"></td>
+                                <td></td>
+                                <td contenteditable></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    值<br>
+                                    班<br>
+                                    概<br>
+                                    述<br>
+                                </td>
+                                <td colspan="8" class="dutyDesc">
+                                    <textarea class="layui-textarea" id="textarea"></textarea>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>

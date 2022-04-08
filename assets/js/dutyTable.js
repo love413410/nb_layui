@@ -38,8 +38,7 @@ layui.define(["http"], function (e) {
                 $("#time").html(option);
                 date = time = data[0];
                 form.render();
-                getDataFn();
-                // indexList();
+                indexList();
             }
         });
     };
@@ -57,17 +56,7 @@ layui.define(["http"], function (e) {
         1, 2, 3, 4, 5, 6, 7, 8,
         9, 10, 11, 12, 13, 14, 15, 16
     ];
-    // 获取内容
-    function getDataFn() {
-        http({
-            url: urls.record,
-            data: { time: time },
-            success: function (res) {
-                var data = res.data;
-                setTableHtml(data);
-            }
-        });
-    };
+
     // 给table赋值
     function setTableHtml(data) {
         $("#tableDate").html(data.date);
@@ -128,7 +117,6 @@ layui.define(["http"], function (e) {
         var actualWidth = 61 * size;
         var dutyMinWidth = actualWidth < dutyWidth ? dutyWidth : actualWidth;
         $("#duty").css('minWidth', dutyMinWidth + 'px');
-        indexList();
     };
 
     var siteId = '';
@@ -150,11 +138,8 @@ layui.define(["http"], function (e) {
                 };
                 $("#site").html(arr.join(','));
                 form.render();
-
-                if (id != siteId) {
-                    siteId = id;
-                    getLineFn();
-                }
+                siteId = id;
+                getLineFn();
             }
         });
     };
