@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">点击</button>
+</body>
+<script>
+    var data = {
+        "code": 1,
+        "msg": "返回成功",
+        "data": [
+            {
+                "model_name": "基本信息",
+                "list": [{
+                    "name": "客户姓名", "value": "name", "type": "text", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1"
+                },
+                {
+                    "name": "所在地区", "value": "city", "type": "city", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1"
+                },
+                {
+                    "name": "手机号", "value": "phone", "type": "number", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1"
+                },
+                {
+                    "name": "职业", "value": "occupation", "type": "text", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1"
+                },
+                {
+                    "name": "性别", "value": "sex", "type": "select", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1",
+                    "attribute": [{ "title": "男", "id": "1" }, { "title": "女", "id": "2" }]
+                },
+                {
+                    "name": "年龄", "value": "age", "type": "text", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1"
+                },
+                {
+                    "name": "公司地址", "value": "company", "type": "text", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1"
+                },
+                {
+                    "name": "家庭地址", "value": "family", "type": "text", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": "1"
+                },
+                {
+                    "name": "微信号码", "value": "wxcode", "type": "text", "system": "1", "bi": "1", "checkmarkShow": true, "ishow": ""
+                }]
+            },
+            {
+                "kehu_models_id": "beizhu",
+                "model_image": "http: \/\/crmadmin.ascetic.top\/uploads\/20220507\/4d1f1b91b022c5f8275bafe46ad7a5ea.png",
+                "model_name": "备注",
+                "list": [{
+                    "name": "备注",
+                    "value": "beizhu",
+                    "type": "text",
+                    "typeName": "文本框",
+                    "system": true,
+                    "bi": "1",
+                    "checkmarkShow": true,
+                    "ishow": "1"
+                }]
+            },
+            {
+                "kehu_models_id": "images",
+                "model_image": "http:\/\/crmadmin.ascetic.top\/uploads\/20220506\/f6d6c018b7a3905d65645d1e8bd05bbf.png",
+                "model_name": "图片管理",
+                "list": [{
+                    "name": "图片",
+                    "value": "images",
+                    "type": "images",
+                    "typeName": "多图上传",
+                    "system": true,
+                    "bi": "1",
+                    "checkmarkShow": true,
+                    "ishow": "1"
+                }]
+            },
+            {
+                "kehu_models_id": "level",
+                "model_image": "http:\/\/crmadmin.ascetic.top\/uploads\/20220507\/515cadd6c3c5b6c5fecfeae9cde0e030.png",
+                "model_name": "客户分类",
+                "list": [{
+                    "id": "level_id",
+                    "name": "客户分类",
+                    "value": "level_id",
+                    "type": "select",
+                    "typeName": "下拉框",
+                    "system": true,
+                    "bi": "1",
+                    "attribute": [
+                        { "id": "A", "title": "A" },
+                        { "id": "B", "title": "B" },
+                        { "id": "C", "title": "C" },
+                        { "id": "D", "title": "D" },
+                        { "id": "E", "title": "E" },
+                        { "id": "F", "title": "F" },
+                        { "id": "G", "title": "G" }
+                    ],
+                    "checkmarkShow": true,
+                    "ishow": "1"
+                }]
+            },
+            {
+                "kehu_models_id": 80,
+                "model_name": "客户分类",
+                "model_image": "http:\/\/crmadmin.ascetic.top\/uploads\/20220506\/515cadd6c3c5b6c5fecfeae9cde0e030.png",
+                "list": [{
+                    "id": 10,
+                    "name": "客户级别",
+                    "type": "select",
+                    "search": "1",
+                    "attribute": [
+                        { "id": "重要客户", "title": "重要客户" },
+                        { "id": "中级客户", "title": "中级客户" },
+                        { "id": "22", "title": "22" },
+                        { "id": "3213", "title": "3213" }
+                    ],
+                    "sort": 0,
+                    "createtime": "1649137721",
+                    "beizhu": "",
+                    "ishow": "2",
+                    "icon_image": "http:\/\/crmadmin.ascetic.top\/uploads\/20220405\/488a57cd896549f52848df8078df216a.png",
+                    "kehu_models_id": 80,
+                    "user_id": 1,
+                    "checkmarkShow": true,
+                    "field": null,
+                    "model_name": "客户分类",
+                    "model_sort": 99,
+                    "model_image": "\/uploads\/20220506\/515cadd6c3c5b6c5fecfeae9cde0e030.png",
+                    "typeName": "下拉框",
+                    "value": "field10"
+                },
+                {
+                    "id": 11,
+                    "name": "紧急程度",
+                    "type": "select",
+                    "search": "1",
+                    "attribute": [
+                        { "id": "非常紧急", "title": "非常紧急" },
+                        { "id": "一般紧急", "title": "一般紧急" },
+                        { "id": "不紧急", "title": "不紧急" },
+                        { "id": "3", "title": "3" }
+                    ],
+                    "sort": 0,
+                    "createtime": "1649137838",
+                    "beizhu": "",
+                    "ishow": "2",
+                    "icon_image": "http:\/\/crmadmin.ascetic.top\/uploads\/20220405\/891c517d458ce2fe455e65006908da98.png",
+                    "kehu_models_id": 80,
+                    "user_id": 1,
+                    "checkmarkShow": true,
+                    "field": null,
+                    "model_name": "客户分类",
+                    "model_sort": 99,
+                    "model_image": "\/uploads\/20220506\/515cadd6c3c5b6c5fecfeae9cde0e030.png",
+                    "typeName": "下拉框",
+                    "value": "field11"
+                },
+                {
+                    "id": 129,
+                    "name": "体检", "type": "select", "search": null, "attribute": [{ "id": "1", "title": "1" }, { "id": "1", "title": "1" }, { "id": "1", "title": "1" }], "sort": null, "createtime": "1651565514", "beizhu": null, "ishow": "2", "icon_image": null, "kehu_models_id": 80, "user_id": 1, "checkmarkShow": true, "field": null, "model_name": "客户分类", "model_sort": 99, "model_image": "\/uploads\/20220506\/515cadd6c3c5b6c5fecfeae9cde0e030.png", "typeName": "下拉框", "value": "field129"
+                },
+                {
+                    "id": 130,
+                    "name": "多少", "type": "select", "search": null, "attribute": [{ "id": "2", "title": "2" }, { "id": "3", "title": "3" }, { "id": "4", "title": "4" }], "sort": null, "createtime": "1651565536", "beizhu": null, "ishow": "2", "icon_image": null, "kehu_models_id": 80, "user_id": 1, "checkmarkShow": true, "field": null, "model_name": "客户分类", "model_sort": 99, "model_image": "\/uploads\/20220506\/515cadd6c3c5b6c5fecfeae9cde0e030.png", "typeName": "下拉框", "value": "field130"
+                },
+                {
+                    "id": 150,
+                    "name": "测试", "type": "checkbox", "search": null, "attribute": [{ "id": "1", "title": "1" }, { "id": "2", "title": "2" }, { "id": "3", "title": "3" }, { "id": "4", "title": "4" }], "sort": null, "createtime": "1651888267", "beizhu": null, "ishow": "2", "icon_image": null, "kehu_models_id": 80, "user_id": 1, "checkmarkShow": true, "field": null, "model_name": "客户分类", "model_sort": 99, "model_image": "\/uploads\/20220506\/515cadd6c3c5b6c5fecfeae9cde0e030.png", "typeName": "多选", "value": "field150"
+                }]
+            },
+            {
+                "kehu_models_id": 91,
+                "model_name": "图片管理", "model_image": "http:\/\/crmadmin.ascetic.top\/uploads\/20220509\/bcd31a386f1c8a26bc34ff41e59ec618.png",
+                "list": [
+                    {
+                        "id": 127,
+                        "name": "房",
+                        "type": "image",
+                        "search": null,
+                        "attribute": "",
+                        "sort": null,
+                        "createtime": "1651563313",
+                        "beizhu": null,
+                        "ishow": "2",
+                        "icon_image": null,
+                        "kehu_models_id": 91,
+                        "user_id": 1,
+                        "checkmarkShow": true,
+                        "field": null,
+                        "model_name": "图片管理",
+                        "model_sort": null,
+                        "model_image": "\/uploads\/20220509\/bcd31a386f1c8a26bc34ff41e59ec618.png",
+                        "typeName": "单图上传",
+                        "value": "field127"
+                    },
+                    {
+                        "id": 132,
+                        "name": "车",
+                        "type": "images",
+                        "search": null,
+                        "attribute": null,
+                        "sort": null,
+                        "createtime": "1651565744",
+                        "beizhu": null,
+                        "ishow": "2",
+                        "icon_image": null,
+                        "kehu_models_id": 91,
+                        "user_id": 1,
+                        "checkmarkShow": true,
+                        "field": null,
+                        "model_name": "图片管理",
+                        "model_sort": null,
+                        "model_image": "\/uploads\/20220509\/bcd31a386f1c8a26bc34ff41e59ec618.png",
+                        "typeName": "多图上传",
+                        "value": "field132"
+                    }]
+            }]
+    };
+
+    const dataList = data.data;
+
+    dataList.forEach(item => {
+        item.list.forEach(dataItem => {
+            if (dataItem.type == 'images') {
+                dataItem.key = []
+            } else {
+                dataItem.key = "";
+            };
+        })
+    });
+
+    // const reulesFn = (function () {
+    //     let reulse = {
+    //         text(val) {
+
+    //         },
+    //         city(val) {
+
+    //         },
+    //         number(val) {
+    //             return /^1[3-9]\d{9}$/.test(val);
+    //         }
+    //     };
+    //     return {
+    //         check(value, type) {
+    //             return reulse[type] ? reulse[type](value) : false;
+    //         }
+    //     }
+    // })();
+    // const reulesFn = {
+    //     reulse: {
+    //         text(val) {
+
+    //         },
+    //         city(val) {
+
+    //         },
+    //         number(val) {
+    //             return /^1[3-9]\d{9}$/.test(val);
+    //         }
+    //     },
+    //     check: function (value, type) {
+    //         return this.reulse[type] ? this.reulse[type](value) : false;
+    //     }
+    // };
+    // console.log(reulesFn)
+
+    function reulesFn(value, type) {
+        let reulse = {
+            text(val) {
+
+            },
+            city(val) {
+
+            },
+            number(val) {
+                return /^1[3-9]\d{9}$/.test(val);
+            }
+        };
+        return reulse[type] ? reulse[type](value) : false;
+    };
+
+    const btn = document.getElementById("btn");
+    const from = {};
+    btn.onclick = function () {
+        for (let i = 0; i < dataList.length; i++) {
+            let dataListItem = dataList[i];
+            let res;
+            for (let j = 0; j < dataListItem.list.length; j++) {
+                let dataItem = dataListItem.list[j];
+                res = dataItem.bi == 1 ? reulesFn(dataItem.key, dataItem.type) : true;
+                if (!res) {
+                    alert('请提交正确的' + dataItem.name + ',不可为空');
+                    break;
+                } else {
+                    from[dataItem.value] = dataItem.key;
+                };
+            };
+            if (!res) {
+                break;
+            };
+        };
+    };
+</script>
+
+</html>
