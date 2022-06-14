@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实时数据>>一键签到</title>
+    <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/step.css" />
+</head>
+
+<body>
+    <div class="table_head">值班记录表Ⅰ</div>
+    <div class="table_date" id="recordTime">2022年6月6日至2022年6月7日</div>
+    <div class="table_content">
+        <table cellspacing="0" cellpadding="0" border="0" class="table">
+            <thead class="thead">
+                <tr id="thead">
+                    <th>时间</th>
+                    <th>测点</th>
+                    <th>北仑</th>
+                    <th>独山</th>
+                </tr>
+            </thead>
+            <tbody class="tbody" id="tbody">
+                <tr id="wl17">
+                    <td rowspan="2">17时</td>
+                    <td>潮位</td>
+                    <td contenteditable></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>风速</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">18时</td>
+                    <td>潮位</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>风速</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">19时</td>
+                    <td>潮位</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>风速</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">20时</td>
+                    <td>潮位</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>风速</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>21时-07时</td>
+                    <td colspan="2">
+                        正常<input type="checkbox" title="正常" checked="">
+                        不正常<input type="checkbox" title="不正常">
+                    </td>
+                    <td colspan="11">
+                        <input type="text" class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">08时</td>
+                    <td>潮位</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>风速</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table_foot">
+        <div class="table_three">值班概述</div>
+        <div class="textarea">
+            <textarea id="desc"></textarea>
+        </div>
+    </div>
+    <div class="table_sign">
+        <div class="sign_text">签名</div>
+        <div class="sign_time">17-08时值班员</div>
+        <div class="sign_img">
+            <img id="onNight" src="">
+        </div>
+        <div class="sign_time">08-17时值班员</div>
+        <div class="sign_img">
+            <img id="onDay" src="">
+        </div>
+    </div>
+    <div class="table_head">值班记录表Ⅱ</div>
+
+    <div class="duty_content">
+        <table cellspacing="0" cellpadding="0" border="0">
+            <thead>
+                <tr>
+                    <th rowspan="2">
+                        <div class="duty_cell">时间</div>
+                    </th>
+                    <th rowspan="2">
+                        <div class="duty_cell">视频</div>
+                    </th>
+                    <th rowspan="2">
+                        <div class="duty_cell">地波雷达</div>
+                    </th>
+                    <th rowspan="2">
+                        <div class="duty_cell">GNSS</div>
+                    </th>
+                    <th colspan="2">
+                        <div class="duty_cell">志愿船</div>
+                    </th>
+                    <th colspan="2" id="buoy">
+                        <div class="duty_cell">浮标</div>
+                    </th>
+
+                    <th colspan="2" id="room">
+                        <div class="duty_cell">机房环控</div>
+                    </th>
+                    <th rowspan="2" id="explain">
+                        <div class="duty_cell">其他说明</div>
+                    </th>
+                </tr>
+                <tr id="dutyThead">
+                    <!-- <th>
+                        <div class="duty_cell">近岸</div>
+                    </th>
+                    <th>
+                        <div class="duty_cell">远洋</div>
+                    </th>
+                    <th>
+                        <div class="duty_cell">测试浮标1</div>
+                    </th>
+                    <th>
+                        <div class="duty_cell">测试浮标2</div>
+                    </th> -->
+                </tr>
+            </thead>
+            <tbody id="dutyTbody"></tbody>
+            <tfoot>
+                <tr>
+                    <td class="title">
+                        值<br>
+                        班<br>
+                        概<br>
+                        述<br>
+                    </td>
+                    <td colspan="99999" class="dutyDesc">
+                        <textarea class="layui-textarea" id="dutyDesc"></textarea>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+    <button class="layui-btn" id="sign">确定签到</button>
+</body>
+<script src="../../assets/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../assets/"
+    }).extend({
+        http: "api/http",
+        step: "js/components/step",
+    }).use("step");
+</script>
+
+</html>

@@ -185,7 +185,6 @@ layui.define(["http"], function (e) {
         });
     };
 
-
     // 加入浙江地图
     var myChart;
     $.getJSON(urls.mapUrl, function (geoJson) {
@@ -352,12 +351,48 @@ layui.define(["http"], function (e) {
                     resize: !1,
                     moveOut: 1,
                     skin: "home_layer",
-                    area: ['400px', '300px'],
+                    area: ['600px', '750px'],
                     content: url
                 });
             });
         });
     };
+    // 全屏展示图片
+    window.layerImg = function (id, index) {
+        var photosList = {
+            "title": "图片列表",
+            "id": 123,
+            "start": index,
+            "data": [{ "alt": "图片名", "pid": 666, "src": "", "thumb": "" }]
+        };
+        http({
+            url: urls.siteImageList,
+            data: { id: id },
+            async: false,
+            success: function (res) {
+                var data = res.data, list = [];
+                for (var i = 0; i < data.length; i++) {
+                    var id = data[i].pk, url = data[i].fields.imgSrc;
+                    list.push({
+                        "alt": "站点图片",
+                        "pid": id,
+                        "src": url,
+                        "thumb": url
+                    });
+                };
+                if (!list.length) {
+                    layer.msg("无图片");
+                    return;
+                }
+                photosList.data = list;
+                layer.photos({
+                    photos: photosList,
+                    anim: 5
+                });
+            }
+        });
+    };
+
     // 退出
     $("#outBtn").click(function () {
         store.logOut();
@@ -365,11 +400,5 @@ layui.define(["http"], function (e) {
     window.routerTo = function (url) {
         store.toRouter(url);
     };
-    // 判断权限
-    function isNoFn() {
-        var grade = layui.sessionData('grade').key;
-        grade.indexOf(utils.grade.duty) > -1 ? $("#menuBtn").show() : $("#menuBtn").hide();
-    };
-    // isNoFn();
     e("map", {})
 });

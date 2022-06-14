@@ -7,35 +7,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页点击站点后弹出</title>
     <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/lib/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="../../assets/css/layHome.css" />
 </head>
 
 <body>
-    <div class="layui-form" lay-filter="layForm">
-        <div class="layui-form-item">
-            <label class="layui-form-label">站名:</label>
-            <div class="layui-input-block">
-                <input type="text" name="stationName" readonly class="layui-input" />
+    <div class="content">
+        <div class="layui-form" id="form" lay-filter="layForm">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">站点类型</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Type" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">所属类型</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ofType" disabled class="layui-input" />
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">位置:</label>
-            <div class="layui-input-block">
-                <input type="text" name="seat" readonly class="layui-input" />
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">所在区域</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ofArea" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">所属岸段</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="section" disabled class="layui-input" />
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">最新状态时间:</label>
-            <div class="layui-input-block">
-                <input type="text" name="newTime" readonly class="layui-input" />
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">站点名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="stationName" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">站名代码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="stationNumCode" disabled class="layui-input" />
+                    </div>
+                </div>
             </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">经度</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Lon" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">纬度</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Lat" disabled class="layui-input" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">建站时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="buildTime" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">启用时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="enableTime" disabled class="layui-input" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">站点图片:</label>
+                <div class="layui-input-block img_list">
+                    <div class="swiper" id="swiper">
+                        <div class="swiper-wrapper" id="imgListBox">
+                            <!-- <div class="swiper-slide">
+                            <img src="../../images/unload.png" alt="" class="img">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="../../images/unload.png" alt="" class="img">
+                        </div> -->
+                        </div>
+                    </div>
+                    <!-- <p class="layui-icon more" title="全屏查看,点击遮罩层可关闭" id="more">&#xe622;</p> -->
+                </div>
+            </div>
+
+            <!-- <div class="layui-form-item">
+            <label class="layui-form-label">经度</label>
+            <div class="layui-input-block">
+                <input type="text" name="Lon" disabled class="layui-input" />
+            </div>
+        </div> -->
+        
         </div>
     </div>
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
+<script src="../../assets/lib/swiper/swiper-bundle.min.js"></script>
 <script>
+    var swiper = new Swiper("#swiper", {
+        slidesPerView: 7,
+        spaceBetween: 5,
+        observer: true,
+    });
+
     layui.config({
         base: "../../assets/"
     }).extend({

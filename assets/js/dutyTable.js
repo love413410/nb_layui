@@ -3,190 +3,24 @@ layui.define(["http"], function (e) {
         urls = layui.urls;
 
     var form = layui.form;
-
     // 左侧
-    var elementList = [
-        { id: "wl", charts: null, title: "潮位" },
-        { id: "ws", charts: null, title: "风速" },
-        { id: "wd", charts: null, title: "风向" },
-        { id: "at", charts: null, title: "气温" },
-        { id: "bp", charts: null, title: "气压" },
-        { id: "hu", charts: null, title: "湿度" },
-        { id: "sl", charts: null, title: "盐度" },
-        { id: "wt", charts: null, title: "水温" },
-        { id: "vb", charts: null, title: "能见度" },
-        { id: "rn", charts: null, title: "降水" }
-    ];
+    var lineExample = {
+        wl: { charts: null, title: "潮位" },
+        ws: { charts: null, title: "风速" },
+        wd: { charts: null, title: "风向" },
 
-    var str = '';
-    for (var i = 0; i < elementList.length; i++) {
-        var dataItem = elementList[i];
-        var id = dataItem.id;
-        str += '<div class="line" id="' + id + '"></div>';
+        at: { charts: null, title: "气温" },
+        bp: { charts: null, title: "气压" },
+        hu: { charts: null, title: "湿度" },
+
+        sl: { charts: null, title: "盐度" },
+        wt: { charts: null, title: "水温" },
+        vb: { charts: null, title: "能见度" },
+        rn: { charts: null, title: "降水" },
+        ybg: { charts: null, title: "有效波高" },
     };
-    $("#chartsBox").html(str);
-
-    var date = '', time = '';
-    function getTime() {
-        http({
-            url: urls.getRecord,
-            success: function (res) {
-                var data = res.data, option = '';
-                for (var i = 0; i < data.length; i++) {
-                    option += '<option value="' + data[i] + '">' + data[i] + '</option>';
-                };
-                $("#time").html(option);
-                date = time = data[0];
-                form.render();
-                indexList();
-            }
-        });
-    };
-    getTime();
-
-    // 查询
-    form.on('select(timeSelect)', function (data) {
-        time = data.value;
-        // getDataFn();
-        indexList();
-    });
-
-    var timeList = [
-        17, 18, 19, 20, 21, 22, 23, 0,
-        1, 2, 3, 4, 5, 6, 7, 8,
-        9, 10, 11, 12, 13, 14, 15, 16
-    ];
-
-    // 给table赋值
-    function setTableHtml(data) {
-        $("#tableDate").html(data.date);
-        $("#onNight").attr('src', data.onNight);
-        $("#onDay").attr('src', data.onDay);
-        $("#desc").html(data.desc);
-        // 处理表一
-        var tableSite = JSON.parse(data.site);
-        var length = tableSite.length;
-        var tempWidth = 61 * (length + 2);
-        var insideWidth = $("#inside").width();
-        var width = tempWidth < insideWidth ? insideWidth : tempWidth;
-        var thead = ' <td>时间</td><td>测点</td>';
-        for (var a = 0; a < tableSite.length; a++) {
-            var dataItem = tableSite[a];
-            thead += '<td>' + dataItem.name + '</td>';
-        };
-        thead = '<tbody class="thead"><tr>' + thead + '<tr></tbody>';
-        var tbody = '';
-        for (var b = 0; b < timeList.length; b++) {
-            var z = timeList[b];
-            var wl = '', ws = '';
-            for (var c = 0; c < tableSite.length; c++) {
-                var y = tableSite[c];
-                wl += '<td id="wl_' + z + '_' + y.id + '"></td>';
-                ws += '<td id="ws_' + z + '_' + y.id + '"></td>';
-            };
-            var t = z < 10 ? '0' + z : z;
-            tbody += '<tr>' +
-                '<td rowspan="2">' + t + '时</td>' +
-                '<td>潮位</td>' + wl +
-                ' </tr>' +
-                '<tr>' +
-                '<td>风速</td>' + ws +
-                '</tr>';
-        };
-        tbody = '<tbody class="tbody"><tr>' + tbody + '<tr></tbody>';
-        var table = '<table cellspacing="0" cellpadding="0" border="0" style="min-width:' + width + 'px">' + thead + tbody + '</table>';
-        $("#inside").html(table);
-
-        var tableData = JSON.parse(data.content1);
-        for (var c = 0; c < timeList.length; c++) {
-            var val = timeList[c];
-            for (var key in tableData) {
-                var tableItem = tableData[key];
-                var idx = key.indexOf('_');
-                var str = key.substring(idx + 1);
-                var wl_val = tableItem['time_' + val].wl;
-                $("#wl_" + val + '_' + str).text(wl_val);
-                var ws_val = tableItem['time_' + val].ws;
-                $("#ws_" + val + '_' + str).text(ws_val);
-            };
-        };
-
-        $("#dutyInside").html(data.content2);
-        var dutyWidth = $("#dutyInside").width();
-        var size = Number(data.size + 8);
-        var actualWidth = 61 * size;
-        var dutyMinWidth = actualWidth < dutyWidth ? dutyWidth : actualWidth;
-        $("#duty").css('minWidth', dutyMinWidth + 'px');
-    };
-
-    var siteId = '';
-    function indexList() {
-        var id = '';
-        http({
-            url: urls.indexList,
-            success: function (res) {
-                var data = res.data, arr = [];
-                id = data.length ? data[0].id : "";
-                for (var i = 0; i < data.length; i++) {
-                    var dataItem = data[i];
-                    if (siteId == dataItem.id) {
-                        arr.push('<option value=' + dataItem.id + ' selected>' + dataItem.name + '</option>');
-                        id = dataItem.id;
-                    } else {
-                        arr.push('<option value=' + dataItem.id + '>' + dataItem.name + '</option>');
-                    };
-                };
-                $("#site").html(arr.join(','));
-                form.render();
-                siteId = id;
-                getLineFn();
-            }
-        });
-    };
-
-    form.on('select(selectFilter)', function (data) {
-        siteId = data.value;
-        getLineFn();
-    });
-
-    function getLineFn() {
-        var duty = '', desc = '';
-        if (time == date) {
-            duty = $("#dutyInside").formhtml();
-            desc = $("#desc").val();
-        };
-        http({
-            url: urls.dutyCurves,
-            type: "post",
-            data: {
-                time: time,
-                id: siteId,
-                desc: desc,
-                content2: duty
-            },
-            success: function (res) {
-                var data = res.data, time = res.time, unit = res.unit;
-                for (var i = 0; i < elementList.length; i++) {
-                    var dataItem = elementList[i];
-                    var id = dataItem.id;
-                    dataItem.charts = echarts.init(document.getElementById(id)).dispose();
-                    dataItem.charts = echarts.init(document.getElementById(id));
-                    var option = initLineFn(dataItem.title, data[id], time, unit[id]);
-                    dataItem.charts.setOption(option);
-                };
-                setTableHtml(res.datas);
-            },
-            error: function () {
-                for (var i = 0; i < elementList.length; i++) {
-                    var dataItem = elementList[i];
-                    var id = dataItem.id;
-                    dataItem.charts = echarts.init(document.getElementById(id)).dispose();
-                }
-            }
-        });
-    };
-
-    function initLineFn(title, data, time, unit) {
+    // 初始化折线图
+    var initLineFn = function (title, data, time, unit) {
         var title = title + "(" + data[data.length - 1] + unit + ")"
         var option = {
             title: {
@@ -251,6 +85,354 @@ layui.define(["http"], function (e) {
         return option;
     };
 
+    // 获取折线图数据
+    var siteId = '';
+    var getLineFn = function () {
+        http({
+            url: urls.dutyCurves,
+            type: "post",
+            data: {
+                id: siteId
+            },
+            success: function (res) {
+                var data = res.data, time = res.time; unit = res.unit;
+                for (var item in data) {
+                    var dataItem = lineExample[item];
+                    $("#" + item).show();
+                    dataItem.charts = echarts.init(document.getElementById(item)).dispose();
+                    dataItem.charts = echarts.init(document.getElementById(item));
+                    var option = initLineFn(dataItem.title, data[item], time, unit[item]);
+                    dataItem.charts.setOption(option);
+                };
+            },
+            error: function () {
+                for (var item in data) {
+                    var dataItem = lineExample[item];
+                    if (dataItem.charts) {
+                        dataItem.charts = echarts.init(document.getElementById(item)).dispose();
+                    }
+                }
+            }
+        });
+    };
+    // 获取站点列表
+    var indexList = function () {
+        http({
+            url: urls.indexList,
+            success: function (res) {
+                var data = res.data, arr = [];
+                siteId = data.length ? data[0].id : "";
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    arr.push('<option value=' + dataItem.id + '>' + dataItem.name + '</option>');
+                };
+                $("#site").html(arr.join(','));
+                form.render();
+                getLineFn();
+            }
+        });
+    };
+    indexList();
+    form.on('select(selectFilter)', function (data) {
+        siteId = data.value;
+        getLineFn();
+    });
+    // 右侧
+    var cols = [17, 18, 19, 20, "break", 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    var thead = null;
+    var getTable = function () {
+        http({
+            url: urls.dutyRecord,
+            data: { time: date },
+            success: function (res) {
+                var data = res.data;
+                thead = data.thead;
+                var lth = thead.length;
+
+                var thead_str = '<td>时间</td><td>测点</td>';
+                for (var i = 0; i < thead.length; i++) {
+                    thead_str += '<td>' + thead[i].site + '</td>';
+                };
+                $("#thead").html(thead_str);
+
+                var col_tr = '';
+                for (var j = 0; j < cols.length; j++) {
+                    if (cols[j] == 'break') {
+                        var colspan = lth - 3;
+                        col_tr += '<tr>' +
+                            '<td>21-07时</td>' +
+                            '<td colspan="2">正常<input type="checkbox" id="abnormal">不正常<input type="checkbox" id="normal"></td>' +
+                            '<td colspan="' + colspan + '">' +
+                            '<input type="text" id="remarks" class="layui-input">' +
+                            '</td>' +
+                            '</tr>';
+                    } else {
+                        var wl = '<td rowspan="2">' + cols[j] + '时</td><td>潮位</td>';
+                        var ws = '<td>风速</td>';
+                        for (var k = 0; k < thead.length; k++) {
+                            wl += '<td><input type="text" class="layui-input" id="wl_' + cols[j] + '_' + thead[k].id + '"></td>';
+                            ws += '<td><input type="text" class="layui-input" id="ws_' + cols[j] + '_' + thead[k].id + '"></td>';
+                        };
+                        col_tr += '<tr>' + wl + '</tr><tr>' + ws + '<tr>';
+                    };
+                };
+                $("#tbody").html(col_tr);
+
+                var tbody = data.tbody;
+                for (var item in tbody) {
+                    $("#" + item).val(tbody[item])
+                };
+                var checked = data.checked;
+                if (checked == 1) {
+                    $("#abnormal").attr("checked", true)
+                }
+                if (checked == 2) {
+                    $("#normal").attr("checked", true)
+                }
+                if (checked == 3) {
+                    $("#abnormal").attr("checked", true)
+                    $("#normal").attr("checked", true)
+                }
+                var recordTime = data.recordTime;
+                // var remarks = data.remarks;
+                var onNight = data.onNight;
+                var onDay = data.onDay;
+                var desc = data.desc;
+                $("#recordTime").html(recordTime);
+                // $("#remarks").val(remarks);
+                $("#desc").val(desc);
+                $("#onNight").attr("src", onNight);
+                $("#onDay").attr("src", onDay);
+            }
+        });
+    };
+    // 表二
+    var theads = null;
+    var getDuty = function () {
+        var duty = [
+            { time: "17时", type: "text", text: "温度:", border: "none", code: "site_17" },
+            { time: "18时", type: "input", border: "none", id: "at_1", code: "site_18" },
+            { time: "19时", type: "text", text: "湿度:", border: "none", code: "site_19" },
+            { time: "20时", type: "input", id: "hu_1", code: "site_20" },
+            { time: "21-07时", type: "checkbox", code: "site_21" },
+            { time: "08时", type: null, code: "site_08" },
+            { time: "09时", type: "text", text: "温度:", border: "none", code: "site_09" },
+            { time: "10时", type: "input", border: "none", id: "at_2", code: "site_10" },
+            { time: "11时", type: "text", text: "湿度:", border: "none", code: "site_11" },
+            { time: "12时", type: "input", id: "hu_2", code: "site_12" },
+            { time: "13时", type: "text", text: "温度:", border: "none", code: "site_13" },
+            { time: "14时", type: "input", border: "none", id: "at_3", code: "site_14" },
+            { time: "15时", type: "text", text: "湿度:", border: "none", code: "site_15" },
+            { time: "16时", type: "input", id: "hu_3", code: "site_16" },
+        ];
+        http({
+            url: urls.dutyRecords,
+            data: { time: date },
+            success: function (res) {
+                var data = res.data;
+                theads = data.thead;
+                var size = theads.length;
+                if (size == 0) {
+                    $("#buoy").hide();
+                } else {
+                    $("#buoy").show();
+                    $("#buoy").attr("colspan", size);
+                };
+                var buoy_th = '<th><div class="duty_cell">近岸</div></th><th><div class="duty_cell">远洋</div></th>';
+                for (var i = 0; i < theads.length; i++) {
+                    buoy_th += '<th><div class="duty_cell">' + theads[i].site + '</div></th>';
+                };
+                $("#dutyThead").html(buoy_th);
+
+                var tr = '';
+                for (var j = 0; j < duty.length; j++) {
+                    var dutyItem = duty[j];
+                    var time = dutyItem.time;
+                    var code = dutyItem.code;
+                    var td = '<td><div class="duty_cell">' + time + '</div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_leida"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_gnss"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_jinan"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_yuanyang"></div></td>';
+                    for (var k = 0; k < theads.length; k++) {
+                        var id = theads[k].id;
+                        td += '<td><div class="duty_cell"><input type="text" id="' + code + '_' + id + '" class="layui-input"></div></td>';
+                    };
+
+                    if (dutyItem.type == "text") {
+                        if (dutyItem.border == 'none') {
+                            td += '<td class="none"><div class="duty_cell">' + dutyItem.text + '</div></div></td>';
+                        } else {
+                            td += '<td><div class="duty_cell">' + dutyItem.text + '</div></div></td>';
+                        };
+                        tr += '<tr>' + td + '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_other"></div></td></tr>';
+                    }
+                    if (dutyItem.type == "input") {
+                        var id = dutyItem.id;
+                        if (dutyItem.border == 'none') {
+                            td += '<td class="none"><div class="duty_cell"><input type="text" class="layui-input" id="' + id + '"></div></td>';
+                        } else {
+                            td += '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + id + '"></div></td>';
+                        };
+                        tr += '<tr>' + td + '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_other"></div></td></tr>';
+                    }
+                    if (dutyItem.type == "checkbox") {
+                        td = '<td><div class="duty_cell">21-07时</div></td>' +
+                            '<td colspan="2">正常<input type="checkbox" id="dutyAbnormal">不正常<input type="checkbox"  id="dutynormal"></td>' +
+                            '<td colspan="99999"><div class="duty_cell"><input type="text" class="layui-input" id="dutyRemarks"></div></td>';
+                        tr += '<tr>' + td + '</tr>';
+                    }
+
+                    if (dutyItem.type == null) {
+                        td += '<td><div class="duty_cell">— —</div></td>';
+                        tr += '<tr>' + td + '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_other"></div></td></tr>';
+                    };
+                };
+                $("#dutyTbody").html(tr);
+
+                var tbody = data.tbody;
+                for (var item in tbody) {
+                    $("#" + item).val(tbody[item]);
+                };
+
+                var checked = data.checked;
+                if (checked == 1) {
+                    $("#dutyAbnormal").attr("checked", true)
+                }
+                if (checked == 2) {
+                    $("#dutynormal").attr("checked", true)
+                }
+                if (checked == 3) {
+                    $("#dutyAbnormal").attr("checked", true)
+                    $("#dutynormal").attr("checked", true)
+                }
+
+                var dutyDesc = data.dutyDesc;
+                $("#dutyDesc").val(dutyDesc);
+            }
+        });
+    };
+
+    var date = '';
+    var getTime = function () {
+        http({
+            url: urls.getRecord,
+            success: function (res) {
+                var data = res.data, option = '';
+                for (var i = 0; i < data.length; i++) {
+                    option += '<option value="' + data[i] + '">' + data[i] + '</option>';
+                };
+                $("#time").html(option);
+                date = data.length ? data[0] : "";
+
+                getTable();
+                getDuty();
+                form.render();
+            }
+        });
+    };
+    getTime();
+    // 点击查询
+    form.on('submit(querybtn)', function (data) {
+        date = data.field.time;
+        getTable();
+        getDuty();
+    });
+    // 保存表1
+    var submitTable = function () {
+        var tbody = {};
+        for (var j = 0; j < cols.length; j++) {
+            for (var k = 0; k < thead.length; k++) {
+                var wl_key = "wl_" + cols[j] + "_" + thead[k].id;
+                var ws_key = "ws_" + cols[j] + "_" + thead[k].id;
+                tbody[wl_key] = $("#" + wl_key).val();
+                tbody[ws_key] = $("#" + ws_key).val();
+            };
+        };
+        tbody = JSON.stringify(tbody);
+
+        var checked = 0;
+        if ($("#abnormal").is(":checked")) {
+            checked = 1;
+        }
+        if ($("#normal").is(":checked")) {
+            checked = 2;
+        }
+        if ($("#abnormal").is(":checked") && $("#normal").is(":checked")) {
+            checked = 3;
+        }
+        var recordTime = $("#recordTime").html();
+        var remarks = $("#remarks").val();
+        var desc = $("#desc").val();
+        var onNight = $("#onNight").attr("src");
+        var onDay = $("#onDay").attr("src");
+
+        var head = JSON.stringify(thead);
+        var data = {
+            time: date,
+            thead: head,
+            tbody: tbody,
+            recordTime: recordTime,
+            remarks: remarks,
+            checked: checked,
+            onNight: onNight,
+            onDay: onDay,
+            desc: desc
+        };
+        http({
+            url: urls.dutyRecord,
+            type: "post",
+            data: data,
+            success: function (res) {
+                layer.msg(res.msg)
+            }
+        });
+    };
+    // 保存表2
+    var submitDuty = function () {
+        var tbody = {};
+        $("#dutyTbody .layui-input").each(function () {
+            var key = $(this).attr("id"),
+                val = $(this).val();
+            tbody[key] = val;
+        });
+        tbody = JSON.stringify(tbody);
+        var head = JSON.stringify(theads);
+
+        var checked = 0;
+        if ($("#dutyAbnormal").is(":checked")) {
+            checked = 1;
+        }
+        if ($("#dutynormal").is(":checked")) {
+            checked = 2;
+        }
+        if ($("#dutyAbnormal").is(":checked") && $("#dutynormal").is(":checked")) {
+            checked = 3;
+        }
+        var dutyDesc = $("#dutyDesc").val();
+        var data = {
+            time: date,
+            thead: head,
+            tbody: tbody,
+            checked: checked,
+            dutyDesc: dutyDesc
+        };
+        http({
+            url: urls.dutyRecords,
+            type: "post",
+            data: data,
+            success: function (res) {
+                layer.msg(res.msg)
+            }
+        });
+    };
+    form.on('submit(subbtn)', function () {
+        submitTable();
+        submitDuty();
+    });
+
+
     // 打印
     var baseUrl = urls.baseFileUrl;
     var layuiCss = baseUrl + "/assets/lib/layui/css/layui.css",
@@ -270,6 +452,8 @@ layui.define(["http"], function (e) {
             });
         });
     });
+
+
     // 封装一个
     var oldHTML = $.fn.html;
     $.fn.formhtml = function () {

@@ -14,6 +14,7 @@ body {
 body {
     padding: 15px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* 页面检索框样式 */
@@ -29,29 +30,10 @@ body {
     margin: 0;
 }
 
+.layui_retr .layui-input-inline {
+    width: auto;
+}
+
 .layui_retr .retr_select {
     width: 150px;
-}
-
-/* 图表 */
-.container {
-    width: 100%;
-}
-
-.layui-col-space20 {
-    margin: 0;
-}
-
-.line {
-    height: 250px;
-}
-
-.line_box {
-    height: 300px;
-}
-
-.line>div {
-    width: 100%;
-    height: 100%;
-    display: none;
 }

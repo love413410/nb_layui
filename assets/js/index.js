@@ -7,16 +7,16 @@ layui.define(["http", "store"], function (e) {
     var $ = layui.$,
         form = layui.form;
 
-    var isSign = true;
-    $('.layui-input').attr("disabled", isSign);
-    $(".loginInput").click(function () {
-        isSign ? layer.msg("请选择是否为今日值班人员") : ""
-    });
-    form.on('radio(isSign)', function () {
-        isSign = false;
-        $('.layui-input').attr("disabled", isSign);
-        $('.layui-input').eq(0).focus();
-    });
+    // var isSign = true;
+    // $('.layui-input').attr("disabled", isSign);
+    // $(".loginInput").click(function () {
+    //     isSign ? layer.msg("请选择是否为今日值班人员") : ""
+    // });
+    // form.on('radio(isSign)', function () {
+    //     isSign = false;
+    //     $('.layui-input').attr("disabled", isSign);
+    //     $('.layui-input').eq(0).focus();
+    // });
     form.on('submit(subBtn)', function (data) {
         var data = data.field;
         if (data.isSign != undefined) {
@@ -43,7 +43,10 @@ layui.define(["http", "store"], function (e) {
             });
         };
         if (data.isSign == undefined) {
-            layer.msg("请选择是否为今日值班人员")
+            layer.msg("请选择是否为今日值班人员", {
+                icon: 5,
+                anim: 6
+            })
         };
         return false;
     });

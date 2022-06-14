@@ -9,90 +9,121 @@
 </head>
 
 <body>
-    <form class="layui-form">
+    <div class="layui-form site_form">
         <div class="layui-form-item">
-            <label class="layui-form-label">站点类型:</label>
-            <div class="layui-input-block layui_select">
-                <select name="Type" id="sitetype" lay-filter="sitetype">
-                    <!-- <option value="1">观测站</option>
-                        <option value="2">雷达</option>
-                        <option value="3">浮标</option>
-                        <option value="4">志愿船</option>
-                        <option value="5">GPS</option> -->
-                </select>
+            <div class="layui-inline">
+                <label class="layui-form-label">站点类型</label>
+                <div class="layui-input-block layui_select">
+                    <select name="Type" id="sitetype" lay-filter="sitetype"></select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">所属类型</label>
+                <div class="layui-input-block layui_select">
+                    <select name="ofType" id="oftype"></select>
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">所属类型:</label>
-            <div class="layui-input-block layui_select">
-                <select name="ofType" id="oftype"></select>
+            <div class="layui-inline">
+                <label class="layui-form-label">所在区域</label>
+                <div class="layui-input-block layui_select">
+                    <select name="ofArea" id="ofarea"></select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">所属岸段</label>
+                <div class="layui-input-block layui_select">
+                    <select name="section" id="section"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">站点名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="stationName" required lay-verify="stationName" autocomplete="off"
+                        placeholder="请输入站点名" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">站名代码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="stationNumCode" required lay-verify="stationNumCode" autocomplete="off"
+                        placeholder="请输入站名代码" class="layui-input" />
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">经度</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Lon" required lay-verify="lon" autocomplete="off" placeholder="请输入经度"
+                        class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">纬度</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Lat" required lay-verify="lat" autocomplete="off" placeholder="请输入纬度"
+                        class="layui-input" />
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">所在区域:</label>
-            <div class="layui-input-block layui_select">
-                <select name="ofArea" id="ofarea"></select>
+            <div class="layui-inline">
+                <label class="layui-form-label">建站时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="buildTime" id="buildTime" readonly lay-verify="required"
+                        lay-reqtext="请选择建站时间" autocomplete="off" placeholder="请选择建站时间" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">启用时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="enableTime" id="enableTime" readonly lay-verify="required"
+                        lay-reqtext="请选择启用时间" autocomplete="off" placeholder="请选择启用时间" class="layui-input" />
+                </div>
             </div>
         </div>
+
         <div class="layui-form-item">
-            <label class="layui-form-label">站点名:</label>
-            <div class="layui-input-block">
-                <input type="text" name="stationName" required lay-verify="stationName" autocomplete="off"
-                    placeholder="请输入站点名" class="layui-input" />
+            <div class="layui-inline">
+                <label class="layui-form-label">应到文件</label>
+                <div class="layui-input-block">
+                    <input type="text" name="handleTime" required lay-verify="delayTime" autocomplete="off"
+                        placeholder="请输入应到文件(单位:个)" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">延时时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="delayTime" required lay-verify="delayTime" autocomplete="off"
+                        placeholder="请输入延时时间(分钟)" class="layui-input" />
+                </div>
             </div>
         </div>
+
         <div class="layui-form-item">
-            <label class="layui-form-label">站名代码:</label>
-            <div class="layui-input-block">
-                <input type="text" name="stationNumCode" required lay-verify="stationNumCode" autocomplete="off"
-                    placeholder="请输入站名代码" class="layui-input" />
+            <div class="layui-inline">
+                <label class="layui-form-label">IP地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ip" lay-verify="ip" autocomplete="off" placeholder="请输入IP地址"
+                        class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="state" value="1" title="正常" checked>
+                    <input type="radio" name="state" value="2" title="维护">
+                    <input type="radio" name="state" value="3" title="报警">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">IP地址:</label>
-            <div class="layui-input-block">
-                <!-- <input type="text" name="ip" required lay-verify="ip" autocomplete="off" placeholder="请输入IP地址"
-                        class="layui-input" /> -->
-                <input type="text" name="ip" lay-verify="ip" autocomplete="off" placeholder="请输入IP地址"
-                    class="layui-input" />
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">经度:</label>
-            <div class="layui-input-block">
-                <input type="text" name="Lon" required lay-verify="lon" autocomplete="off" placeholder="请输入经度"
-                    class="layui-input" />
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">纬度:</label>
-            <div class="layui-input-block">
-                <input type="text" name="Lat" required lay-verify="lat" autocomplete="off" placeholder="请输入纬度"
-                    class="layui-input" />
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">应到文件:</label>
-            <div class="layui-input-block">
-                <input type="text" name="handleTime" required lay-verify="delayTime" autocomplete="off"
-                    placeholder="请输入应到文件(单位:个)" class="layui-input" />
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">延时时间:</label>
-            <div class="layui-input-block">
-                <input type="text" name="delayTime" required lay-verify="delayTime" autocomplete="off"
-                    placeholder="请输入延时时间(分钟)" class="layui-input" />
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">状态:</label>
-            <div class="layui-input-block">
-                <input type="radio" name="state" value="1" title="正常" checked>
-                <input type="radio" name="state" value="2" title="维护">
-                <input type="radio" name="state" value="3" title="报警">
-            </div>
-        </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">要素:</label>
             <div class="layui-input-block" id="checkbox">
@@ -112,7 +143,7 @@
                 </button>
             </div>
         </div>
-    </form>
+    </div>
 </body>
 
 <script src="../../assets/lib/layui/layui.js"></script>

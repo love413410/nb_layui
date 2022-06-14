@@ -1,9 +1,24 @@
 layui.define(["http"], function (e) {
     var http = layui.http,
-        urls = layui.urls;
+        urls = layui.urls,
+        getFn = layui.getFn;
 
     var $ = layui.$,
-        form = layui.form;
+        form = layui.form,
+        laydate = layui.laydate;
+
+    laydate.render({
+        elem: "#buildTime",
+        value: getFn.initDate(),
+        max: 0,
+        btns: ['now', 'confirm']
+    });
+    laydate.render({
+        elem: "#enableTime",
+        value: getFn.initDate(),
+        max: 0,
+        btns: ['now', 'confirm']
+    });
 
     var typeId;
     function getTypeFn() {
@@ -70,16 +85,43 @@ layui.define(["http"], function (e) {
                 form.render();
             }
         });
+
+        http({
+            url: urls.sectionList,
+            data: {
+                pageNum: "",//空查全部
+                pageSize: "" //空查全部
+            },
+            async: false,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.section + '</option>';
+                };
+                $("#section").html(str);
+                form.render();
+            }
+        });
     };
 
     form.on('submit(subbtn)', function (data) {
-        var data = data.field;
+        data = data.field;
         var arr = [];
         $('#checkbox .like').each(function () {
             var is = $(this).is(":checked");
             is ? arr.push($(this).val()) : "";
         });
         data.element = arr.join(',');
+
+        var section = data.section;
+        if (!section) {
+            layer.msg("请选择所属岸段", {
+                anim: 6,
+                icon: 5
+            });
+            return;
+        };
+
         http({
             url: urls.siteAdd,
             type: "post",
@@ -92,7 +134,6 @@ layui.define(["http"], function (e) {
                 });
             }
         });
-        return false;
     });
 
     e("systemSiteAdd", {})

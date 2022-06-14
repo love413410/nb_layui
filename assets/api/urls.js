@@ -22,28 +22,24 @@ layui.extend({
         index: baseUrl + '/index/',//地图数据
         indexReceive: baseUrl + '/index/receive/',//数据到报
         indexData: baseUrl + '/index/data/',//实时数据
-
         indexClock: baseUrl + '/index/clock/',//站点详情
         personnelSign: baseUrl + '/personnel/sign/',//值班签到
 
         // 值班记录
         personnelLog: baseUrl + '/personnel/log/',//值班监控>>人员列表 or 值班监控>>值班列表
-        
         record: baseUrl + '/personnel/record/',//值班记录表1 值班记录表2>>详情和保存
         signList: baseUrl + '/sign/list/',//值班查询列表
         personnelCount: baseUrl + '/personnel/count/',//值班统计
-
         dutyCurve: baseUrl + '/duty/curve/',//值班统计
-
         dutyCurves: baseUrl + '/duty/curves/',//值班统计
+        dutyRecord: baseUrl + '/duty/record1/',//值班记录表1
+        dutyRecords: baseUrl + '/duty/record2/',//值班记录表2
 
+        dutySign: baseUrl + '/duty/sign/',//一键签到
 
-       
         getRecord: baseUrl + '/personnel/get/record/',//获取值班记录表
         dutySite: baseUrl + '/duty/site/', // 值班记录>>获取设置站点     设置值班记录表
         dutyBuoy: baseUrl + '/duty/buoy/', // 值班记录>>获取设置浮标
-        
-
         // 业务管理
         word: baseUrl + '/work/event/',//大事记
         getWord: baseUrl + '/work/get/event/',//获取大事记历史模板列表
@@ -90,7 +86,6 @@ layui.extend({
         testDetail: baseUrl + '/test/detail/',//比测仪器>>详情
         testChange: baseUrl + '/test/change/',//比测仪器>>修改
         /**/
-
         useList: baseUrl + '/use/list/',//在用设备列表
         useDevice: baseUrl + '/use/device/',//在用设备>>添加>>可用仪器列表 在用设备>>添加>>添加在用设备
         useRecede: baseUrl + '/use/recede/',//在用设备>>归还
@@ -108,7 +103,6 @@ layui.extend({
         deviceStock: baseUrl + '/device/stock/',//出入库接口  post:出库  get:入库
         deviceStockList: baseUrl + '/device/stock/list/',//备品备件记录表
 
-
         toolRecede: baseUrl + '/tool/recede/',//仪器管理>>入库仪器列表
         toolStockPeople: baseUrl + '/tool/stock/people/',//仪器管理>>出库领用人
 
@@ -121,8 +115,17 @@ layui.extend({
         siteStyle: baseUrl + '/site/style/',//站点信息>>添加>>站点区域 or 站点类型
         siteAdd: baseUrl + '/site/register/',//站点信息>>添加
 
+        sectionAdd: baseUrl + '/site/add/section/',//岸段>>添加
+        sectionDelete: baseUrl + '/site/delete/section/',//岸段>>删除
+        sectionChange: baseUrl + '/site/change/section/',//岸段>>修改
+        sectionList: baseUrl + '/site/list/section/',//岸段>>列表
+
         siteEl: baseUrl + '/site/el/',//站点信息>>添加>>要素  站点信息>>修改>>要素
         siteChange: baseUrl + '/site/change/',//站点信息>>修改和详情
+        siteImage: baseUrl + '/site/add/image/',//站点信息>>修改站点>>上传图片
+        siteImageList: baseUrl + '/site/list/image/',//站点信息>>>>修改站点>>图片列表
+        siteImageDelete: baseUrl + '/site/delete/image/',//站点信息>>>>修改站点>>图片删除
+
 
         parameterList: baseUrl + '/parameter/list/',//报警参数>>列表
         parameterDeta: baseUrl + '/parameter/detail/',//报警参数>>详情

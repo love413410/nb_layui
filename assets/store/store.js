@@ -35,6 +35,10 @@ layui.extend({
             url: "/views/pages/site.html",
             blacklist: [grade.instAdmin, grade.duty]
         },
+        "pages/shore": {
+            url: "/views/pages/shore.html",
+            blacklist: [grade.instAdmin, grade.duty]
+        },
         "pages/systemCall": {
             url: "/views/pages/systemCall.html",
             blacklist: [grade.instAdmin, grade.duty]
@@ -68,12 +72,17 @@ layui.extend({
         "record/facility": "/views/pages/facility.html",
         "pages/businessArchives": "/views/pages/businessArchives.html",
         "pages/live": "/views/pages/live.html",
-        
+
         "pages/test": "/views/pages/test.html"
     };
 
     var pages = {
         "layHome": "/views/components/layHome.html",
+
+        "step": "/views/components/step.html",
+
+
+
         "instReuseCheck": "/views/components/instReuseCheck.html",
         "instReuseContrast": "/views/components/instReuseContrast.html",
         "instReusePart": "/views/components/instReusePart.html",
@@ -105,6 +114,9 @@ layui.extend({
 
         "systemSiteAdd": "/views/components/systemSiteAdd.html",
         "systemSiteChange": "/views/components/systemSiteChange.html",
+        "systemShoreAdd": "/views/components/systemShoreAdd.html",
+        "systemShoreChange": "/views/components/systemShoreChange.html",
+        
         "systemCallChange": "/views/components/systemCallChange.html",
         "systemStaffAdd": "/views/components/systemStaffAdd.html",
         "systemStaffChange": "/views/components/systemStaffChange.html",
@@ -122,14 +134,6 @@ layui.extend({
         title: "实时数据", name: "pages/realData", id: "realData",
         meta: { isChildren: false, icon: "layui-icon-chart" },
     }, {
-        title: "设备巡查",
-        meta: { isChildren: true, icon: "layui-icon-survey" },
-        children: [
-            { title: "备品备件", name: "pages/instSpare", id: "instSpare" },
-            { title: "在用设备", name: "pages/instReuse", id: "instReuse" },
-            { title: "比测仪器", name: "pages/instObs", id: "instObs" }
-        ]
-    }, {
         title: "数据查询",
         meta: { isChildren: true, icon: "layui-icon-chart-screen" },
         children: [
@@ -137,18 +141,6 @@ layui.extend({
             { title: "报警记录", name: "pages/queryCall", id: "queryCall" },
             { title: "数据统计", name: "pages/queryCensus", id: "queryCensus" },
             { title: "月报表", name: "pages/monthReport", id: "monthReport" },
-        ]
-    }, {
-        title: "系统管理",
-        meta: { isChildren: true, icon: "layui-icon-set" },
-        children: [
-            { title: "站点管理", name: "pages/site", id: "site", },
-            { title: "报警参数", name: "pages/systemCall", id: "systemCall" },
-            { title: "权限管理", name: "pages/systemLimits", id: "systemLimits" },
-            { title: "人员信息", name: "pages/systemStaff", id: "systemStaff" },
-            // { title: "值班报表", name: "pages/setupTable", id: "setupTable" },
-            { title: "视频监控", name: "pages/systemVideo", id: "systemVideo" },
-            { title: "操作日志", name: "pages/systemLog", id: "systemLog" },
         ]
     }, {
         title: "值班管理",
@@ -170,8 +162,29 @@ layui.extend({
             { title: "业务工作档案", name: "pages/businessArchives", id: "businessArchives" }
         ]
     }, {
+        title: "设备巡查",
+        meta: { isChildren: true, icon: "layui-icon-survey" },
+        children: [
+            { title: "备品备件", name: "pages/instSpare", id: "instSpare" },
+            { title: "在用设备", name: "pages/instReuse", id: "instReuse" },
+            { title: "比测仪器", name: "pages/instObs", id: "instObs" }
+        ]
+    }, {
         title: "视频监控", name: "500", id: "live",
         meta: { isChildren: false, icon: "layui-icon-video" }
+    }, {
+        title: "系统管理",
+        meta: { isChildren: true, icon: "layui-icon-set" },
+        children: [
+            { title: "站点管理", name: "pages/site", id: "site", },
+            { title: "岸段管理", name: "pages/shore", id: "systemShore" },
+            { title: "报警参数", name: "pages/systemCall", id: "systemCall" },
+            { title: "权限管理", name: "pages/systemLimits", id: "systemLimits" },
+            // { title: "人员信息", name: "pages/systemStaff", id: "systemStaff" },
+            // { title: "值班报表", name: "pages/setupTable", id: "setupTable" },
+            { title: "视频监控", name: "pages/systemVideo", id: "systemVideo" },
+            { title: "操作日志", name: "pages/systemLog", id: "systemLog" },
+        ]
     }, {
         title: "系统介绍", name: "sketch", id: "sketch",
         meta: { isChildren: false, icon: "layui-icon-read" }

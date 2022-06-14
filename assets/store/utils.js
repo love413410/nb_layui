@@ -18,7 +18,6 @@ layui.define(function (e) {
     }
     baseFileUrl = baseOrigin + basePath + isPath;
 
-
     // 截取页面传参
     function locaStr(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

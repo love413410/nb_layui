@@ -11,6 +11,27 @@ layui.define(["http", "tabList"], function (e) {
 
     var tableIns, ofType = 0, ofArea = 0, page = 1;
 
+    var section = {};//岸段集合
+    var getSectionList = function () {
+        http({
+            url: urls.sectionList,
+            data: {
+                pageNum: "",//空查全部
+                pageSize: "" //空查全部
+            },
+            async: false,
+            success: function (res) {
+                var data = res.data;
+                for (var i = 0; i < data.length; i++) {
+                    var key = data[i].pk,
+                        value = data[i].fields.section;
+                    section[key] = value;
+                };
+                getListFn();
+            }
+        });
+    };
+
     window.getListFn = function () {
         tableIns = tabList.render({
             url: urls.siteList,
@@ -23,9 +44,20 @@ layui.define(["http", "tabList"], function (e) {
                 { title: '站点类型', templet: function (item) { return item.fields.Type; } },
                 { title: '所属类型:', templet: function (item) { return item.fields.ofType; } },
                 { title: '所在区域', templet: function (item) { return item.fields.ofArea; } },
+                {
+                    title: '所属岸段', templet: function (item) {
+                        var key = item.fields.section;
+                        var value = section[key] ? section[key] : "";
+                        return value;
+                    }
+                },
+
                 { title: '站名代码', templet: function (item) { return item.fields.stationNumCode; } },
                 { title: '经度', templet: function (item) { return item.fields.Lon; } },
                 { title: '纬度', templet: function (item) { return item.fields.Lat; } },
+                { title: '建站时间', templet: function (item) { return item.fields.buildTime; } },
+                { title: '启用时间', templet: function (item) { return item.fields.enableTime; } },
+
                 { title: 'IP地址', templet: function (item) { return item.fields.ip; } },
                 { title: '应到文件', templet: function (item) { return item.fields.handleTime + '(个)'; } },
                 { title: '延时时间', templet: function (item) { return item.fields.delayTime + '(分钟)'; } },
@@ -35,7 +67,7 @@ layui.define(["http", "tabList"], function (e) {
             done: function (data, curr) { page = curr; }
         });
     };
-    function getTypeFn() {
+    var getTypeFn = function () {
         http({
             url: urls.siteStyle,
             success: function (res) {
@@ -59,7 +91,7 @@ layui.define(["http", "tabList"], function (e) {
                 form.render();
             }
         });
-        getListFn();
+        getSectionList();
     };
     getTypeFn();
 
@@ -107,14 +139,16 @@ layui.define(["http", "tabList"], function (e) {
             }
         });
     };
-    function layAlertFn(title, url) {
+    function layAlertFn(title, url, height) {
+        height = height || "750px"
         layer.open({
             type: 2,
             title: title,
             resize: !1,
             skin: "layui_layer",
             id: "id",
-            area: ["650px", "750px"],
+            area: ["850px", height],
+            // area: ["850px", "750px"],
             offset: "50px",
             content: url
         });
@@ -123,7 +157,7 @@ layui.define(["http", "tabList"], function (e) {
     var clickMethod = {
         add: function () {
             var title = "添加站点", url = store.filterUrl("systemSiteAdd");
-            layAlertFn(title, url);
+            layAlertFn(title, url, "610px");
         },
         edit: function () {
             var title = "修改站点", url = store.filterUrl("systemSiteChange") + "?id=" + dataId + "";
@@ -137,5 +171,43 @@ layui.define(["http", "tabList"], function (e) {
         var event = data.event;
         clickMethod[event]();
     });
+
+    // 弹出图片,从修改页面传过来的
+    window.layerImg = function (imgId) {
+        var photosList = {
+            "title": "图片列表",
+            "id": 123,
+            "start": 0,
+            "data": [{ "alt": "图片名", "pid": 666, "src": "", "thumb": "" }]
+        };
+        http({
+            url: urls.siteImageList,
+            data: { id: dataId },
+            async: false,
+            success: function (res) {
+                var data = res.data, list = [], index = 0;
+                for (var i = 0; i < data.length; i++) {
+                    var id = data[i].pk, url = data[i].fields.imgSrc;
+                    if (id == imgId) { index = i };
+                    list.push({
+                        "alt": "站点图片",
+                        "pid": id,
+                        "src": url,
+                        "thumb": url
+                    });
+                };
+                if (!list.length) {
+                    layer.msg("无图片");
+                    return;
+                };
+                photosList.start = index;
+                photosList.data = list;
+                layer.photos({
+                    photos: photosList,
+                    anim: 5
+                });
+            }
+        });
+    };
     e("systemSite", {})
 });
