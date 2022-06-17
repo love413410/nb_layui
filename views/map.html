@@ -18,11 +18,10 @@
     <audio src="../images/0.mp3" id="audio" hidden controls="controls" loop></audio>
     <img src="../images/false.png" is="false" id="play">
 
-    <a href="#" class="routo_btn" onclick="routerTo('pages/home')">后台管理>></a>
+    <!-- <a href="#" class="routo_btn" onclick="routerTo('pages/home')">后台管理>></a> -->
 
     <div class="head">
         <div class="layui-float-left logo">观测系统运行监控软件平台</div>
-
         <div class="layui-float-right layui-form">
             <div class="layui-form-item">
                 <div class="layui-inline" id="headDate"></div>
@@ -42,6 +41,11 @@
                         </div>
                     </div>
                 </div> -->
+                <div class="layui-inline">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-xs" onclick="routerTo('pages/home')">后台</button>
+                    </div>
+                </div>
                 <div class="layui-inline">
                     <div class="layui-input-block">
                         <button class="layui-btn layui-btn-xs danger" id="outBtn">退出</button>

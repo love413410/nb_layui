@@ -6,6 +6,7 @@ layui.extend({
 
     var baseFileUrl = urls.baseFileUrl,
         grade = utils.grade;
+
     var router = {
         "index": "/index.html",
         "map": "/views/map.html",
@@ -116,7 +117,7 @@ layui.extend({
         "systemSiteChange": "/views/components/systemSiteChange.html",
         "systemShoreAdd": "/views/components/systemShoreAdd.html",
         "systemShoreChange": "/views/components/systemShoreChange.html",
-        
+
         "systemCallChange": "/views/components/systemCallChange.html",
         "systemStaffAdd": "/views/components/systemStaffAdd.html",
         "systemStaffChange": "/views/components/systemStaffChange.html",
@@ -129,6 +130,16 @@ layui.extend({
 
     for (var key in pages) {
         router[key] = pages[key];
+    };
+    var live = {
+        title: "视频监控", name: "500", id: "live",
+        meta: { isChildren: false, icon: "layui-icon-video" }
+    };
+    var ie = layui.device().ie;
+    if (!ie || ie < 11) {
+        live.name = '500'
+    } else {
+        live.name = 'pages/live'
     };
     var pagesList = [{
         title: "实时数据", name: "pages/realData", id: "realData",
@@ -169,10 +180,9 @@ layui.extend({
             { title: "在用设备", name: "pages/instReuse", id: "instReuse" },
             { title: "比测仪器", name: "pages/instObs", id: "instObs" }
         ]
-    }, {
-        title: "视频监控", name: "500", id: "live",
-        meta: { isChildren: false, icon: "layui-icon-video" }
-    }, {
+    },
+        live,
+    {
         title: "系统管理",
         meta: { isChildren: true, icon: "layui-icon-set" },
         children: [
@@ -189,13 +199,6 @@ layui.extend({
         title: "系统介绍", name: "sketch", id: "sketch",
         meta: { isChildren: false, icon: "layui-icon-read" }
     }];
-
-    var ie = layui.device().ie;
-    if (!ie || ie < 11) {
-        pagesList[pagesList.length - 2].name = '500'
-    } else {
-        pagesList[pagesList.length - 2].name = 'pages/live'
-    };
     //拼接路径
     function filterUrl(src) {
         var dataItem = router[src];

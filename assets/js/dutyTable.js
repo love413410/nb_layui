@@ -138,7 +138,7 @@ layui.define(["http"], function (e) {
         getLineFn();
     });
     // 右侧
-    var cols = [17, 18, 19, 20, "break", 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    var cols = [17, 18, 19, 20, "break", "08", "09", 10, 11, 12, 13, 14, 15, 16];
     var thead = null;
     var getTable = function () {
         http({

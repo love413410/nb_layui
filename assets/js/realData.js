@@ -356,7 +356,10 @@ layui.define(["http"], function (e) {
                     containLabel: true
                 },
                 tooltip: {
-                    trigger: 'axis'
+                    trigger: 'axis',
+                    valueFormatter: function (value) {
+                        return value + unit;
+                    }
                 },
                 xAxis: {
                     boundaryGap: false,
@@ -529,7 +532,10 @@ layui.define(["http"], function (e) {
                     containLabel: true
                 },
                 tooltip: {
-                    trigger: 'axis'
+                    trigger: 'axis',
+                    valueFormatter: function (value) {
+                        return value + unit;
+                    }
                 },
                 xAxis: {
                     boundaryGap: false,
@@ -593,7 +599,10 @@ layui.define(["http"], function (e) {
                     containLabel: true
                 },
                 tooltip: {
-                    trigger: 'axis'
+                    trigger: 'axis',
+                    valueFormatter: function (value) {
+                        return value + unit;
+                    }
                 },
                 xAxis: {
                     boundaryGap: false,
@@ -659,15 +668,13 @@ layui.define(["http"], function (e) {
             url: urls.dataReal,
             data: { id: dataId },
             success: function (res) {
-                console.log(res)
                 var data = res.data;
                 for (var item in data) {
                     $("#" + item).show();
-                    // $("#" + item + "_box").show();
-                    element[item] = Object.assign(element[item], data[item]);
+                    $.extend(element[item], data[item]);
+                    // element[item] = Object.assign(element[item], data[item]);
                     initEcharts.call(chartsOption, item);
                 };
-
             }
         });
     };
@@ -692,7 +699,7 @@ layui.define(["http"], function (e) {
 
     form.on('select(siteFilter)', function (data) {
         dataId = data.value;
-        // getLineDataFn();
+        getLineDataFn();
     });
 
 

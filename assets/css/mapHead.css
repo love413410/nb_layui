@@ -56,6 +56,7 @@
     box-sizing: border-box;
 }
 
+
 .head .layui-form .layui-form-item {
     height: 30px;
     line-height: 30px;
@@ -68,6 +69,10 @@
 .head .layui-form .layui-input-block {
     width: auto;
     margin-left: 0;
+}
+
+.head .layui-inline {
+    margin-right: 0;
 }
 
 .head .layui-form .layui-btn {

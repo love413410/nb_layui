@@ -151,23 +151,24 @@ body {
 .table_foot {
     display: flex;
     height: 120px;
-    border-right: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border: 1px solid #000;
+    border-top: none;
+    box-sizing: border-box;
 }
 
 .table_foot .table_three {
-    flex: 1;
+    width: 60px;
     min-width: 60px;
     height: 120px;
     line-height: 120px;
     text-align: center;
-    border-left: 1px solid #000;
     border-right: 1px solid #000;
     box-sizing: border-box;
 }
 
 .table_foot .textarea {
-    flex: 14;
+    flex: 1;
+    padding: 10px;
     box-sizing: border-box;
 }
 

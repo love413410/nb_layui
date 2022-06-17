@@ -51,7 +51,7 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                 var data = res.data;
                 var str = '';
                 for (var i = 0; i < data.length; i++) {
-                    str += '<option value="' + data[i].pk + '">' + data[i].fields.userName + '</option>';
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
                 };
                 $("#user").html(str);
                 form.render();
@@ -73,6 +73,11 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                     title: '操作日期',
                     templet: function (item) {
                         return item.fields.actionTime;
+                    }
+                }, {
+                    title: '操作模块',
+                    templet: function (item) {
+                        return item.fields.actionModel;
                     }
                 }, {
                     title: '操作内容',

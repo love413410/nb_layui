@@ -1,5 +1,9 @@
 layui.define(["http"], function (e) {
+    var http = layui.http,
+        urls = layui.urls;
+
     var store = layui.store;
+
 
     var $ = layui.$,
         element = layui.element,
@@ -11,7 +15,7 @@ layui.define(["http"], function (e) {
     var userName = layui.sessionData('userName').key;
     $("#user").html(userName);
 
-    var tabsList = [], tabAddList = [];
+    var tabAddList = [];
     function menuForFn() {
         var list = '';
         for (var i = 0; i < pagesList.length; i++) {
@@ -53,7 +57,6 @@ layui.define(["http"], function (e) {
         $("#sideMenu .layui-nav-item").eq(0).addClass("layui-this");
         var item = pagesList[0];
         var title = item.title, id = item.id, url = item.name, index = 0, action = item.action;
-        // tabsList.push(url);
         tabAddList.push(id);
 
         var token = layui.sessionData('token').key;
@@ -119,11 +122,7 @@ layui.define(["http"], function (e) {
         $("#" + id).parents(".layui-nav-item").addClass("layui-nav-itemed");
         breadcrumbAdd(title, idx);
     });
-    element.on('tabDelete(' + tabFilter + ')', function (elem) {
-        // var url = $(this).parent().attr("lay-url");
-        // var id = $(this).parent().attr("lay-id");
-        // tabsList.splice(tabsList.indexOf(url), 1);
-        // tabAddList.splice(tabAddList.indexOf(id), 1);
+    element.on('tabDelete(' + tabFilter + ')', function () {
         var id = $(this).parent().attr("lay-id");
         tabAddList.splice(tabAddList.indexOf(id), 1);
     });
@@ -179,5 +178,16 @@ layui.define(["http"], function (e) {
     window.routerTo = function (url) {
         store.toRouter(url);
     };
+    // var always = function () {
+    //     http({
+    //         url: urls.siteEl,
+    //         data: { type: 1 },
+    //         complete: function () {
+    //             console.log("home.js186行:一直请求")
+    //         }
+    //     });
+    // };
+    // setInterval(always, 60 * 1000);
+
     e("home", {})
 });
