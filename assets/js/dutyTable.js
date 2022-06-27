@@ -243,7 +243,9 @@ layui.define(["http"], function (e) {
                     buoy_th += '<th><div class="duty_cell">' + theads[i].site + '</div></th>';
                 };
                 $("#dutyThead").html(buoy_th);
+                console.log(data)
 
+                colspan=size+9;
                 var tr = '';
                 for (var j = 0; j < duty.length; j++) {
                     var dutyItem = duty[j];
@@ -280,7 +282,7 @@ layui.define(["http"], function (e) {
                     if (dutyItem.type == "checkbox") {
                         td = '<td><div class="duty_cell">21-07时</div></td>' +
                             '<td colspan="2">正常<input type="checkbox" id="dutyAbnormal">不正常<input type="checkbox"  id="dutynormal"></td>' +
-                            '<td colspan="99999"><div class="duty_cell"><input type="text" class="layui-input" id="dutyRemarks"></div></td>';
+                            '<td colspan="'+colspan+'"><div class="duty_cell"><input type="text" class="layui-input" id="dutyRemarks"></div></td>';
                         tr += '<tr>' + td + '</tr>';
                     }
 

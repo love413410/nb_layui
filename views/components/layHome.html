@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页点击站点后弹出</title>
     <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
-    <link rel="stylesheet" href="../../assets/lib/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../../assets/lib/swiper/swiper.css">
     <link rel="stylesheet" href="../../assets/css/layHome.css" />
 </head>
 
@@ -91,7 +91,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">站点图片:</label>
                 <div class="layui-input-block img_list">
-                    <div class="swiper" id="swiper">
+                    <!-- <div class="swiper" id="swiper"> -->
+                    <div class="swiper-container" id="swiper">
                         <div class="swiper-wrapper" id="imgListBox">
                             <!-- <div class="swiper-slide">
                             <img src="../../images/unload.png" alt="" class="img">
@@ -111,12 +112,12 @@
                 <input type="text" name="Lon" disabled class="layui-input" />
             </div>
         </div> -->
-        
+
         </div>
     </div>
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
-<script src="../../assets/lib/swiper/swiper-bundle.min.js"></script>
+<script src="../../assets/lib/swiper/swiper.js"></script>
 <script>
     var swiper = new Swiper("#swiper", {
         slidesPerView: 7,

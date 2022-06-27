@@ -75,26 +75,35 @@ layui.define(["http"], function (e) {
         var id = $(this).attr("lay-id");
         var url = $(this).attr("lay-url");
 
-        var index = tabAddList.indexOf(id);
-        if (index < 0) {
-            tabAddList.push(id);
-            elementAdd(title, id, url, idx);
-        };
-        element.tabChange(tabFilter, id);
+        // 方式一不添加navBar
+        elementAdd(title, id, url, idx);
+
+        // 方式二 添加tabbar
+        // var index = tabAddList.indexOf(id);
+        // if (index < 0) {
+        //     tabAddList.push(id);
+        //     elementAdd(title, id, url, idx);
+        // };
+        // element.tabChange(tabFilter, id);
     });
 
     // 添加tabs
     function elementAdd(title, id, url, idx) {
-        // var src = store.filterUrl(url) + "?action=" + action;
+
+        // 方式一不添加navBar
         var src = store.filterUrl(url);
-        var content = '<iframe src="' + src + '" frameborder="0" class="iframe"></iframe>';
-        element.tabAdd(tabFilter, {
-            title: title,
-            content: content,
-            id: id,
-            url: url,
-            idx: idx
-        });
+        $("#iframe").attr("src", src);
+
+        // 方式二 添加navBar
+        // var src = store.filterUrl(url);
+        // var content = '<iframe src="' + src + '" frameborder="0" class="iframe"></iframe>';
+        // element.tabAdd(tabFilter, {
+        //     title: title,
+        //     content: content,
+        //     id: id,
+        //     url: url,
+        //     idx: idx
+        // });
     };
     // 添加面包屑
     function breadcrumbAdd(title, idx) {

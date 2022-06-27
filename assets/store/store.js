@@ -157,7 +157,7 @@ layui.extend({
         title: "值班管理",
         meta: { isChildren: true, icon: "layui-icon-user" },
         children: [
-            { title: "值班监控", name: "pages/dutyMonitor", id: "dutyMonitor" },
+            // { title: "值班监控", name: "pages/dutyMonitor", id: "dutyMonitor" },
             { title: "值班查询", name: "pages/dutyQuery", id: "dutyQuery" },
             { title: "值班统计", name: "pages/dutyCensus", id: "dutyCensus" },
             { title: "值班记录", name: "pages/dutyTable", id: "dutyTable" },

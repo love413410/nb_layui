@@ -8,7 +8,7 @@ layui.define(["http"], function (e) {
         form = layui.form;
 
     var id = utils.locaStr('id');
-
+    
     var getDetaFn = function () {
         http({
             url: urls.indexClock,

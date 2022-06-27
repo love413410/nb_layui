@@ -62,6 +62,7 @@ body {
 .tbody tr {
     border-bottom: 1px solid #000;
 }
+
 .tbody td {
     min-width: 60px;
     height: 30px;
@@ -210,11 +211,31 @@ body {
     margin: 0 5px;
 }
 
-.duty_content tfoot .title {
-    text-align: center;
+.duty_foot {
+    display: flex;
+    height: 120px;
+    border-bottom: 1px solid #000;
+    /* border-top: none; */
+    box-sizing: border-box;
 }
 
-.dutyDesc textarea {
+.duty_foot .table_three {
+    width: 60px;
+    min-width: 60px;
+    height: 120px;
+    text-align: center;
+    border-right: 1px solid #000;
+    box-sizing: border-box;
+}
+
+.duty_foot .textarea {
+    flex: 1;
+    border-right: 1px solid #000;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.duty_foot .textarea textarea {
     width: 100%;
     height: 100%;
     line-height: 20px;

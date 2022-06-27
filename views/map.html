@@ -18,10 +18,17 @@
     <audio src="../images/0.mp3" id="audio" hidden controls="controls" loop></audio>
     <img src="../images/false.png" is="false" id="play">
 
+    <!-- <button class="layui-btn layui-btn-sm routo_btn" onclick="routerTo('pages/home')">后台管理</button> -->
     <!-- <a href="#" class="routo_btn" onclick="routerTo('pages/home')">后台管理>></a> -->
-
     <div class="head">
-        <div class="layui-float-left logo">观测系统运行监控软件平台</div>
+        <div class="head_left">
+            <div class="router_btn" onclick="routerTo('pages/home')">
+                <p class="layui-icon">&#xe609;</p>
+                <p class="text">后台管理</p>
+            </div>
+            <div class="logo">观测系统运行监控软件平台</div>
+        </div>
+        
         <div class="layui-float-right layui-form">
             <div class="layui-form-item">
                 <div class="layui-inline" id="headDate"></div>
@@ -41,6 +48,43 @@
                         </div>
                     </div>
                 </div> -->
+                <!-- <div class="layui-inline">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-xs" onclick="routerTo('pages/home')">后台</button>
+                    </div>
+                </div> -->
+                <div class="layui-inline">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-xs danger" id="outBtn">退出</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 
+    <div class="head">
+        
+        <div class="layui-float-left router_btn">111</div>
+        <div class="layui-float-left logo">观测系统运行监控软件平台</div>
+        <div class="layui-float-right layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline" id="headDate"></div>
+                <div class="layui-inline">
+                    欢迎登陆 <span id="users"></span>!
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-block menuBtn">
+                        <button class="layui-btn layui-btn-xs" id="menuBtn">
+                            签到
+                        </button>
+                        <div class="layui-layer-tips singTips" id="singTips">
+                            <div class="layui-layer-content">
+                                请立即签到
+                                <i class="layui-layer-TipsG layui-layer-TipsL"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-inline">
                     <div class="layui-input-block">
                         <button class="layui-btn layui-btn-xs" onclick="routerTo('pages/home')">后台</button>
@@ -53,7 +97,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <p class="isSign" id="isSign">请立即签到</p>
 

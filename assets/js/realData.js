@@ -321,7 +321,7 @@ layui.define(["http"], function (e) {
                         width: 40,
                         height: 14,
                         lineHeight: 14,
-                        fontSize: 12,
+                        fontSize: 16,
                         color: 'auto',
                         // backgroundColor: 'auto',
                         borderRadius: 3
@@ -672,7 +672,6 @@ layui.define(["http"], function (e) {
                 for (var item in data) {
                     $("#" + item).show();
                     $.extend(element[item], data[item]);
-                    // element[item] = Object.assign(element[item], data[item]);
                     initEcharts.call(chartsOption, item);
                 };
             }
@@ -699,6 +698,9 @@ layui.define(["http"], function (e) {
 
     form.on('select(siteFilter)', function (data) {
         dataId = data.value;
+        for (var item in element) {
+            element[item].charts = element[item].charts ? element[item].charts = element[item].charts.dispose() : null;
+        };
         getLineDataFn();
     });
 
@@ -725,91 +727,6 @@ layui.define(["http"], function (e) {
         typeId = data.value;
         getSiteFn();
     });
-
-
-
-
-    function initOption(data, dataItem) {
-        var lastData = data.data[data.data.length - 1];
-        var text = (lastData.value || '') + lastData.unit;
-        var title = '8小时' + dataItem.title;
-        var color = dataItem.color;
-        var name = dataItem.title;
-        var range = dataItem.range;
-        var min = data.min == 10000 ? 0 : (data.min - range).toFixed(2);
-        var max = data.min == 10000 ? 0 : (data.max + range).toFixed(2);
-        return {
-            title: {
-                text: text,
-                subtext: title,
-                subtextStyle: {
-                    fontWeight: 600
-                },
-                left: "center"
-            },
-            color: color,
-            grid: {
-                top: 70,
-                right: 30,
-                bottom: 60,
-                left: 30,
-                containLabel: true
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: function (item) {
-                    var dataItem = item[0];
-                    var time = dataItem.data.time;
-                    var value = dataItem.data.value;
-                    var unit = dataItem.data.unit;
-                    var seriesName = dataItem.seriesName;
-                    var str = time + '</br>' +
-                        dataItem.marker +
-                        seriesName + ':' +
-                        value + unit;
-
-                    dataItem.data.solve ? str += '</br>风向:' + dataItem.data.solve : "";
-                    return str;
-                }
-            },
-            xAxis: {
-                boundaryGap: false,
-                axisLine: {
-                    show: true,
-                    onZero: false
-                },
-                axisTick: {
-                    show: true,
-                    alignWithLabel: true
-                },
-                data: data.time
-            },
-            yAxis: {
-                min: min,
-                max: max,
-                axisLine: {
-                    show: true
-                },
-                axisTick: {
-                    show: true
-                }
-            },
-            series: [{
-                name: name,
-                type: 'line',
-                smooth: true,
-                data: data.data,
-                label: {
-                    show: true,
-                    position: 'top',
-                    formatter: function (item) {
-                        item = item.data;
-                        return item.value + item.unit;
-                    }
-                }
-            }]
-        }
-    };
 
 
     $("#step").click(function () {
