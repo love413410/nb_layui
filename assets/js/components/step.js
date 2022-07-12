@@ -4,86 +4,23 @@ layui.define(["http"], function (e) {
 
     var $ = layui.$;
 
-    var date = new Date();
-    var hour = date.getHours();
+    // var date = new Date();
+    // var hour = date.getHours();
 
-    var time = new Date().getTime();
-    time = hour >= 17 ? time + 24 * 60 * 60 * 1000 : time;
+    // var time = new Date().getTime();
+    // time = hour >= 17 ? time + 24 * 60 * 60 * 1000 : time;
 
-    date = new Date(time);
-    var year = date.getFullYear();
-    var month = (date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1);
-    var day = (date.getDate()) > 10 ? (date.getDate()) : '0' + (date.getDate());
-    // var day = date.getDate();
-    date = year + '-' + month + '-' + day;
-    hour = hour < 10 ? "0" + hour : hour;
+    // date = new Date(time);
+    // var year = date.getFullYear();
+    // var month = (date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1);
+    // var day = (date.getDate()) > 10 ? (date.getDate()) : '0' + (date.getDate());
+    // date = year + '-' + month + '-' + day;
+    // hour = hour < 10 ? "0" + hour : hour;
     // hour = 21;
-    // 右侧
-    var cols = "17,18,19,20,08,09,10,11,12,13,14,15,16";
-    var thead = null;
-    var getTable = function () {
-        http({
-            url: urls.dutyRecord,
-            data: { time: date },
-            success: function (res) {
-                var data = res.data;
-                thead = data.thead;
-                var lth = thead.length;
-                var thead_str = '<td>时间</td><td>测点</td>';
-                for (var i = 0; i < thead.length; i++) {
-                    thead_str += '<td>' + thead[i].site + '</td>';
-                };
-                $("#thead").html(thead_str);
-                var isIndex = cols.indexOf(hour);
-                var col_tr = '';
-                if (isIndex > -1) {
-                    var wl = '<td rowspan="2">' + hour + '时</td><td>潮位</td>';
-                    var ws = '<td>风速</td>';
-                    for (var k = 0; k < thead.length; k++) {
-                        wl += '<td  id="wl_' + hour + '_' + thead[k].id + '"></td>';
-                        ws += '<td  id="ws_' + hour + '_' + thead[k].id + '"></td>';
-                    };
-                    col_tr += '<tr>' + wl + '</tr><tr>' + ws + '<tr>';
-                } else {
-                    var colspan = lth - 3;
-                    col_tr += '<tr>' +
-                        '<td>21-07时</td>' +
-                        '<td colspan="2">正常<input type="checkbox" id="abnormal">不正常<input type="checkbox" id="normal"></td>' +
-                        '<td colspan="' + colspan + '">' +
-                        '<input type="text" id="remarks" class="layui-input">' +
-                        '</td>' +
-                        '</tr>';
-                };
-                $("#tbody").html(col_tr);
 
-                var tbody = data.tbody;
-                for (var item in tbody) {
-                    $("#" + item).html(tbody[item]);
-                    $("#" + item).val(tbody[item]);
-                };
-                var checked = data.checked;
-                if (checked == 1) {
-                    $("#abnormal").attr("checked", true)
-                }
-                if (checked == 2) {
-                    $("#normal").attr("checked", true)
-                }
-                if (checked == 3) {
-                    $("#abnormal").attr("checked", true)
-                    $("#normal").attr("checked", true)
-                }
-                var recordTime = data.recordTime;
-                var onNight = data.onNight;
-                var onDay = data.onDay;
-                var desc = data.desc;
-                $("#recordTime").html(recordTime);
-                $("#desc").val(desc);
-                $("#onNight").attr("src", onNight);
-                $("#onDay").attr("src", onDay);
-            }
-        });
-    };
-    getTable();
+    var hour = '';
+    
+    // getTable();
     // 表二
     var duty = {
         "17": { time: "17时", code: "site_17", at: "at_1", hu: "hu_1" },
@@ -182,7 +119,89 @@ layui.define(["http"], function (e) {
             }
         });
     };
-    getDuty();
+    // getDuty();
+    // 表一
+    var cols = "17,18,19,20,08,09,10,11,12,13,14,15,16";
+    var thead = null;
+    var getTable = function () {
+        http({
+            url: urls.dutyRecord,
+            data: { time: date },
+            success: function (res) {
+                hour = res.nowHour;
+
+                var data = res.data;
+                thead = data.thead;
+                var lth = thead.length;
+                var thead_str = '<td>时间</td><td>测点</td>';
+                for (var i = 0; i < thead.length; i++) {
+                    thead_str += '<td>' + thead[i].site + '</td>';
+                };
+                $("#thead").html(thead_str);
+                var isIndex = cols.indexOf(hour);
+                var col_tr = '';
+                if (isIndex > -1) {
+                    var wl = '<td rowspan="2">' + hour + '时</td><td>潮位</td>';
+                    var ws = '<td>风速</td>';
+                    for (var k = 0; k < thead.length; k++) {
+                        wl += '<td  id="wl_' + hour + '_' + thead[k].id + '"></td>';
+                        ws += '<td  id="ws_' + hour + '_' + thead[k].id + '"></td>';
+                    };
+                    col_tr += '<tr>' + wl + '</tr><tr>' + ws + '<tr>';
+                } else {
+                    var colspan = lth - 3;
+                    col_tr += '<tr>' +
+                        '<td>21-07时</td>' +
+                        '<td colspan="2">正常<input type="checkbox" id="abnormal">不正常<input type="checkbox" id="normal"></td>' +
+                        '<td colspan="' + colspan + '">' +
+                        '<input type="text" id="remarks" class="layui-input">' +
+                        '</td>' +
+                        '</tr>';
+                };
+                $("#tbody").html(col_tr);
+
+                var tbody = data.tbody;
+                for (var item in tbody) {
+                    $("#" + item).html(tbody[item]);
+                    $("#" + item).val(tbody[item]);
+                };
+                var checked = data.checked;
+                if (checked == 1) {
+                    $("#abnormal").attr("checked", true)
+                }
+                if (checked == 2) {
+                    $("#normal").attr("checked", true)
+                }
+                if (checked == 3) {
+                    $("#abnormal").attr("checked", true)
+                    $("#normal").attr("checked", true)
+                }
+                var recordTime = data.recordTime;
+                var onNight = data.onNight;
+                var onDay = data.onDay;
+                var desc = data.desc;
+                $("#recordTime").html(recordTime);
+                $("#desc").val(desc);
+                $("#onNight").attr("src", onNight);
+                $("#onDay").attr("src", onDay);
+
+                getDuty();//获取表2
+            }
+        });
+    };
+
+    var date = '';
+    var getTime = function () {
+        http({
+            url: urls.getRecord,
+            success: function (res) {
+                var data = res.data;
+                date = data.length ? data[0] : "";
+                getTable();
+            }
+        });
+    };
+    getTime();
 
     // 保存表1
     var submitTable = function () {
