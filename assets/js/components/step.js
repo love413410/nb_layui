@@ -221,7 +221,7 @@ layui.define(["http"], function (e) {
         });
     };
     getTime();
-    $(".sign_img").on("click", ".deleteImg", function () {
+    $("#onNight").on("click", ".deleteImg", function () {
         var _this = $(this);
         var index = _this.attr("index");
         layer.msg('是否删除此签名?', {
@@ -230,6 +230,23 @@ layui.define(["http"], function (e) {
             btn: ['确定', '取消'],
             yes: function () {
                 onNight.splice(index, 1);
+                _this.parent("p").remove();
+                layer.close(layer.index);
+            },
+            btn2: function () {
+                layer.msg('已取消删除。');
+            }
+        });
+    });
+    $("#onDay").on("click", ".deleteImg", function () {
+        var _this = $(this);
+        var index = _this.attr("index");
+        layer.msg('是否删除此签名?', {
+            time: 5000,
+            shade: 0.5,
+            btn: ['确定', '取消'],
+            yes: function () {
+                onDay.splice(index, 1);
                 _this.parent("p").remove();
                 layer.close(layer.index);
             },
@@ -322,7 +339,6 @@ layui.define(["http"], function (e) {
             type: "post",
             data: data,
             success: function () {
-                getDuty();
                 getTable();
             }
         });
