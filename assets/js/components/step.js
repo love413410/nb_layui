@@ -19,7 +19,7 @@ layui.define(["http"], function (e) {
     // hour = 21;
 
     var hour = '';
-    
+
     // getTable();
     // 表二
     var duty = {
@@ -123,6 +123,7 @@ layui.define(["http"], function (e) {
     // 表一
     var cols = "17,18,19,20,08,09,10,11,12,13,14,15,16";
     var thead = null;
+    var onNight = [], onDay = [];
     var getTable = function () {
         http({
             url: urls.dutyRecord,
@@ -176,14 +177,32 @@ layui.define(["http"], function (e) {
                     $("#abnormal").attr("checked", true)
                     $("#normal").attr("checked", true)
                 }
+
                 var recordTime = data.recordTime;
-                var onNight = data.onNight;
-                var onDay = data.onDay;
-                var desc = data.desc;
                 $("#recordTime").html(recordTime);
+
+                var desc = data.desc;
                 $("#desc").val(desc);
-                $("#onNight").attr("src", onNight);
-                $("#onDay").attr("src", onDay);
+
+                onNight = data.onNight;
+                var onNight_str = "";
+                for (var o = 0; o < onNight.length; o++) {
+                    onNight_str += '<p>' +
+                        '<img src="' + onNight[o] + '">' +
+                        '<i class="layui-icon deleteImg" index="' + o + '">&#x1006;</i>' +
+                        '</p>'
+                };
+                $("#onNight").html(onNight_str);
+
+                onDay = data.onDay;
+                var onDay_str = "";
+                for (var y = 0; y < onDay.length; y++) {
+                    onDay_str += '<p>' +
+                        '<img src="' + onDay[y] + '">' +
+                        '<i class="layui-icon deleteImg" index="' + y + '">&#x1006;</i>' +
+                        '</p>'
+                };
+                $("#onDay").html(onDay_str);
 
                 getDuty();//获取表2
             }
@@ -202,6 +221,23 @@ layui.define(["http"], function (e) {
         });
     };
     getTime();
+    $(".sign_img").on("click", ".deleteImg", function () {
+        var _this = $(this);
+        var index = _this.attr("index");
+        layer.msg('是否删除此签名?', {
+            time: 5000,
+            shade: 0.5,
+            btn: ['确定', '取消'],
+            yes: function () {
+                onNight.splice(index, 1);
+                _this.parent("p").remove();
+                layer.close(layer.index);
+            },
+            btn2: function () {
+                layer.msg('已取消删除。');
+            }
+        });
+    });
 
     // 保存表1
     var submitTable = function () {
@@ -222,11 +258,14 @@ layui.define(["http"], function (e) {
         var tbody = { remarks: remarks };
 
         var tableData = {
+            onDay: onDay,
+            onNight: onNight,
             recordTime: recordTime,
             tbody: tbody,
             checked: checked,
             desc: desc
         };
+        console.log(tableData)
 
         tbody = {};
         checked = 0;

@@ -148,9 +148,28 @@ body {
 
 .table_sign .sign_img {
     flex: 4;
+    display: flex;
+    justify-content: center;
+}
+
+.table_sign .sign_img p {
+    margin: 0 5px;
+    position: relative;
+}
+
+.table_sign .sign_img .layui-icon {
+    line-height: 20px;
+    color: #f00;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .table_sign .sign_img img {
+    width: 60px;
     height: 40px;
 }
 

@@ -194,15 +194,28 @@ layui.define(["http"], function (e) {
                     $("#normal").attr("checked", true)
                 }
                 var recordTime = data.recordTime;
-                // var remarks = data.remarks;
-                var onNight = data.onNight;
-                var onDay = data.onDay;
-                var desc = data.desc;
                 $("#recordTime").html(recordTime);
-                // $("#remarks").val(remarks);
+
+                var desc = data.desc;
                 $("#desc").val(desc);
-                $("#onNight").attr("src", onNight);
-                $("#onDay").attr("src", onDay);
+
+                var onNight = data.onNight;
+                var onNight_str = "";
+                for (var o = 0; o < onNight.length; o++) {
+                    onNight_str += '<p>' +
+                        '<img src="' + onNight[o] + '">' +
+                        '</p>'
+                };
+                $("#onNight").html(onNight_str);
+
+                var onDay = data.onDay;
+                var onDay_str = "";
+                for (var y = 0; y < onDay.length; y++) {
+                    onDay_str += '<p>' +
+                        '<img src="' + onDay[y] + '">' +
+                        '</p>'
+                };
+                $("#onDay").html(onDay_str);
             }
         });
     };
@@ -243,9 +256,8 @@ layui.define(["http"], function (e) {
                     buoy_th += '<th><div class="duty_cell">' + theads[i].site + '</div></th>';
                 };
                 $("#dutyThead").html(buoy_th);
-                console.log(data)
 
-                colspan=size+9;
+                colspan = size + 9;
                 var tr = '';
                 for (var j = 0; j < duty.length; j++) {
                     var dutyItem = duty[j];
@@ -282,7 +294,7 @@ layui.define(["http"], function (e) {
                     if (dutyItem.type == "checkbox") {
                         td = '<td><div class="duty_cell">21-07时</div></td>' +
                             '<td colspan="2">正常<input type="checkbox" id="dutyAbnormal">不正常<input type="checkbox"  id="dutynormal"></td>' +
-                            '<td colspan="'+colspan+'"><div class="duty_cell"><input type="text" class="layui-input" id="dutyRemarks"></div></td>';
+                            '<td colspan="' + colspan + '"><div class="duty_cell"><input type="text" class="layui-input" id="dutyRemarks"></div></td>';
                         tr += '<tr>' + td + '</tr>';
                     }
 
