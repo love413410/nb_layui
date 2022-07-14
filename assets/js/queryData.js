@@ -120,8 +120,6 @@ layui.define(["http", "getFn", "tabList"], function (e) {
             },
             success: function (res) {
                 var title = res.title, data = res.data;
-                console.log(data)
-
                 var nameArr = [];
                 var serArr = [];
                 for (var i = 0; i < data.length; i++) {
