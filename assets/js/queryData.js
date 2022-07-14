@@ -107,7 +107,7 @@ layui.define(["http", "getFn", "tabList"], function (e) {
     });
 
 
-    var myChart = echarts.init(document.getElementById("main"));
+
     function getChartsFn() {
         http({
             url: urls.dataCenter,
@@ -119,8 +119,8 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                 type: type
             },
             success: function (res) {
-                var title = res.title;
-                var data = res.data;
+                var title = res.title, data = res.data;
+                console.log(data)
 
                 var nameArr = [];
                 var serArr = [];
@@ -135,46 +135,21 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                         smooth: true,
                     });
                 };
-
-                myChart.setOption({
-                    legend: {
-                        textStyle: {
-                            data: nameArr
-                        },
-                    },
-                    xAxis: {
-                        data: title
-                    },
-                    tooltip: {
-                        formatter: function (value) {
-                            var tle = "<div>" + value[0].name + "</div>";
-                            var res = "";
-                            for (var i = 0; i < value.length; i++) {
-                                var dataItem = value[i];
-                                var marker = dataItem.marker;
-                                var key = dataItem.seriesName;
-                                var val = dataItem.value;
-                                res += "<div>" + marker + key + ":" + val + "</div>";
-                            };
-                            var html = tle + res;
-                            return html;
-                        },
-                    },
-                    series: serArr,
-                });
-
+                initFn(nameArr, title, serArr);
             }
         });
     };
-
-    function initFn() {
+    var myChart;
+    function initFn(nameArr, title, serArr) {
+        myChart = echarts.init(document.getElementById('main')).dispose();
+        myChart = echarts.init(document.getElementById('main'));
         var option = {
             legend: {
                 icon: "line",
                 top: 0,
-                // textStyle: {
-                //     color: "#fff",
-                // },
+                textStyle: {
+                    data: nameArr
+                },
                 itemWidth: 10, // 设置宽度
                 itemHeight: 30, // 设置高度
             },
@@ -193,39 +168,25 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                         backgroundColor: "#07a6ff",
                     },
                 },
+                formatter: function (value) {
+                    var tle = "<div>" + value[0].name + "</div>";
+                    var res = "";
+                    for (var i = 0; i < value.length; i++) {
+                        var dataItem = value[i];
+                        var marker = dataItem.marker;
+                        var key = dataItem.seriesName;
+                        var val = dataItem.value;
+                        res += "<div>" + marker + key + ":" + val + "</div>";
+                    };
+                    var html = tle + res;
+                    return html;
+                },
             },
             xAxis: {
                 type: "category",
                 axisLine: {
                     onZero: false
                 },
-                // boundaryGap: false,
-                // data: [
-                // 	"00时",
-                // 	"01时",
-                // 	"02时",
-                // 	"03时",
-                // 	"04时",
-                // 	"05时",
-                // 	"06时",
-                // 	"07时",
-                // 	"08时",
-                // 	"09时",
-                // 	"10时",
-                // 	"11时",
-                // 	"12时",
-                // 	"13时",
-                // 	"14时",
-                // 	"15时",
-                // 	"16时",
-                // 	"17时",
-                // 	"18时",
-                // 	"19时",
-                // 	"20时",
-                // 	"21时",
-                // 	"22时",
-                // 	"23时",
-                // ],
                 axisLabel: {
                     interval: "auto",
                     showMinLabel: 1,
@@ -241,6 +202,7 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                     },
                     onZero: false
                 },
+                data: title
             },
             yAxis: {
                 //y轴
@@ -262,26 +224,10 @@ layui.define(["http", "getFn", "tabList"], function (e) {
                     },
                 },
             },
-            // dataZoom: [
-            //     {
-            //         type: "slider",
-            //         height: 15,
-            //         xAxisIndex: [0],
-            //         bottom: 10,
-            //         start: 0,
-            //         end: 30,
-            //         minSapn: 30,
-            //         maxSpan: 30,
-            //         fillerColor: '#5a98de',
-            //         textStyle: {
-            //             color: "transparent"
-            //         }
-            //     },
-            // ],
+            series: serArr
         };
         myChart.setOption(option);
     };
-    initFn();
 
     form.on('submit(chartsBtn)', function (data) {
         data = data.field;
