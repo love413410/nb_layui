@@ -42,6 +42,9 @@ layui.define(["http"], function (e) {
                         '</div>';
                 };
                 $("#imgList").html(str);
+            },
+            cancel:function(){
+                $("#img_layer").hide();
             }
         });
     };

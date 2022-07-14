@@ -261,6 +261,7 @@ body {
     width: 300px;
     height: 360px;
     overflow: hidden;
+    display: none;
 }
 
 .img_layer .layui-form {
