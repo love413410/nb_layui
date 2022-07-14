@@ -257,7 +257,7 @@ layui.define(["http"], function (e) {
                 };
                 $("#dutyThead").html(buoy_th);
 
-                colspan = size + 9;
+                var colspan = size + 9;
                 var tr = '';
                 for (var j = 0; j < duty.length; j++) {
                     var dutyItem = duty[j];

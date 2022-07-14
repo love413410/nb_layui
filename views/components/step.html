@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>实时数据>>一键签到</title>
     <link rel="stylesheet" href="../../assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/common/layer.css" />
     <link rel="stylesheet" href="../../assets/css/step.css" />
 </head>
 
@@ -171,10 +172,14 @@
         </table>
         <div class="duty_foot">
             <div class="table_three">
-                值<br>
+                <p>值</p>
+                <p>班</p>
+                <p>概</p>
+                <p>述</p>
+                <!-- 值<br>
                 班<br>
                 概<br>
-                述<br>
+                述<br> -->
             </div>
             <div class="textarea">
                 <textarea id="dutyDesc"></textarea>
@@ -182,6 +187,17 @@
         </div>
     </div>
     <button class="layui-btn" id="sign">确定签到</button>
+    <div id="img_layer" class="img_layer">
+        <div class="layui-form" id="imgList">
+            <!-- <div class="layui-form-item">
+                <div class="layui-inline img_box">
+                    <img src="http://192.168.1.178:8006/static/sign/745c389401c111eda8fc0c96e69aea3920220712.png"
+                        class="item_img" />
+                </div>
+                <div class="layui-inline"> <button class="layui-btn layui-btn-sm">删除</button></div>
+            </div> -->
+        </div>
+    </div>
 </body>
 <script src="../../assets/lib/layui/layui.js"></script>
 <script>

@@ -150,29 +150,17 @@ body {
     flex: 4;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 .table_sign .sign_img p {
     margin: 0 5px;
-    position: relative;
-}
-
-.table_sign .sign_img .layui-icon {
-    line-height: 20px;
-    color: #f00;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0;
 }
 
 .table_sign .sign_img img {
     width: 60px;
     height: 40px;
 }
-
 
 /* 表2 */
 .duty_content {
@@ -213,6 +201,7 @@ body {
     line-height: 28px;
     padding: 0 12px;
     outline: none;
+    white-space: nowrap;
 }
 
 .duty_cell .layui-input {
@@ -243,8 +232,11 @@ body {
     min-width: 60px;
     height: 120px;
     text-align: center;
+    justify-content: center;
     border-right: 1px solid #000;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .duty_foot .textarea {
@@ -261,4 +253,39 @@ body {
     overflow: hidden;
     border: none;
     resize: none;
+}
+
+
+/* 弹窗 */
+.img_layer {
+    width: 300px;
+    height: 360px;
+    overflow: hidden;
+}
+
+.img_layer .layui-form {
+    width: 320px;
+    height: 360px;
+    overflow-y: auto;
+}
+
+.img_layer .layui-form-item {
+    width: 300px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+.img_layer .layui-inline {
+    margin: 0;
+}
+
+.img_box {
+    width: 230px;
+}
+
+.img_layer .item_img {
+    width: 60rpx;
+    height: 40px;
 }
