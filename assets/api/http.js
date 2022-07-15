@@ -12,7 +12,8 @@ layui.extend({
         var type = val.type || 'get';
         var data = val.data || {};
         var dataType = val.dataType || 'json';
-        var async = val.async || true;
+        // var async = val.async || true;
+        var async = val.async == false ? false : true;
         var token = layui.sessionData('token').key || '';
         $.ajax({
             url: url,

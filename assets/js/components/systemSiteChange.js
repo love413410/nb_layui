@@ -25,48 +25,86 @@ layui.define(["http"], function (e) {
 
     var typeId;
 
-    //获取详情
-    var getDetaFn = function () {
+    var deta;
+    // 获取各种类型
+    function getTypeFn() {
+        // 站点类型
         http({
-            url: urls.siteChange,
-            data: { id: id },
+            url: urls.siteType,
+            async: false,
             success: function (res) {
-                var data = res.data.fields;
-                form.val('changeForm', {
-                    "id": res.data.pk,
-                    "Type": data.Type,
-                    "ofType": data.ofType,
-                    "ofArea": data.ofArea,
-                    "section": data.section,
-
-                    "stationName": data.stationName,
-                    "stationNumCode": data.stationNumCode,
-                    "ip": data.ip,
-                    "handleTime": data.handleTime,
-                    "delayTime": data.delayTime,
-                    "Lon": data.Lon,
-                    "Lat": data.Lat,
-                    "buildTime": data.buildTime,
-                    "enableTime": data.enableTime,
-                    "state": data.state,
-                    "description": data.description
-                });
-                var element = data.element.split(',');
-                var checkbox = $('.like');
-
-                for (var j = 0; j < element.length; j++) {
-                    for (var k = 0; k < checkbox.length; k++) {
-                        if (element[j] == checkbox[k].value) {
-                            checkbox[k].checked = true;
-                        }
-                    }
+                var data = res.data;
+                var str = '';
+                for (var i = 0; i < data.length; i++) {
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
                 };
-                form.render('checkbox');
+                $("#sitetype").html(str);
+                form.render();
             }
         });
-    };
-
-    var getImgList = function () {
+        // 所属类型
+        http({
+            url: urls.siteStyle,
+            async: false,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
+                };
+                $("#oftype").html(str);
+                form.render();
+            }
+        });
+        // 所在区域
+        http({
+            url: urls.siteStyle,
+            type: "post",
+            async: false,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
+                };
+                $("#ofarea").html(str);
+                form.render();
+            }
+        });
+        // 所属岸段
+        http({
+            url: urls.sectionList,
+            data: {
+                pageNum: "",//空查全部
+                pageSize: "" //空查全部
+            },
+            async: false,
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    var key = data[i].pk,
+                        value = data[i].fields.section;
+                    str += '<option value="' + key + '">' + value + '</option>';
+                };
+                $("#section").html(str);
+                form.render();
+            }
+        });
+        // 要素
+        http({
+            url: urls.siteEl,
+            data: { type: typeId },
+            async: false,
+            success: function (res) {
+                var data = res.data;
+                var str = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i].fields;
+                    str += '<input type="checkbox" class="like" lay-skin="primary" value="' + dataItem.el + '" title="' + dataItem.Name + '"></input>';
+                };
+                $("#checkbox").html(str);
+                form.render();
+            }
+        });
+        // 站点图片
         http({
             url: urls.siteImageList,
             data: { id: id },
@@ -81,90 +119,83 @@ layui.define(["http"], function (e) {
                         '</div>';
                 };
                 $("#imgListBox").html(str);
-                getDetaFn();
             }
         });
-    };
-    // 获取各种类型
-    function getTypeFn() {
-        function getElementFn() {
-            http({
-                url: urls.siteEl,
-                data: { type: typeId },
-                success: function (res) {
-                    var data = res.data;
-                    var str = '';
-                    for (var i = 0; i < data.length; i++) {
-                        var dataItem = data[i].fields;
-                        str += '<input type="checkbox" class="like" lay-skin="primary" value="' + dataItem.el + '" title="' + dataItem.Name + '"></input>';
-                    };
-                    $("#checkbox").html(str);
-                    form.render();
+        var data = deta.fields;
+        form.val('changeForm', {
+            "id": deta.pk,
+            "Type": data.Type,
+            "ofType": data.ofType,
+            "ofArea": data.ofArea,
+            "section": data.section,
 
-                    http({
-                        url: urls.sectionList,
-                        data: {
-                            pageNum: "",//空查全部
-                            pageSize: "" //空查全部
-                        },
-                        async: false,
-                        success: function (res) {
-                            var data = res.data, str = '';
-                            for (var i = 0; i < data.length; i++) {
-                                var key = data[i].pk,
-                                    value = data[i].fields.section;
-                                str += '<option value="' + key + '">' + value + '</option>';
-                            };
-                            $("#section").html(str);
-                            form.render();
-                            getImgList();
-                        }
-                    });
+            "stationName": data.stationName,
+            "stationNumCode": data.stationNumCode,
+            "ip": data.ip,
+            "handleTime": data.handleTime,
+            "delayTime": data.delayTime,
+            "Lon": data.Lon,
+            "Lat": data.Lat,
+            "buildTime": data.buildTime,
+            "enableTime": data.enableTime,
+            "state": data.state,
+            "description": data.description
+        });
+        var element = data.element.split(',');
+        var checkbox = $('.like');
+
+        for (var j = 0; j < element.length; j++) {
+            for (var k = 0; k < checkbox.length; k++) {
+                if (element[j] == checkbox[k].value) {
+                    checkbox[k].checked = true;
                 }
-            });
+            }
         };
+        form.render('checkbox');
+    };
 
+    form.on('select(sitetype)', function (data) {
+        var type = data.value;
         http({
-            url: urls.siteType,
-            success: function (res) {
-                var data = res.data;
-                var str = '';
-                for (var i = 0; i < data.length; i++) {
-                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Type + '</option>';
-                };
-                $("#sitetype").html(str);
-                form.render();
-                typeId = data.length > 0 ? data[0].pk : "";
-                getElementFn();
-            }
-        });
-
-        http({
-            url: urls.siteStyle,
+            url: urls.siteEl,
+            data: { type: type },
+            async: false,
             success: function (res) {
                 var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
-                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
+                    var dataItem = data[i].fields;
+                    str += '<input type="checkbox" class="like" lay-skin="primary" value="' + dataItem.el + '" title="' + dataItem.Name + '"></input>';
                 };
-                $("#oftype").html(str);
-                form.render();
+                $("#checkbox").html(str);
+                form.render('checkbox');
+
+                var element = deta.fields.element.split(',');
+                var checkbox = $('.like');
+
+                for (var j = 0; j < element.length; j++) {
+                    for (var k = 0; k < checkbox.length; k++) {
+                        if (element[j] == checkbox[k].value) {
+                            checkbox[k].checked = true;
+                        }
+                    }
+                };
+                form.render('checkbox');
             }
         });
+    });
+    //获取详情
+    var getDetaFn = function () {
         http({
-            url: urls.siteStyle,
-            type: "post",
+            url: urls.siteChange,
+            data: { id: id },
             success: function (res) {
-                var data = res.data, str = '';
-                for (var i = 0; i < data.length; i++) {
-                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
-                };
-                $("#ofarea").html(str);
-                form.render();
+                deta = res.data;
+                typeId = deta.fields.Type;
+                getTypeFn();
             }
         });
     };
-    getTypeFn();
-
+    getDetaFn();
     var token = layui.sessionData('token').key || '';
     var uploadInst = upload.render({
         elem: '#upload',
