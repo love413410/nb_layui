@@ -81,9 +81,7 @@ layui.extend({
         "layHome": "/views/components/layHome.html",
 
         "step": "/views/components/step.html",
-
-
-
+        
         "instReuseCheck": "/views/components/instReuseCheck.html",
         "instReuseContrast": "/views/components/instReuseContrast.html",
         "instReusePart": "/views/components/instReusePart.html",

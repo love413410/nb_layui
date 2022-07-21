@@ -21,6 +21,9 @@
 
             <div class="layui-inline">
                 <div class="layui-inline">
+                    <select id="grade" lay-filter="grade"></select>
+                </div>
+                <div class="layui-inline">
                     <select name="time" id="time"></select>
                 </div>
                 <div class="layui-inline">
@@ -147,7 +150,7 @@
             <div class="table_sign">
                 <div class="sign_text">签名</div>
                 <div class="sign_time">17-08时值班员</div>
-                <div class="sign_img" id="onNight" >
+                <div class="sign_img" id="onNight">
                     <!-- <p>
                         <img src="http://192.168.1.178:8006/static/sign/745c389401c111eda8fc0c96e69aea3920220712.png">
                         <i class="layui-icon deleteImg" type="onNight">&#x1006;</i>
@@ -155,7 +158,7 @@
                 </div>
                 <div class="sign_time">08-17时值班员</div>
                 <div class="sign_img" id="onDay">
-                     <!-- <p>
+                    <!-- <p>
                         <img src="http://192.168.1.178:8006/static/sign/745c389401c111eda8fc0c96e69aea3920220712.png">
                         <i class="layui-icon deleteImg" type="onNight">&#x1006;</i>
                     </p> -->
@@ -166,7 +169,7 @@
             <div class="duty_content">
                 <table cellspacing="0" cellpadding="0" border="0">
                     <thead>
-                        <tr>
+                        <tr id="dutyTheader">
                             <th rowspan="2">
                                 <div class="duty_cell">时间</div>
                             </th>
@@ -208,7 +211,7 @@
                         </tr>
                     </thead>
                     <tbody id="dutyTbody">
-                       
+
                     </tbody>
                     <!-- <tfoot>
                         <tr>
@@ -224,7 +227,7 @@
                         </tr>
                     </tfoot> -->
                 </table>
-                
+
                 <div class="duty_foot">
                     <div class="table_three">
                         值<br>

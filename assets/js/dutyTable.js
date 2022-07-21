@@ -3,6 +3,7 @@ layui.define(["http"], function (e) {
         urls = layui.urls;
 
     var form = layui.form;
+
     // 左侧
     var lineExample = {
         wl: { charts: null, title: "潮位" },
@@ -143,7 +144,10 @@ layui.define(["http"], function (e) {
     var getTable = function () {
         http({
             url: urls.dutyRecord,
-            data: { time: date },
+            data: {
+                Type: grade_type,
+                time: date
+            },
             success: function (res) {
                 var data = res.data;
                 thead = data.thead;
@@ -238,9 +242,60 @@ layui.define(["http"], function (e) {
             { time: "15时", type: "text", text: "湿度:", border: "none", code: "site_15" },
             { time: "16时", type: "input", id: "hu_3", code: "site_16" },
         ];
+
+        var dutyTheader = [
+            { title: "时间", rowspan: 2 },
+            { title: "视频", rowspan: 2 },
+            { title: "地波雷达", rowspan: 2 },
+            { title: "GNSS", rowspan: 2 },
+            { title: "志愿船", colspan: 2 },
+            { title: "浮标", colspan: 2, id: "buoy" },
+            { title: "机房环控", rowspan: 4 },
+            { title: "其他说明", rowspan: 2 }
+        ];
+        var shipu = [
+            { title: "时间", rowspan: 2 },
+            { title: "视频", rowspan: 2 },
+            { title: "地波雷达", rowspan: 2 },
+            { title: "X波段雷达", rowspan: 2 },
+            { title: "GNSS", rowspan: 2 },
+            { title: "预警台", rowspan: 2 },
+            { title: "机房环控", rowspan: 4 },
+            { title: "其他说明", rowspan: 2 }
+        ];
+        var zhenhai = [
+            { title: "时间", rowspan: 2 },
+            { title: "视频", rowspan: 2 },
+            { title: "GNSS", rowspan: 2 },
+            { title: "志愿船", colspan: 2 },
+            { title: "浮标", colspan: 2, id: "buoy" },
+            { title: "机房环控", rowspan: 4 },
+            { title: "其他说明", rowspan: 2 }
+        ];
+
+        dutyTheader = grade_type == 4 ? shipu : grade_type == 5 ? zhenhai : dutyTheader;
+        var str_theader = "";
+        for (var h = 0; h < dutyTheader.length; h++) {
+            var theaderItem = dutyTheader[h];
+            var rowspan = theaderItem.rowspan ? theaderItem.rowspan : 1,
+                colspan = theaderItem.colspan ? theaderItem.colspan : 1,
+                title = theaderItem.title;
+
+            var id = theaderItem.id;
+            if (id) {
+                str_theader += '<th rowspan="' + rowspan + '" colspan="' + colspan + '" id="' + id + '"><div class="duty_cell">' + title + '</div></th>';
+            } else {
+                str_theader += '<th rowspan="' + rowspan + '" colspan="' + colspan + '"><div class="duty_cell">' + title + '</div></th>';
+            };
+        };
+        $("#dutyTheader").html(str_theader);
+
         http({
             url: urls.dutyRecords,
-            data: { time: date },
+            data: {
+                Type: grade_type,
+                time: date
+            },
             success: function (res) {
                 var data = res.data;
                 theads = data.thead;
@@ -251,7 +306,8 @@ layui.define(["http"], function (e) {
                     $("#buoy").show();
                     $("#buoy").attr("colspan", size);
                 };
-                var buoy_th = '<th><div class="duty_cell">近岸</div></th><th><div class="duty_cell">远洋</div></th>';
+                var buoy_th = grade_type != 4 ? '<th><div class="duty_cell">近岸</div></th><th><div class="duty_cell">远洋</div></th>' : "";
+                // var buoy_th = '<th><div class="duty_cell">近岸</div></th><th><div class="duty_cell">远洋</div></th>';
                 for (var i = 0; i < theads.length; i++) {
                     buoy_th += '<th><div class="duty_cell">' + theads[i].site + '</div></th>';
                 };
@@ -263,12 +319,28 @@ layui.define(["http"], function (e) {
                     var dutyItem = duty[j];
                     var time = dutyItem.time;
                     var code = dutyItem.code;
-                    var td = '<td><div class="duty_cell">' + time + '</div></td>' +
-                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
+
+                    var str_td = '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_leida"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_gnss"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_jinan"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_yuanyang"></div></td>';
+
+                    var shipu_td = '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_leida"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_boduanleida"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_gnss"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_yujingtai"></div></td>';
+
+                    var zhenhai_td = '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_gnss"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_jinan"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_yuanyang"></div></td>';
+
+
+                    var td = grade_type == 4 ? shipu_td : grade_type == 5 ? zhenhai_td : str_td;
+                    td = '<td><div class="duty_cell">' + time + '</div></td>' + td;
+
                     for (var k = 0; k < theads.length; k++) {
                         var id = theads[k].id;
                         td += '<td><div class="duty_cell"><input type="text" id="' + code + '_' + id + '" class="layui-input"></div></td>';
@@ -328,10 +400,13 @@ layui.define(["http"], function (e) {
         });
     };
 
-    var date = '';
+    var grade_type = "", date = '';
     var getTime = function () {
         http({
             url: urls.getRecord,
+            data: {
+                Type: grade_type
+            },
             success: function (res) {
                 var data = res.data, option = '';
                 for (var i = 0; i < data.length; i++) {
@@ -346,7 +421,29 @@ layui.define(["http"], function (e) {
             }
         });
     };
-    getTime();
+    var personnelCenter = function () {
+        http({
+            url: urls.personnelCenter,
+            success: function (res) {
+                var data = res.data, option = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i].fields;
+                    option += '<option value="' + dataItem.Type + '">' + dataItem.grade + '</option>';
+                };
+                $("#grade").html(option);
+                grade_type = data.length ? data[0].fields.Type : "";
+                form.render();
+                getTime();
+            }
+        });
+    };
+    personnelCenter();
+    //下拉框
+    form.on('select(grade)', function (data) {
+        grade_type = data.value;
+        getTime();
+    });
+
     // 点击查询
     form.on('submit(querybtn)', function (data) {
         date = data.field.time;
@@ -384,6 +481,7 @@ layui.define(["http"], function (e) {
 
         var head = JSON.stringify(thead);
         var data = {
+            Type: grade_type,
             time: date,
             thead: head,
             tbody: tbody,
@@ -399,7 +497,7 @@ layui.define(["http"], function (e) {
             type: "post",
             data: data,
             success: function (res) {
-                layer.msg(res.msg)
+                // layer.msg(res.msg)
             }
         });
     };
@@ -426,6 +524,7 @@ layui.define(["http"], function (e) {
         }
         var dutyDesc = $("#dutyDesc").val();
         var data = {
+            Type: grade_type,
             time: date,
             thead: head,
             tbody: tbody,
@@ -437,7 +536,7 @@ layui.define(["http"], function (e) {
             type: "post",
             data: data,
             success: function (res) {
-                layer.msg(res.msg)
+                // layer.msg(res.msg)
             }
         });
     };

@@ -51,7 +51,6 @@ layui.define(["http", "tabList"], function (e) {
                         return value;
                     }
                 },
-
                 { title: '站名代码', templet: function (item) { return item.fields.stationNumCode; } },
                 { title: '经度', templet: function (item) { return item.fields.Lon; } },
                 { title: '纬度', templet: function (item) { return item.fields.Lat; } },

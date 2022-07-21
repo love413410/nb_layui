@@ -3,6 +3,7 @@ layui.define(["http"], function (e) {
         urls = layui.urls;
 
     var $ = layui.$;
+    var grade_type = layui.sessionData('grade').key;
 
     // var date = new Date();
     // var hour = date.getHours();
@@ -43,7 +44,7 @@ layui.define(["http"], function (e) {
                 };
                 $("#imgList").html(str);
             },
-            cancel:function(){
+            cancel: function () {
                 $("#img_layer").hide();
             }
         });
@@ -90,9 +91,57 @@ layui.define(["http"], function (e) {
     };
     var theads = null;
     var getDuty = function () {
+        var dutyTheader = [
+            { title: "时间", rowspan: 2 },
+            { title: "视频", rowspan: 2 },
+            { title: "地波雷达", rowspan: 2 },
+            { title: "GNSS", rowspan: 2 },
+            { title: "志愿船", colspan: 2 },
+            { title: "浮标", colspan: 2, id: "buoy" },
+            { title: "机房环控", colspan: 2, id: "room" },
+            { title: "其他说明", rowspan: 2, id: "explain" }
+        ];
+        var shipu = [
+            { title: "时间", rowspan: 2 },
+            { title: "视频", rowspan: 2 },
+            { title: "地波雷达", rowspan: 2 },
+            { title: "X波段雷达", rowspan: 2 },
+            { title: "GNSS", rowspan: 2 },
+            { title: "预警台", rowspan: 2 },
+            { title: "机房环控", colspan: 2, id: "room" },
+            { title: "其他说明", rowspan: 2, id: "explain" }
+        ];
+        var zhenhai = [
+            { title: "时间", rowspan: 2 },
+            { title: "视频", rowspan: 2 },
+            { title: "GNSS", rowspan: 2 },
+            { title: "志愿船", colspan: 2 },
+            { title: "浮标", colspan: 2, id: "buoy" },
+            { title: "机房环控", colspan: 2, id: "room" },
+            { title: "其他说明", rowspan: 2, id: "explain" }
+        ];
+        dutyTheader = grade_type == 4 ? shipu : grade_type == 5 ? zhenhai : dutyTheader;
+        var str_theader = "";
+        for (var h = 0; h < dutyTheader.length; h++) {
+            var theaderItem = dutyTheader[h];
+            var rowspan = theaderItem.rowspan ? theaderItem.rowspan : 1,
+                colspan = theaderItem.colspan ? theaderItem.colspan : 1,
+                title = theaderItem.title;
+
+            var id = theaderItem.id;
+            if (id) {
+                str_theader += '<th rowspan="' + rowspan + '" colspan="' + colspan + '" id="' + id + '"><div class="duty_cell">' + title + '</div></th>';
+            } else {
+                str_theader += '<th rowspan="' + rowspan + '" colspan="' + colspan + '"><div class="duty_cell">' + title + '</div></th>';
+            };
+        };
+        $("#dutyTheader").html(str_theader);
         http({
             url: urls.dutyRecords,
-            data: { time: date },
+            data: {
+                Type: grade_type,
+                time: date
+            },
             success: function (res) {
                 var data = res.data;
                 theads = data.thead;
@@ -103,15 +152,16 @@ layui.define(["http"], function (e) {
                     $("#buoy").show();
                     $("#buoy").attr("colspan", size);
                 };
-                var buoy_th = '<th><div class="duty_cell">近岸</div></th><th><div class="duty_cell">远洋</div></th>';
+                // var buoy_th = '<th><div class="duty_cell">近岸</div></th><th><div class="duty_cell">远洋</div></th>';
+                var buoy_th = grade_type != 4 ? '<th><div class="duty_cell">近岸</div></th><th><div class="duty_cell">远洋</div></th>' : "";
                 for (var i = 0; i < theads.length; i++) {
                     buoy_th += '<th><div class="duty_cell">' + theads[i].site + '</div></th>';
                 };
                 var dutyItem = duty[hour];
                 if (dutyItem) {
-                    if (dutyItem.at) {
-                        buoy_th += '<th rowspan="2"><div class="duty_cell">温度</div></th><th rowspan="2"><div class="duty_cell">湿度</div></th>';
-                    }
+                    // if (dutyItem.at) {
+                    buoy_th += '<th rowspan="2"><div class="duty_cell">温度</div></th><th rowspan="2"><div class="duty_cell">湿度</div></th>';
+                    // }
                 }
                 $("#dutyThead").html(buoy_th);
 
@@ -119,19 +169,26 @@ layui.define(["http"], function (e) {
                 var isIndex = cols.indexOf(hour);
                 if (isIndex > -1) {
                     var time = dutyItem.time, code = dutyItem.code;
-                    var td = '<td><div class="duty_cell">' + time + '</div></td>' +
-                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
+                    var str_td = '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_leida"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_gnss"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_jinan"></div></td>' +
                         '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_yuanyang"></div></td>';
 
-                    // var td = '<td><div class="duty_cell">' + time + '</div></td>' +
-                    //     '<td><div class="duty_cell" id="' + code + '_shipin"></div></td>' +
-                    //     '<td><div class="duty_cell" id="' + code + '_leida"></div></td>' +
-                    //     '<td><div class="duty_cell" id="' + code + '_gnss"></div></td>' +
-                    //     '<td><div class="duty_cell" id="' + code + '_jinan"></div></td>' +
-                    //     '<td><div class="duty_cell" id="' + code + '_yuanyang"></div></td>';
+                    var shipu_td = '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_leida"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_boduanleida"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_gnss"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_yujingtai"></div></td>';
+
+                    var zhenhai_td = '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_shipin"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_gnss"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_jinan"></div></td>' +
+                        '<td><div class="duty_cell"><input type="text" class="layui-input" id="' + code + '_yuanyang"></div></td>';
+
+
+                    var td = grade_type == 4 ? shipu_td : grade_type == 5 ? zhenhai_td : str_td;
+                    td = '<td><div class="duty_cell">' + time + '</div></td>' + td;
                     for (var k = 0; k < theads.length; k++) {
                         var id = theads[k].id;
                         td += '<td><div class="duty_cell" id="' + code + '_' + id + '"></div></td>';
@@ -184,7 +241,10 @@ layui.define(["http"], function (e) {
     var getTable = function () {
         http({
             url: urls.dutyRecord,
-            data: { time: date },
+            data: {
+                Type: grade_type,
+                time: date
+            },
             success: function (res) {
                 hour = res.nowHour;
                 // hour = "22";
@@ -280,6 +340,7 @@ layui.define(["http"], function (e) {
     var getTime = function () {
         http({
             url: urls.getRecord,
+            data: { Type: grade_type },
             success: function (res) {
                 var data = res.data;
                 date = data.length ? data[0] : "";
@@ -288,7 +349,7 @@ layui.define(["http"], function (e) {
         });
     };
     getTime();
-    
+
     $("#onNight").click(function () {
         img_type = "onNight";
         imgLayer();
@@ -357,9 +418,10 @@ layui.define(["http"], function (e) {
                 var val = $("#" + key).html();
                 tbody[key] = val;
 
-                key = code + '_other';
-                val = $("#" + key).val();
-                tbody[key] = val;
+                // key = code + '_other';
+                // console.log(key)
+                // val = $("#" + key).val();
+                // tbody[key] = val;
             };
             if (dutyItem.at) {
                 key = dutyItem.at;
@@ -369,7 +431,7 @@ layui.define(["http"], function (e) {
                 val = $("#" + key).val();
                 tbody[key] = val;
             }
-            var list = ["_shipin", "_leida", "_gnss", "_jinan", "_yuanyang"];
+            var list = ["_shipin", "_leida","_boduanleida", "_gnss", "_jinan", "_yuanyang", "_yujingtai","_other"];
             for (var i = 0; i < list.length; i++) {
                 var key = code + list[i];
                 var val = $("#" + key).val();
@@ -381,6 +443,7 @@ layui.define(["http"], function (e) {
         tableData = JSON.stringify(tableData);
         dutyData = JSON.stringify(dutyData);
         var data = {
+            Type: grade_type,
             time: date,
             nowHour: hour,
             record1: tableData,

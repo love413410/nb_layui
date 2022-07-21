@@ -9,86 +9,23 @@ layui.define(["http"], function (e) {
 
     var element = {
         wl: { title: "潮位", color: "#91cc75", charts: null },
-        ws: { title: "风速", color: "#5470c6", charts: null },
-        wt: { title: "水温及盐度", wtColor: "#73c0de", slColor: "#ee6666", charts: null },
         at: { title: "气温及湿度", atColor: "#fac858", huColor: "#3ba272", charts: null },
         bp: { title: "气压", color: "#fc8452", charts: null },
+
+
+        wt: { title: "水温及盐度", wtColor: "#73c0de", slColor: "#ee6666", charts: null },
+        rn: { title: "雨量", color: "#3ba272", charts: null },
         wd: { title: "风向", color: "#58D9F9", charts: null },
 
+        sl: { title: "水温及盐度", wtColor: "#73c0de", slColor: "#ee6666", charts: null },
+
         vb: { title: "能见度", color: "#9a60b4", charts: null },
-        rn: { title: "雨量", color: "#3ba272", charts: null }
+        ws: { title: "风速风向", wsColor: "#5470c6", wdColor: "#3ba272", charts: null }
     };
 
     var chartsOption = {
         // 潮位
         wl: function (key) {
-            var dataItem = element[key];
-            var data = dataItem.data, time = dataItem.time, unit = dataItem.unit;
-            var text = dataItem.newData + unit;
-            var title = '8小时' + dataItem.title;
-            var color = dataItem.color;
-            var name = dataItem.title;
-            var option = {
-                title: {
-                    text: text,
-                    subtext: title,
-                    subtextStyle: {
-                        fontWeight: 600
-                    },
-                    left: "center"
-                },
-                color: color,
-                grid: {
-                    top: 70,
-                    right: 20,
-                    bottom: 0,
-                    left: 20,
-                    containLabel: true
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    valueFormatter: function (value) {
-                        return value + unit;
-                    }
-                },
-                xAxis: {
-                    boundaryGap: false,
-                    axisLine: {
-                        show: true,
-                        onZero: false
-                    },
-                    axisTick: {
-                        show: true,
-                        alignWithLabel: true
-                    },
-                    data: time
-                },
-                yAxis: {
-                    min: function (val) {
-                        var min = val.min;
-                        min = min > 0 ? Math.floor(min * 0.8) : Math.floor(min * 1.2);
-                        min = min.toFixed(2);
-                        return min;
-                    },
-                    max: function (val) {
-                        var max = val.max;
-                        max = max > 0 ? Math.ceil(max * 1.2) : Math.ceil(max * 0.8);
-                        max = max.toFixed(2);
-                        return max;
-                    },
-                    axisLine: { show: true }
-                },
-                series: [{
-                    name: name,
-                    type: 'line',
-                    smooth: true,
-                    data: data
-                }]
-            }
-            return option;
-        },
-        // 风速
-        ws: function (key) {
             var dataItem = element[key];
             var data = dataItem.data, time = dataItem.time, unit = dataItem.unit;
             var text = dataItem.newData + unit;
@@ -257,6 +194,73 @@ layui.define(["http"], function (e) {
             };
             return option;
         },
+        // 气压
+        bp: function (key) {
+            var dataItem = element[key];
+            var data = dataItem.data, time = dataItem.time, unit = dataItem.unit;
+            var text = dataItem.newData + unit;
+            var title = '8小时' + dataItem.title;
+            var color = dataItem.color;
+            var name = dataItem.title;
+            var option = {
+                title: {
+                    text: text,
+                    subtext: title,
+                    subtextStyle: {
+                        fontWeight: 600
+                    },
+                    left: "center"
+                },
+                color: color,
+                grid: {
+                    top: 70,
+                    right: 20,
+                    bottom: 0,
+                    left: 20,
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    valueFormatter: function (value) {
+                        return value + unit;
+                    }
+                },
+                xAxis: {
+                    boundaryGap: false,
+                    axisLine: {
+                        show: true,
+                        onZero: false
+                    },
+                    axisTick: {
+                        show: true,
+                        alignWithLabel: true
+                    },
+                    data: time
+                },
+                yAxis: {
+                    min: function (val) {
+                        var min = val.min;
+                        min = min > 0 ? Math.floor(min * 0.8) : Math.floor(min * 1.2);
+                        min = min.toFixed(2);
+                        return min;
+                    },
+                    max: function (val) {
+                        var max = val.max;
+                        max = max > 0 ? Math.ceil(max * 1.2) : Math.ceil(max * 0.8);
+                        max = max.toFixed(2);
+                        return max;
+                    },
+                    axisLine: { show: true }
+                },
+                series: [{
+                    name: name,
+                    type: 'line',
+                    smooth: true,
+                    data: data
+                }]
+            }
+            return option;
+        },
         // 水温和盐度
         wt: function (key) {
             var dataItem = element[key];
@@ -330,8 +334,8 @@ layui.define(["http"], function (e) {
             };
             return option;
         },
-        // 气压
-        bp: function (key) {
+        // 雨量
+        rn: function (key) {
             var dataItem = element[key];
             var data = dataItem.data, time = dataItem.time, unit = dataItem.unit;
             var text = dataItem.newData + unit;
@@ -506,6 +510,109 @@ layui.define(["http"], function (e) {
             };
             return option;
         },
+        sl: function (key) {
+            var dataItem = element[key];
+            var slData = dataItem.sl,
+                slUnit = dataItem.slUnit;
+            var wtData = dataItem.wt,
+                wtUnit = dataItem.wtUnit;
+            var time = dataItem.time;
+
+            var wtColor = dataItem.wtColor,
+                slColor = dataItem.slColor;
+
+            var sl_val = dataItem.slNew,
+                wt_val = dataItem.wtNew;
+            // var text = "水温" + sl_val + slUnit + ";盐度" + wt_val + wtUnit;
+            var text = "水温" + wt_val + wtUnit + ";盐度" + sl_val + slUnit;
+            var title = '8小时' + dataItem.title;
+
+            var option = {
+                title: {
+                    text: text,
+                    subtext: title,
+                    subtextStyle: {
+                        fontWeight: 600
+                    },
+                    left: "center"
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                grid: {
+                    top: 70,
+                    right: 20,
+                    bottom: 0,
+                    left: 20,
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: time,
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '水温',
+                        min: function (val) {
+                            var min = val.min;
+                            min = min > 0 ? Math.floor(min * 0.8) : Math.floor(min * 1.2);
+                            min = min.toFixed(2);
+                            return min;
+                        },
+                        max: function (val) {
+                            var max = val.max;
+                            max = max > 0 ? Math.ceil(max * 1.2) : Math.ceil(max * 0.8);
+                            max = max.toFixed(2);
+                            return max;
+                        },
+                        interval: 5
+                    },
+                    {
+                        type: 'value',
+                        name: '盐度',
+                        min: 0,
+                        max: 100,
+                        interval: 20
+                    }
+                ],
+                series: [{
+                    name: '水温',
+                    color: wtColor,
+                    type: 'line',
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + wtUnit;
+                        }
+                    },
+                    data: wtData
+                },
+                {
+                    name: '盐度',
+                    color: slColor,
+                    yAxisIndex: 1,
+                    type: 'line',
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + slUnit;
+                        }
+                    },
+                    data: slData
+                }]
+            };
+            return option;
+        },
         // 能见度
         vb: function (key) {
             var dataItem = element[key];
@@ -573,14 +680,24 @@ layui.define(["http"], function (e) {
             }
             return option;
         },
-        // 雨量
-        rn: function (key) {
+
+        // 风速
+        ws: function (key) {
             var dataItem = element[key];
-            var data = dataItem.data, time = dataItem.time, unit = dataItem.unit;
-            var text = dataItem.newData + unit;
+            var wsData = dataItem.ws,
+                wsUnit = dataItem.wsUnit;
+            var wdData = dataItem.wd,
+                wdUnit = dataItem.wdUnit;
+            var time = dataItem.time;
+
+            var wsColor = dataItem.wsColor,
+                wdColor = dataItem.wdColor;
+
+            var ws_val = dataItem.wsNew,
+                wd_val = dataItem.wdNew;
+            var text = "风速" + ws_val + wsUnit + ";风向" + wd_val + wdUnit;
             var title = '8小时' + dataItem.title;
-            var color = dataItem.color;
-            var name = dataItem.title;
+
             var option = {
                 title: {
                     text: text,
@@ -590,7 +707,15 @@ layui.define(["http"], function (e) {
                     },
                     left: "center"
                 },
-                color: color,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
                 grid: {
                     top: 70,
                     right: 20,
@@ -598,48 +723,67 @@ layui.define(["http"], function (e) {
                     left: 20,
                     containLabel: true
                 },
-                tooltip: {
-                    trigger: 'axis',
-                    valueFormatter: function (value) {
-                        return value + unit;
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: time,
+                        axisPointer: {
+                            type: 'shadow'
+                        }
                     }
-                },
-                xAxis: {
-                    boundaryGap: false,
-                    axisLine: {
-                        show: true,
-                        onZero: false
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '风速',
+                        min: function (val) {
+                            var min = val.min;
+                            min = min > 0 ? Math.floor(min * 0.8) : Math.floor(min * 1.2);
+                            min = min.toFixed(2);
+                            return min;
+                        },
+                        max: function (val) {
+                            var max = val.max;
+                            max = max > 0 ? Math.ceil(max * 1.2) : Math.ceil(max * 0.8);
+                            max = max.toFixed(2);
+                            return max;
+                        },
+                        interval: 5
                     },
-                    axisTick: {
-                        show: true,
-                        alignWithLabel: true
-                    },
-                    data: time
-                },
-                yAxis: {
-                    min: function (val) {
-                        var min = val.min;
-                        min = min > 0 ? Math.floor(min * 0.8) : Math.floor(min * 1.2);
-                        min = min.toFixed(2);
-                        return min;
-                    },
-                    max: function (val) {
-                        var max = val.max;
-                        max = max > 0 ? Math.ceil(max * 1.2) : Math.ceil(max * 0.8);
-                        max = max.toFixed(2);
-                        return max;
-                    },
-                    axisLine: { show: true }
-                },
+                    {
+                        type: 'value',
+                        name: '风向',
+                        min: 0,
+                        max: 360,
+                        interval: 45
+                    }
+                ],
                 series: [{
-                    name: name,
+                    name: '风速',
+                    color: wsColor,
                     type: 'line',
-                    smooth: true,
-                    data: data
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + wsUnit;
+                        }
+                    },
+                    data: wsData
+                },
+                {
+                    name: '风向',
+                    color: wdColor,
+                    yAxisIndex: 1,
+                    type: 'line',
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + wdUnit;
+                        }
+                    },
+                    data: wdData
                 }]
-            }
+            };
             return option;
-        },
+        }
     };
     var initEcharts = function (key) {
         var option = this[key](key);
@@ -677,7 +821,6 @@ layui.define(["http"], function (e) {
             }
         });
     };
-
     var typeId, dataId;
     var getSiteFn = function () {
         http({

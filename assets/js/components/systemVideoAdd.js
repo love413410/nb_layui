@@ -44,6 +44,23 @@ layui.define(["http"], function (e) {
             }
         });
     };
+
+    function siteStyle() {
+        http({
+            url: urls.siteStyle,
+            type: "post",
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    str += '<option value="' + data[i].pk + '">' + data[i].fields.Name + '</option>';
+                };
+                $("#ofarea").html(str);
+                form.render();
+            }
+        });
+    };
+    siteStyle();
+
     form.on('submit(subbtn)', function (data) {
         var data = data.field;
         http({

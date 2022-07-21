@@ -273,6 +273,7 @@ body {
     line-height: 28px;
     padding: 0 12px;
     outline: none;
+    white-space: nowrap;
 }
 
 .duty_cell .layui-input {

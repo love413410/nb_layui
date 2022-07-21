@@ -34,6 +34,7 @@ layui.extend({
         dutyCurves: baseUrl + '/duty/curves/',//值班统计
         dutyRecord: baseUrl + '/duty/record1/',//值班记录表1
         dutyRecords: baseUrl + '/duty/record2/',//值班记录表2
+        personnelCenter: baseUrl + '/personnel/center/',//值班记录表 筛选
 
         dutySign: baseUrl + '/duty/sign/',//一键签到
 
