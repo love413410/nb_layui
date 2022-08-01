@@ -1,9 +1,11 @@
 layui.define(["http", "getFn", "tabList"], function (e) {
-    var urls = layui.urls,
+    var http = layui.http,
+        urls = layui.urls,
         getFn = layui.getFn,
         tabList = layui.tabList;
 
-    var form = layui.form,
+    var $ = layui.$,
+        form = layui.form,
         laydate = layui.laydate;
 
     var startTime = getFn.initDate(),
@@ -16,10 +18,12 @@ layui.define(["http", "getFn", "tabList"], function (e) {
         max: 0,
         btns: ['now', 'confirm']
     });
-    function getListFn() {
+    var type = '';
+    var getListFn = function () {
         tabList.render({
             url: urls.personnelCount,
             where: {
+                type: type,
                 startTime: startTime,
                 endTime: endTime
             },
@@ -39,10 +43,27 @@ layui.define(["http", "getFn", "tabList"], function (e) {
             done: function (data, curr) { page = curr; }
         });
     };
-    getListFn();
+    var personnelCenter = function () {
+        http({
+            url: urls.personnelCenter,
+            success: function (res) {
+                var data = res.data, option = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i].fields;
+                    option += '<option value="' + data[i].pk + '">' + dataItem.section + '</option>';
+                };
+                $("#section").html(option);
+                type = data.length ? data[0].pk : "";
+                form.render();
+                getListFn();
+            }
+        });
+    };
+    personnelCenter();
     // 查询按钮
     form.on('submit(subBtn)', function (data) {
         data = data.field;
+        type = data.type;
         var date = data.date;
         var idx = date.indexOf("~");
         startTime = date.substring(0, idx).trim();

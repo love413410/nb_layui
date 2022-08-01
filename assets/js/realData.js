@@ -20,9 +20,8 @@ layui.define(["http"], function (e) {
         sl: { title: "水温及盐度", wtColor: "#73c0de", slColor: "#ee6666", charts: null },
 
         vb: { title: "能见度", color: "#9a60b4", charts: null },
-        ws: { title: "风速风向", wsColor: "#5470c6", wdColor: "#3ba272", charts: null }
+        ws: { title: "风速风向", wsColor: "#58D9F9", wdColor: "#3ba272", charts: null }
     };
-
     var chartsOption = {
         // 潮位
         wl: function (key) {
@@ -269,9 +268,16 @@ layui.define(["http"], function (e) {
                 wtUnit = data.wtUnit;
             var sl = data.sl,
                 slUnit = data.slUnit;
+
+            var wtColor = dataItem.wtColor,
+                slColor = dataItem.slColor;
+
             data = [{
                 value: wt,
                 name: '水温',
+                itemStyle: {
+                    color: wtColor
+                },
                 title: {
                     offsetCenter: ['-40%', 90]
                 },
@@ -282,6 +288,9 @@ layui.define(["http"], function (e) {
             }, {
                 value: sl,
                 name: '盐度',
+                itemStyle: {
+                    color: slColor
+                },
                 title: {
                     offsetCenter: ['40%', 90]
                 },

@@ -90,8 +90,11 @@ body {
 .table_foot {
     display: flex;
     height: 80px;
-    border-right: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border: 1px solid #000;
+    border-left: none;
+    /* border-right: 1px solid #000;
+    border-bottom: 1px solid #000; */
+    
 }
 
 .table_foot .table_three {

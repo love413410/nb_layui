@@ -27,6 +27,26 @@ layui.define(['http'], function (e) {
     };
     getGradeFn();
 
+    var userSection = function () {
+        http({
+            url: urls.userSection,
+            type: "post",
+            success: function (res) {
+                var data = res.data, str = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (i == 0) {
+                        str += '<input type="radio" name="ofSection" value="' + data[i].pk + '" title="' + data[i].fields.section + '" checked></input>';
+                    } else {
+                        str += '<input type="radio" name="ofSection" value="' + data[i].pk + '" title="' + data[i].fields.section + '"></input>';
+                    };
+                };
+                $("#ofSection").html(str);
+                form.render();
+            }
+        });
+    };
+    userSection();
+
     //常规使用 - 普通图片上传
     var isUpload = false, token = layui.sessionData('token').key || '';
     var uploadInst = upload.render({
@@ -82,7 +102,7 @@ layui.define(['http'], function (e) {
         btnClick = false;
         setTimeout(function () {
             btnClick = true;
-        }, 5*1000);
+        }, 5 * 1000);
         if (!isUpload) {
             layer.msg("请上传电子签名", {
                 icon: 2, shift: 6,

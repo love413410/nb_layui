@@ -81,7 +81,7 @@ layui.extend({
         "layHome": "/views/components/layHome.html",
 
         "step": "/views/components/step.html",
-        
+
         "instReuseCheck": "/views/components/instReuseCheck.html",
         "instReuseContrast": "/views/components/instReuseContrast.html",
         "instReusePart": "/views/components/instReusePart.html",
@@ -120,6 +120,9 @@ layui.extend({
         "systemStaffAdd": "/views/components/systemStaffAdd.html",
         "systemStaffChange": "/views/components/systemStaffChange.html",
         "systemLimitsAdd": "/views/components/systemLimitsAdd.html",
+        "systemLimitsChange": "/views/components/systemLimitsChange.html",
+
+
         "systemVideoAdd": "/views/components/systemVideoAdd.html",
         "businessArchivesUpload": "/views/components/businessArchivesUpload.html",
         "loadWebKit": "/views/components/loadWebKit.html",

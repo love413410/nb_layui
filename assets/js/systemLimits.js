@@ -10,16 +10,22 @@ layui.define(["http", "tabList"], function (e) {
         table = layui.table;
 
     var retrType = '', page = 1;
+
+    var gradeList = {};
     function getGradeFn() {
         http({
             url: urls.grade,
             success: function (res) {
                 var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    var key = dataItem.pk,
+                        value = dataItem.fields.grade;
+                    gradeList[key] = value;
                     if (i == 0) {
-                        str += '<option value="' + data[i].pk + '" selected>' + data[i].fields.grade + '</option>';
+                        str += '<option value="' + key + '" selected>' + value + '</option>';
                     } else {
-                        str += '<option value="' + data[i].pk + '">' + data[i].fields.grade + '</option>';
+                        str += '<option value="' + key + '">' + value + '</option>';
                     };
                 };
                 $("#type").html(str);
@@ -35,6 +41,24 @@ layui.define(["http", "tabList"], function (e) {
         getListFn();
     });
 
+    var sectionList = {};
+    var userSection = function () {
+        http({
+            url: urls.userSection,
+            type: "post",
+            success: function (res) {
+                var data = res.data;
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    var key = dataItem.pk,
+                        value = dataItem.fields.section;
+                    sectionList[key] = value;
+                };
+            }
+        });
+    };
+    userSection();
+
     var tableIns, page = 1;
     function getListFn() {
         tableIns = tabList.render({
@@ -42,12 +66,13 @@ layui.define(["http", "tabList"], function (e) {
             where: { grade: retrType },
             cols: [[
                 { title: '用户名', templet: function (item) { return item.fields.userName } },
-                { title: '用户级别', templet: function (item) { return item.fields.grade; } },
                 { title: '创建日期', templet: function (item) { return item.fields.createTime; } },
+                { title: '用户级别', templet: function (item) { return gradeList[item.fields.grade]; } },
+                { title: '所属部门', templet: function (item) { return sectionList[item.fields.ofSection]; } },
                 { title: '姓名', templet: function (item) { return item.fields.Name; } },
                 { title: '手机号', templet: function (item) { return item.fields.mobile; } },
                 { title: '值班签名', minWidth: 100, templet: function (item) { return html = '<p class="sign"> <img src="' + item.fields.imgSrc + '"><p/>'; } },
-                { fixed: 'right', align: "center", title: '操作', toolbar: '#toolbar' }
+                { fixed: 'right', align: "center", minWidth: 120, title: '操作', toolbar: '#toolbar' }
             ]],
             page: 1,
             done: function (data, curr) { page = curr; }
@@ -62,28 +87,41 @@ layui.define(["http", "tabList"], function (e) {
         });
     };
 
-    form.on('submit(addBtn)', function (data) {
-        var title = "添加用户", url = store.filterUrl("systemLimitsAdd");
+    function layAlertFn(title, url, height) {
+        height = height || "500px"
         layer.open({
             type: 2,
             title: title,
             resize: !1,
             skin: "layui_layer",
             id: "id",
-            area: ["600px", "500px"],
+            area: ["600px", height],
             offset: "50px",
             content: url
         });
+    };
+
+    form.on('submit(addBtn)', function () {
+        var title = "添加用户", url = store.filterUrl("systemLimitsAdd");
+        layAlertFn(title, url, "550px");
     });
 
     var clickMethod = {
-        delete: deleFn
+        delete: deleFn,
+        edit: function () {
+            var title = "修改用户信息", url = store.filterUrl("systemLimitsChange") + "?id=" + dataId + "&name=" + dataName + "&grade=" + grade + "&ofSection=" + ofSection + "";
+            layAlertFn(title, url, "380px");
+        }
     };
     // 操作
-    var dataId;
+    var dataId, dataName, grade, ofSection;
     table.on('tool(table)', function (data) {
         var event = data.event;
-        dataId = data.data.pk;
+        data = data.data;
+        dataId = data.pk;
+        dataName = data.fields.Name;
+        grade = data.fields.grade;
+        ofSection = data.fields.ofSection;
         clickMethod[event]();
     });
     // 删除

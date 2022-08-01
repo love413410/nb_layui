@@ -19,14 +19,14 @@ layui.define(["http", "getFn", "tabList"], function (e) {
         btns: ['now', 'confirm']
     });
 
-    var userId = '';
-    function getDutyFn() {
+    var type = "", userId = "";
+    var getDutyFn = function () {
         http({
             url: urls.personnelUser,
             type: "post",
+            data: { type: type },
             success: function (res) {
-                var data = res.data;
-                var str = '';
+                var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
                     str += '<option value="' + dataItem.pk + '">' + dataItem.fields.Name + '</option>';
@@ -38,7 +38,27 @@ layui.define(["http", "getFn", "tabList"], function (e) {
             }
         });
     };
-    getDutyFn();
+    var personnelCenter = function () {
+        http({
+            url: urls.personnelCenter,
+            success: function (res) {
+                var data = res.data, option = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i].fields;
+                    option += '<option value="' + data[i].pk + '">' + dataItem.section + '</option>';
+                };
+                $("#section").html(option);
+                type = data.length ? data[0].pk : "";
+                form.render();
+                getDutyFn();
+            }
+        });
+    };
+    personnelCenter();
+    form.on('select(section)', function (data) {
+        type = data.value;
+        getDutyFn();
+    });
 
     function getListFn() {
         tabList.render({

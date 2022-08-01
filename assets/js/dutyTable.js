@@ -428,10 +428,10 @@ layui.define(["http"], function (e) {
                 var data = res.data, option = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i].fields;
-                    option += '<option value="' + dataItem.Type + '">' + dataItem.grade + '</option>';
+                    option += '<option value="' + data[i].pk + '">' + dataItem.section + '</option>';
                 };
                 $("#grade").html(option);
-                grade_type = data.length ? data[0].fields.Type : "";
+                grade_type = data.length ? data[0].pk : "";
                 form.render();
                 getTime();
             }

@@ -139,11 +139,15 @@ layui.extend({
         personnelUser: baseUrl + '/personnel/user/',//人员信息>>添加>>所属账号
         personnelUsers: baseUrl + '/personnel/users/',//人员信息>>添加>>所属账号
 
+
+
         userList: baseUrl + '/user/list/',//权限管理>>列表
         userAdd: baseUrl + '/user/register/',//权限管理>>添加
         grade: baseUrl + '/user/grade/',//权限管理>>添加>>权限列表
         userSite: baseUrl + '/user/site/',//权限管理>>添加>>归属站点 or 在用设备>>添加
+        userSection: baseUrl + '/user/section/',//权限管理>>添加>>所属部门 or 在用设备>>添加
         userDelete: baseUrl + '/user/delete/',//权限管理>>删除
+        userChange: baseUrl + '/user/change/',//权限管理>>修改和重置密码
 
         userPass: baseUrl + '/user/change/pass/',//个人信息和修改信息
         signUpload: baseUrl + '/sign/upload/',//签名上传:权限添加、个人中心
