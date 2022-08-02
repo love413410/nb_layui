@@ -162,7 +162,7 @@ layui.define(["http"], function (e) {
                 var col_tr = '';
                 for (var j = 0; j < cols.length; j++) {
                     if (cols[j] == 'break') {
-                        var colspan = lth - 3;
+                        var colspan = lth - 1;
                         col_tr += '<tr>' +
                             '<td>21-07时</td>' +
                             '<td colspan="2">正常<input type="checkbox" id="abnormal">不正常<input type="checkbox" id="normal"></td>' +
