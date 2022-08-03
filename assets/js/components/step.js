@@ -120,7 +120,7 @@ layui.define(["http"], function (e) {
             { title: "机房环控", colspan: 2, id: "room" },
             { title: "其他说明", rowspan: 2, id: "explain" }
         ];
-        dutyTheader = grade_type == 4 ? shipu : grade_type == 5 ? zhenhai : dutyTheader;
+        dutyTheader = grade_type == 4 ? zhenhai : grade_type == 5 ? shipu : dutyTheader;
         var str_theader = "";
         for (var h = 0; h < dutyTheader.length; h++) {
             var theaderItem = dutyTheader[h];
