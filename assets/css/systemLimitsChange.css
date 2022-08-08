@@ -24,3 +24,6 @@ body {
 .layui-form-item:last-child {
     margin-bottom: 0;
 }
+#sign {
+    height: 36px;
+}

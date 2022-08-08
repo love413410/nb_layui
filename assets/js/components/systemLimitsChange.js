@@ -4,68 +4,98 @@ layui.define(['http', 'getFn'], function (e) {
         getFn = layui.getFn;
 
     var $ = layui.$,
-        form = layui.form;
+        form = layui.form,
+        upload = layui.upload;
 
-    var id = getFn.locaStr('id'),
-        userName = getFn.locaStr('name'),
-        grade = getFn.locaStr('grade'),
-        ofSection = getFn.locaStr('ofSection');
-
-    $("#username").val(userName);
+    var id = getFn.locaStr('id');
 
     function getGradeFn() {
         http({
             url: urls.grade,
+            async: false,
             success: function (res) {
                 var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
                     var key = dataItem.pk,
                         value = dataItem.fields.grade;
-                    if (key == grade) {
-                        str += '<input type="radio" name="grade" value="' + key + '" title="' + value + '" checked></input>';
-                    } else {
-                        str += '<input type="radio" name="grade" value="' + key + '" title="' + value + '"></input>';
-                    };
+                    str += '<input type="radio" name="grade" value="' + key + '" title="' + value + '"></input>';
                 };
                 $("#limit").html(str);
                 form.render();
             }
         });
-    };
-    getGradeFn();
-
-    var userSection = function () {
         http({
             url: urls.userSection,
             type: "post",
+            async: false,
             success: function (res) {
                 var data = res.data, str = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
                     var key = dataItem.pk,
                         value = dataItem.fields.section;
-                    if (key == ofSection) {
-                        str += '<input type="radio" name="ofSection" value="' + key + '" title="' + value + '" checked></input>';
-                    } else {
-                        str += '<input type="radio" name="ofSection" value="' + key + '" title="' + value + '"></input>';
-                    };
+                    str += '<input type="radio" name="ofSection" value="' + key + '" title="' + value + '"></input>';
                 };
                 $("#ofSection").html(str);
                 form.render();
             }
         });
+        http({
+            url: urls.userChange,
+            data: { id: id },
+            async: false,
+            success: function (res) {
+                var data = res.data.fields;
+                form.val('example', {
+                    "id": id,
+                    "userName": data.userName,
+                    "Name": data.Name,
+                    "mobile": data.mobile,
+                    "grade": data.grade,
+                    "ofSection": data.ofSection
+                });
+                $("#sign").attr("src", data.imgSrc);
+            }
+        });
     };
-    userSection();
+    getGradeFn();
 
-    // 修改
-    form.on('submit(subbtn)', function (data) {
-        data = data.field;
-        data.id = id;
+    var isUpload = false, token = layui.sessionData('token').key || '';
+    var uploadInst = upload.render({
+        elem: '#upload',
+        url: urls.signUpload,
+        headers: { 'token': token },
+        accept: 'file',
+        acceptMime: 'image/jpeg,image/png',
+        exts: 'jpg|png',
+        size: 2048,
+        number: 1,
+        auto: false,
+        bindAction: '#uploadBtn',
+        choose: function (obj) {
+            obj.preview(function (index, file, result) {
+                $('#sign').attr('src', result);
+                isUpload = true;
+            });
+        },
+        done: function (res) {
+            if (res.code == 209) {
+                layer.msg(res.msg);
+                return false;
+            }
+            change(res.data)
+        }
+    });
+    function change(url) {
+        var data = form.val('example');
+        delete data.file;
         if (!data.password) {
             delete data.password
         };
+        url ? data.imgSrc = url : "";
         console.log(data)
+
         http({
             url: urls.userChange,
             type: 'post',
@@ -78,6 +108,21 @@ layui.define(['http', 'getFn'], function (e) {
                 });
             }
         });
+    };
+
+    // 修改
+    var btnClick = true;
+    form.on('submit(subbtn)', function (data) {
+        if (!btnClick) {
+            layer.msg("点太快了!");
+            return false;
+        };
+        btnClick = false;
+        setTimeout(function () {
+            btnClick = true;
+        }, 5 * 1000);
+
+        isUpload ? $("#uploadBtn").click() : change();
     });
     form.verify({
         password: function (val) {

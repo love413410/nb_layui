@@ -88,7 +88,7 @@ layui.define(["http", "tabList"], function (e) {
     };
 
     function layAlertFn(title, url, height) {
-        height = height || "500px"
+        height = height || "550px"
         layer.open({
             type: 2,
             title: title,
@@ -103,14 +103,14 @@ layui.define(["http", "tabList"], function (e) {
 
     form.on('submit(addBtn)', function () {
         var title = "添加用户", url = store.filterUrl("systemLimitsAdd");
-        layAlertFn(title, url, "550px");
+        layAlertFn(title, url);
     });
 
     var clickMethod = {
         delete: deleFn,
         edit: function () {
-            var title = "修改用户信息", url = store.filterUrl("systemLimitsChange") + "?id=" + dataId + "&name=" + dataName + "&grade=" + grade + "&ofSection=" + ofSection + "";
-            layAlertFn(title, url, "380px");
+            var title = "修改用户信息", url = store.filterUrl("systemLimitsChange") + "?id=" + dataId;
+            layAlertFn(title, url);
         }
     };
     // 操作

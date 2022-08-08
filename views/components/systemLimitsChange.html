@@ -10,17 +10,18 @@
 
 <body>
     <div class="layui-form" lay-filter="example">
+        <input type="hidden" name="id" />
         <div class="layui-form-item">
             <label class="layui-form-label">用户名:</label>
             <div class="layui-input-block">
-                <input type="text" id="username" disabled class="layui-input" />
+                <input type="text" name="userName" class="layui-input" />
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">重置密码:</label>
             <div class="layui-input-block">
-                <input type="password" name="password" id="pass" required lay-verify="password" autocomplete="off"
+                <input type="password" name="passWord" id="pass" required lay-verify="password" autocomplete="off"
                     placeholder="请输入重置密码,不修改则无需输入" class="layui-input" />
             </div>
         </div>
@@ -31,6 +32,28 @@
                     class="layui-input" />
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" autocomplete="off" placeholder="请输入姓名" class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号:</label>
+            <div class="layui-input-block">
+                <input type="text" name="mobile" autocomplete="off" placeholder="请输入手机号" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电子签名:</label>
+            <div class="layui-input-block">
+                <p class="layui-btn layui-btn-sm" id="upload">点击上传</p>
+                <p class="layui-hide" id="uploadBtn"></p>
+                <img id="sign" src="">
+            </div>
+        </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">用户级别:</label>
             <div class="layui-input-block layui_select" id="limit"></div>
