@@ -90,8 +90,8 @@ layui.define(['http', 'getFn'], function (e) {
     function change(url) {
         var data = form.val('example');
         delete data.file;
-        if (!data.password) {
-            delete data.password
+        if (!data.passWord) {
+            delete data.passWord
         };
         url ? data.imgSrc = url : "";
         console.log(data)
